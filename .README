@@ -1,0 +1,2 @@
+dotnet ef database update => Run migration to update database
+dotnet ef migrations add MigrationName => Create a new migration based on models
