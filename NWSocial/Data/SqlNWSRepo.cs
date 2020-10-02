@@ -24,6 +24,15 @@ namespace NWSocial.Data
             _context.guilds.Add(guild);
         }
 
+        public void DeleteGuild(Guild guild)
+        {
+            if(guild == null)
+            {
+                throw new ArgumentNullException(nameof(guild));
+            }
+            _context.guilds.Remove(guild);
+        }
+
         public IEnumerable<Guild> GetAllGuilds()
         {
             return (_context.guilds.ToList());
@@ -37,6 +46,11 @@ namespace NWSocial.Data
         public bool SaveChanges()
         {
             return (_context.SaveChanges() >= 0);
+        }
+
+        public void UpdateGuild(Guild guild)
+        {
+            //Nothing
         }
     }
 }

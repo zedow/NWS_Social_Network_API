@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using NWSocial.Data;
 using NWSocial.Dtos;
@@ -51,6 +52,58 @@ namespace NWSocial.Controllers
             _repository.CreateGuild(guildModel);
             _repository.SaveChanges();
             return Ok(guildModel);
+        }
+
+        //PUT api/guilds/{id}
+        [HttpPut("{id}")]
+        public ActionResult UpdateGuild(int id, GuildUpdateDto guildDto)
+        {
+            var guildModelFromRepo = _repository.GetGuildById(id);
+            if(guildModelFromRepo == null)
+            {
+                return NotFound();
+            }
+            _mapper.Map(guildDto, guildModelFromRepo);
+            _repository.UpdateGuild(guildModelFromRepo);
+            _repository.SaveChanges();
+            return NoContent();
+        }
+
+        //PATCH api/guilds/{id}
+        [HttpPatch("{id}")]
+        public ActionResult PartialGuildUpdate(int id, JsonPatchDocument<GuildUpdateDto> patchDocument)
+        {
+            var guildModelFromRepo = _repository.GetGuildById(id);
+            if (guildModelFromRepo == null)
+            {
+                return NotFound();
+            }
+            var guildToPatch = _mapper.Map<GuildUpdateDto>(guildModelFromRepo);
+            patchDocument.ApplyTo(guildToPatch, ModelState);
+            if(!TryValidateModel(guildToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            _mapper.Map(guildToPatch, guildModelFromRepo);
+            _repository.UpdateGuild(guildModelFromRepo);
+            _repository.SaveChanges();
+            return (NoContent());
+        }
+
+        //DELETE api/guilds/{id}
+        [HttpDelete("{id}")]
+        public ActionResult DeleteGuild(int id)
+        {
+            var guildModelFromRepo = _repository.GetGuildById(id);
+            if (guildModelFromRepo == null)
+            {
+                return NotFound();
+            }
+            _repository.DeleteGuild(guildModelFromRepo);
+            _repository.SaveChanges();
+
+            return (NoContent());
         }
     }
 }

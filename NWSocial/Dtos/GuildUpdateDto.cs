@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NWSocial.Dtos
 {
-    public class GuildCreateDto 
+    public class GuildUpdateDto
     {
         [Required]
         public string Name { get; set; }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\valen\\source\\repos\\NWSocial\\NWSocial\\NWSocial.csproj": {}
+    "D:\\GitRepositories\\NWS_Social_Network\\NWSocial\\NWSocial.csproj": {}
   },
   "projects": {
-    "C:\\Users\\valen\\source\\repos\\NWSocial\\NWSocial\\NWSocial.csproj": {
+    "D:\\GitRepositories\\NWS_Social_Network\\NWSocial\\NWSocial.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\valen\\source\\repos\\NWSocial\\NWSocial\\NWSocial.csproj",
+        "projectUniqueName": "D:\\GitRepositories\\NWS_Social_Network\\NWSocial\\NWSocial.csproj",
         "projectName": "NWSocial",
-        "projectPath": "C:\\Users\\valen\\source\\repos\\NWSocial\\NWSocial\\NWSocial.csproj",
+        "projectPath": "D:\\GitRepositories\\NWS_Social_Network\\NWSocial\\NWSocial.csproj",
         "packagesPath": "C:\\Users\\valen\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\valen\\source\\repos\\NWSocial\\NWSocial\\obj\\",
+        "outputPath": "D:\\GitRepositories\\NWS_Social_Network\\NWSocial\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Microsoft\\Xamarin\\NuGet\\",
@@ -46,6 +46,14 @@
             "AutoMapper.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
               "version": "[8.0.1, )"
+            },
+            "Microsoft.AspNetCore.JsonPatch": {
+              "target": "Package",
+              "version": "[3.1.8, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.1.8, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",

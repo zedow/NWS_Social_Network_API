@@ -12,5 +12,7 @@ namespace NWSocial.Data
         IEnumerable<Guild> GetAllGuilds();
         Guild GetGuildById(int id);
         void CreateGuild(Guild guild);
+        void UpdateGuild(Guild guild);
+        void DeleteGuild(Guild guild);
     }
 }

@@ -15,6 +15,8 @@ namespace NWSocial.Profiles
             // Source to target
             CreateMap<Guild, GuildReadDto>();
             CreateMap<GuildCreateDto, Guild>();
+            CreateMap<GuildUpdateDto, Guild>();
+            CreateMap<Guild, GuildUpdateDto>();
         }
     }
 }
