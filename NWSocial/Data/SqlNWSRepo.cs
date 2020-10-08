@@ -1,4 +1,5 @@
-﻿using NWSocial.Models;
+﻿using NWSocial.Dtos;
+using NWSocial.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,32 @@ namespace NWSocial.Data
         {
             //Nothing
             //Géré par le controlleur, pas besoin pour le moment
+        }
+
+        public IEnumerable<UserGuild> GetGuildUsers(int guildId)
+        {
+            Guild guild = _context.Guilds.Where(g => g.Id == guildId).FirstOrDefault();
+            return (guild.UserGuilds);
+        }
+
+        public void AddUserGuild(UserGuild newUserGuild)
+        {
+            if (newUserGuild == null)
+            {
+                throw new ArgumentNullException(nameof(newUserGuild));
+            }
+            _context.UserGuilds.Add(newUserGuild);
+        }
+
+        List<User> INWSRepo.GetGuildUsers(int id)
+        {
+
+            throw new NotImplementedException();
+        }
+
+        public User GetUserById(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

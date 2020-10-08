@@ -18,6 +18,8 @@ namespace NWSocial.Data
         public DbSet<Guild> Guilds { get; set; }
         public DbSet<User> Users { get; set; }
 
+        public DbSet<UserGuild> UserGuilds { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserGuild>()

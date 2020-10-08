@@ -1,4 +1,5 @@
-﻿using NWSocial.Models;
+﻿using NWSocial.Dtos;
+using NWSocial.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,12 @@ namespace NWSocial.Data
         bool SaveChanges();
         IEnumerable<Guild> GetAllGuilds();
         Guild GetGuildById(int id);
+        List<User> GetGuildUsers(int id);
         void CreateGuild(Guild guild);
         void UpdateGuild(Guild guild);
         void DeleteGuild(Guild guild);
+        void AddUserGuild(UserGuild userGuild);
+
+        User GetUserById(int id);
     }
 }

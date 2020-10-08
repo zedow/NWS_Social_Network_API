@@ -34,14 +34,26 @@ namespace NWSocial.Controllers
 
         // GET api/guilds/{id}
         [HttpGet("{id}")]
-        public ActionResult <GuildReadDto> GetGuildByID(int id)
+        public ActionResult<GuildReadDto> GetGuildByID(int id)
         {
             var guildItem = _repository.GetGuildById(id);
-            if(guildItem != null)
+            if (guildItem != null)
             {
-                return Ok(_mapper.Map<GuildReadDto>(guildItem)) ;
+                return Ok(_mapper.Map<GuildReadDto>(guildItem));
             }
             return NotFound();
+        }
+
+        //GET api/guilds/users
+        [HttpGet]
+        public ActionResult<List<UserGuild>> GetGuildUsers(int id)
+        {
+            var guildItem = _repository.GetGuildById(id);
+            if (guildItem == null)
+            {
+                return NotFound();
+            }
+            return Ok();
         }
 
         //POST api/guilds
@@ -59,7 +71,7 @@ namespace NWSocial.Controllers
         public ActionResult UpdateGuild(int id, GuildUpdateDto guildDto)
         {
             var guildModelFromRepo = _repository.GetGuildById(id);
-            if(guildModelFromRepo == null)
+            if (guildModelFromRepo == null)
             {
                 return NotFound();
             }
@@ -69,6 +81,31 @@ namespace NWSocial.Controllers
             return NoContent();
         }
 
+        //PUT api/guilds/{id}/user/{id}
+        [HttpPut("{guild_id}/user/{user_id}")]
+        public ActionResult AddUserToGuild(UserGuildDto newUserGuild)
+        {
+            Guild guild = _repository.GetGuildById(newUserGuild.GuildId);
+            if (guild == null)
+            {
+                throw new ArgumentNullException(nameof(guild));
+            }
+            User user = _repository.GetUserById(newUserGuild.UserId);
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            UserGuild userGuild = new UserGuild
+            {
+                UserId = user.Id,
+                User = user,
+                GuildId = guild.Id,
+                Guild = guild
+            };
+            _repository.AddUserGuild(userGuild);
+            _repository.SaveChanges();
+            return (Ok(userGuild));
+        }
         //PATCH api/guilds/{id}
         [HttpPatch("{id}")]
         public ActionResult PartialGuildUpdate(int id, JsonPatchDocument<GuildUpdateDto> patchDocument)
