@@ -6,15 +6,10 @@ using System.Threading.Tasks;
 
 namespace NWSocial.Models
 {
-    public class Guild
+    public class User
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        public string Name { get; set; }
-        [Required]
-        public string Description { get; set; }
-
         public List<UserGuild> UserGuilds { get; set; }
     }
 }
