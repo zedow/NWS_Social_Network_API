@@ -21,7 +21,7 @@ namespace NWSocial.Data
             {
                 throw new ArgumentNullException(nameof(guild));
             }
-            _context.guilds.Add(guild);
+            _context.Guilds.Add(guild);
         }
 
         public void DeleteGuild(Guild guild)
@@ -30,17 +30,17 @@ namespace NWSocial.Data
             {
                 throw new ArgumentNullException(nameof(guild));
             }
-            _context.guilds.Remove(guild);
+            _context.Guilds.Remove(guild);
         }
 
         public IEnumerable<Guild> GetAllGuilds()
         {
-            return (_context.guilds.ToList());
+            return (_context.Guilds.ToList());
         }
 
         public Guild GetGuildById(int id)
         {
-            return (_context.guilds.FirstOrDefault(i => i.Id == id));
+            return (_context.Guilds.FirstOrDefault(i => i.Id == id));
         }
 
         public bool SaveChanges()
@@ -51,6 +51,7 @@ namespace NWSocial.Data
         public void UpdateGuild(Guild guild)
         {
             //Nothing
+            //Géré par le controlleur, pas besoin pour le moment
         }
     }
 }
