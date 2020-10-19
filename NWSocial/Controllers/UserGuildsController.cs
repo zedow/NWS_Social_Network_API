@@ -39,5 +39,19 @@ namespace NWSocial.Controllers
             var userGuilds = _repository.GetUserGuilds(userId);
             return Ok(_mapper.Map<IEnumerable<GuildReadDto>>(userGuilds));
         }
+
+        //POST api/guilds
+        [HttpPost]
+        public ActionResult<GuildReadDto> AddUserToGuild(UserGuildCreateRequestDto request)
+        {
+            var userGuildRequest = _mapper.Map<UserGuild>(request);
+            userGuildRequest.Id = Guid.NewGuid();
+            _repository.CreateUserGuildRequest(userGuildRequest);
+            _repository.SaveChanges();
+            return Ok(userGuildRequest);
+        }
+
+        //POST api/users/{id}/guilds/{id}
+        //[HttpPost("")]
     }
 }

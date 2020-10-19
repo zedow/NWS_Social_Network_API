@@ -30,7 +30,10 @@ namespace NWSocial
         public void ConfigureServices(IServiceCollection services)
         {
             // ConnectionString établi dans le fichier appsettings.json
-            services.AddDbContext<NWSContext>(opt => opt.UseMySql(Configuration.GetConnectionString("NWSConnection")));
+            services.AddDbContext<NWSContext>(opt =>
+            {
+                opt.UseMySql(Configuration.GetConnectionString("NWSConnection"));
+            });
             services.AddControllers().AddNewtonsoftJson(s => {
                 s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });

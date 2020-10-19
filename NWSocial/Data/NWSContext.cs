@@ -23,7 +23,7 @@ namespace NWSocial.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserGuild>()
-                .HasKey(t => new { t.UserId, t.GuildId });
+                .HasKey(t => new { t.Id });
 
             modelBuilder.Entity<UserGuild>()
                 .HasOne(pt => pt.User)

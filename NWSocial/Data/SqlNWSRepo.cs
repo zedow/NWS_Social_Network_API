@@ -72,10 +72,10 @@ namespace NWSocial.Data
         // Get list of users from Guild id
         public IEnumerable<User> GetGuildUsers(int idGuild)
         {
-            Guild guild = _context.Guilds.Where(g => g.Id == idGuild).FirstOrDefault();
-            if(guild == null)
+            bool isGuild = _context.Guilds.Any(g => g.Id == idGuild);
+            if(!isGuild)
             {
-                throw new ArgumentNullException(nameof(guild));
+                throw new ArgumentNullException(nameof(isGuild));
             }
             List<UserGuild> users = _context.UserGuilds.Where(u => u.GuildId == idGuild).ToList();
             List<User> guildUsers = new List<User>();
@@ -89,18 +89,25 @@ namespace NWSocial.Data
         // Get list of guilds from User id
         public IEnumerable<Guild> GetUserGuilds(int idUser)
         {
-            User user = _context.Users.Where(u => u.Id == idUser).FirstOrDefault();
-            if(user == null)
+            bool isUser = _context.Users.Any(u => u.Id == idUser);
+            if(!isUser)
             {
-                throw new ArgumentNullException(nameof(user));
+                throw new ArgumentNullException(nameof(isUser));
             }
             List<UserGuild> guilds = _context.UserGuilds.Where(g => g.UserId == idUser).ToList();
             List<Guild> guildList = new List<Guild>();
-            foreach(UserGuild guild in guilds)
-            {
-                guildList.Add(GetGuildById(guild.GuildId));
-            }
+            guilds.ForEach(g => guildList.Add(GetGuildById(g.GuildId)));
             return guildList;
+        }
+
+        // Create a request for an user to enter a guild
+        public void CreateUserGuildRequest(UserGuild userGuildRequest)
+        {
+            if(userGuildRequest == null)
+            {
+                throw new ArgumentNullException(nameof(userGuildRequest));
+            }
+            _context.UserGuilds.Add(userGuildRequest);
         }
     }
 }
