@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace NWSocial.Controllers
 {
+    [Route("api")]
+    [ApiController]
     public class UserGuildsController : ControllerBase
     {
         private readonly INWSRepo _repository;
@@ -22,7 +24,7 @@ namespace NWSocial.Controllers
         }
 
         //GET api/guilds/{id}/users
-        [HttpGet("guilds/{id}/users")]
+        [HttpGet("guilds/{guildID}/users")]
         public ActionResult<List<UserReadDto>> GetGuildUsers(int guildID)
         {
             var guildUsers = _repository.GetGuildUsers(guildID);
@@ -30,7 +32,7 @@ namespace NWSocial.Controllers
         }
 
         //Get api/users/{id}/guilds
-        [HttpGet("users/{id}/guilds")]
+        [HttpGet("users/{userId}/guilds")]
         public ActionResult<List<GuildReadDto>> GetUserGuilds(int userId)
         {
 
