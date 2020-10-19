@@ -70,7 +70,7 @@ namespace NWSocial.Data
             _context.UserGuilds.Add(newUserGuild);
         }
 
-        List<User> INWSRepo.GetGuildUsers(int id)
+        List<User> GetGuildUsers(int id)
         {
 
             throw new NotImplementedException();
