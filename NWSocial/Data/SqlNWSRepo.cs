@@ -55,12 +55,6 @@ namespace NWSocial.Data
             //Géré par le controlleur, pas besoin pour le moment
         }
 
-        public IEnumerable<UserGuild> GetGuildUsers(int guildId)
-        {
-            Guild guild = _context.Guilds.Where(g => g.Id == guildId).FirstOrDefault();
-            return (guild.UserGuilds);
-        }
-
         public void AddUserGuild(UserGuild newUserGuild)
         {
             if (newUserGuild == null)
@@ -70,15 +64,43 @@ namespace NWSocial.Data
             _context.UserGuilds.Add(newUserGuild);
         }
 
-        List<User> GetGuildUsers(int id)
-        {
-
-            throw new NotImplementedException();
-        }
-
         public User GetUserById(int id)
         {
             throw new NotImplementedException();
+        }
+
+        // Get list of users from Guild id
+        public IEnumerable<User> GetGuildUsers(int idGuild)
+        {
+            Guild guild = _context.Guilds.Where(g => g.Id == idGuild).FirstOrDefault();
+            if(guild == null)
+            {
+                throw new ArgumentNullException(nameof(guild));
+            }
+            List<UserGuild> users = _context.UserGuilds.Where(u => u.GuildId == idGuild).ToList();
+            List<User> guildUsers = new List<User>();
+            foreach (UserGuild user in users)
+            {
+                guildUsers.Add(GetUserById(user.UserId));
+            }
+            return guildUsers;
+        }
+
+        // Get list of guilds from User id
+        public IEnumerable<Guild> GetUserGuilds(int idUser)
+        {
+            User user = _context.Users.Where(u => u.Id == idUser).FirstOrDefault();
+            if(user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            List<UserGuild> guilds = _context.UserGuilds.Where(g => g.UserId == idUser).ToList();
+            List<Guild> guildList = new List<Guild>();
+            foreach(UserGuild guild in guilds)
+            {
+                guildList.Add(GetGuildById(guild.GuildId));
+            }
+            return guildList;
         }
     }
 }

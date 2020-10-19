@@ -44,19 +44,6 @@ namespace NWSocial.Controllers
             return NotFound();
         }
 
-        // à implémenter
-        //GET api/guilds/users
-        [HttpGet]
-        public ActionResult<List<UserGuild>> GetGuildUsers(int id)
-        {
-            var guildItem = _repository.GetGuildById(id);
-            if (guildItem == null)
-            {
-                return NotFound();
-            }
-            return Ok();
-        }
-
         //POST api/guilds
         [HttpPost]
         public ActionResult<GuildReadDto> CreateGuild(GuildCreateDto guild)
