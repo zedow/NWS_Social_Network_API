@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NWSocial.Data;
 using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace NWSocial
 {

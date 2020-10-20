@@ -1,4 +1,5 @@
-﻿using NWSocial.Dtos;
+﻿using Microsoft.EntityFrameworkCore;
+using NWSocial.Dtos;
 using NWSocial.Models;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,8 @@ namespace NWSocial.Data
 
         public IEnumerable<Guild> GetAllGuilds()
         {
-            return (_context.Guilds.ToList());
+            var guilds = _context.Guilds.Include(guild => guild.Users).ToList();
+            return (guilds);
         }
 
         public Guild GetGuildById(int id)
@@ -66,38 +68,21 @@ namespace NWSocial.Data
 
         public User GetUserById(int id)
         {
-            throw new NotImplementedException();
+            return (_context.Users.FirstOrDefault(u => u.Id == id));
         }
 
         // Get list of users from Guild id
-        public IEnumerable<User> GetGuildUsers(int idGuild)
+        public IEnumerable<UserGuild> GetGuildUsers(int idGuild)
         {
-            bool isGuild = _context.Guilds.Any(g => g.Id == idGuild);
-            if(!isGuild)
-            {
-                throw new ArgumentNullException(nameof(isGuild));
-            }
-            List<UserGuild> users = _context.UserGuilds.Where(u => u.GuildId == idGuild).ToList();
-            List<User> guildUsers = new List<User>();
-            foreach (UserGuild user in users)
-            {
-                guildUsers.Add(GetUserById(user.UserId));
-            }
-            return guildUsers;
+            List<UserGuild> users = _context.UserGuilds.Include(u => u.User).Where(g => g.GuildId == idGuild).ToList();
+            return users;
         }
 
         // Get list of guilds from User id
-        public IEnumerable<Guild> GetUserGuilds(int idUser)
+        public IEnumerable<UserGuild> GetUserGuilds(int idUser)
         {
-            bool isUser = _context.Users.Any(u => u.Id == idUser);
-            if(!isUser)
-            {
-                throw new ArgumentNullException(nameof(isUser));
-            }
-            List<UserGuild> guilds = _context.UserGuilds.Where(g => g.UserId == idUser).ToList();
-            List<Guild> guildList = new List<Guild>();
-            guilds.ForEach(g => guildList.Add(GetGuildById(g.GuildId)));
-            return guildList;
+            List<UserGuild> guilds = _context.UserGuilds.Include(u => u.Guild).Where(g => g.UserId == idUser).ToList();
+            return guilds;
         }
 
         // Create a request for an user to enter a guild

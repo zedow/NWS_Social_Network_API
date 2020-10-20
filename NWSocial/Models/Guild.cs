@@ -14,7 +14,6 @@ namespace NWSocial.Models
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
-
-        public List<UserGuild> UserGuilds { get; set; }
+        public List<UserGuild> Users { get; set; }
     }
 }
