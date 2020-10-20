@@ -1,4 +1,5 @@
-﻿using NWSocial.Models;
+﻿using NWSocial.Dtos.UserGuildRequestDtos;
+using NWSocial.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,6 @@ namespace NWSocial.Dtos
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public List<UserReadDto> Users { get; set; }
+        public List<UserGuild> Users { get; set; }
     }
 }

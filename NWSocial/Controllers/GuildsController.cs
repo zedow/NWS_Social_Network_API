@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using NWSocial.Data;
 using NWSocial.Dtos;
+using NWSocial.Dtos.UserGuildRequestDtos;
 using NWSocial.Models;
 
 namespace NWSocial.Controllers
@@ -24,12 +25,31 @@ namespace NWSocial.Controllers
             _mapper = mapper;
         }
 
+        //GET api/guilds/{id}/users
+        [HttpGet("{guildID}/users")]
+        public ActionResult<List<UserGuildReadDto>> GetGuildUsers(int guildID)
+        {
+            var userGuilds = _repository.GetGuildUsers(guildID);
+            var users = new List<UserGuildReadDto>();
+            userGuilds.ToList().ForEach(u => 
+            {
+                var user = u.User;
+                if(user != null)
+                {
+                    var mappedUser = _mapper.Map<UserGuildReadDto>(user);
+                    mappedUser.Role = u.Role;
+                    users.Add(mappedUser);
+                }
+            });
+            return Ok(users);
+        }
+
         //GET api/guilds
         [HttpGet]
         public ActionResult<IEnumerable<GuildReadDto>> GetAllGuilds()
         {
             var guildItems = _repository.GetAllGuilds();
-            return Ok(_mapper.Map<IEnumerable<GuildReadDto>>(guildItems));
+            return Ok(_mapper.Map<List<GuildReadDto>>(guildItems));
         }
 
         // GET api/guilds/{id}
