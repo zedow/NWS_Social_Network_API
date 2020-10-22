@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NWSocial.Data;
 using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace NWSocial
 {
@@ -30,7 +31,10 @@ namespace NWSocial
         public void ConfigureServices(IServiceCollection services)
         {
             // ConnectionString établi dans le fichier appsettings.json
-            services.AddDbContext<NWSContext>(opt => opt.UseMySql(Configuration.GetConnectionString("NWSConnection")));
+            services.AddDbContext<NWSContext>(opt =>
+            {
+                opt.UseMySql(Configuration.GetConnectionString("NWSConnection"));
+            });
             services.AddControllers().AddNewtonsoftJson(s => {
                 s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });

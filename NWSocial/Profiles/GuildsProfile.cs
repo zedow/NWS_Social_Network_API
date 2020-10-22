@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NWSocial.Dtos;
+using NWSocial.Dtos.UserGuildRequestDtos;
 using NWSocial.Models;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,8 @@ namespace NWSocial.Profiles
             CreateMap<GuildCreateDto, Guild>();
             CreateMap<GuildUpdateDto, Guild>();
             CreateMap<Guild, GuildUpdateDto>();
+            CreateMap<Guild, UserGuildListItemDto>();
+            CreateMap<User, UserReadDto>();
         }
     }
 }
