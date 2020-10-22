@@ -41,10 +41,7 @@ namespace NWSocial.Data
             return (guilds);
         }
 
-        public Guild GetGuildById(int id)
-        {
-            return (_context.Guilds.FirstOrDefault(i => i.Id == id));
-        }
+       
 
         public bool SaveChanges()
         {
@@ -93,6 +90,44 @@ namespace NWSocial.Data
                 throw new ArgumentNullException(nameof(userGuildRequest));
             }
             _context.UserGuilds.Add(userGuildRequest);
+        }
+
+        public IEnumerable<Post> GetAllPosts()
+        {
+            return (_context.Posts.ToList());
+        }
+
+        public Guild GetGuildById(int id)
+        {
+            return (_context.Guilds.FirstOrDefault(i => i.Id == id));
+        }
+        public Post GetPostById(int id)
+        {
+            return (_context.Posts.FirstOrDefault(i => i.Id == id));
+        }
+
+        public void CreatePost(Post post)
+        {
+            if (post == null)
+            {
+                throw new ArgumentNullException(nameof(post));
+            }
+            _context.Posts.Add(post);
+        }
+
+
+        public void DeletePost(Post post)
+        {
+            if (post == null)
+            {
+                throw new ArgumentNullException(nameof(post));
+            }
+            _context.Posts.Remove(post);
+        }
+        public void UpdatePost(Post post)
+        {
+            //Nothing
+            //Géré par le controlleur, pas besoin pour le moment
         }
     }
 }

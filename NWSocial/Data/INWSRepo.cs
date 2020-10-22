@@ -19,7 +19,14 @@ namespace NWSocial.Data
 
         User GetUserById(int id);
 
-        // UserGuilds Relation
+        // Posts
+        IEnumerable<Post> GetAllPosts();
+        Post GetPostById(int id);
+        void CreatePost(Post post);
+        void UpdatePost(Post post);
+        void DeletePost(Post post);
+
+
         IEnumerable<UserGuild> GetGuildUsers(int idGuild);
         IEnumerable<UserGuild> GetUserGuilds(int idUser);
         void CreateUserGuildRequest(UserGuild userGuildRequest);
