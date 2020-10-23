@@ -15,7 +15,10 @@ namespace NWSocial.Models
         [Required]
         public string Text { get; set; }
 
-        public Guild GuildId { get; set; }
+        public Guild Guild { get; set; }
+
+        public int GuildId { get; set; }
+
 
         // public List<UserGuild> UserGuilds { get; set; }
 

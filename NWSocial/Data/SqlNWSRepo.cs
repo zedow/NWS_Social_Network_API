@@ -131,9 +131,9 @@ namespace NWSocial.Data
             
         }
 
-        public void AfficherPost(int GuildId)
+        public IEnumerable<Post> GetGuildPosts(int GuildId)
         {
-            _context.Posts.Where(g => g.GuildId == GuildId);
+            return (_context.Posts.Where(g => g.GuildId == GuildId));
         }
     }
 }
