@@ -4,3 +4,6 @@ NWSocial/obj/Debug/netcoreapp3.0/NWSocial.AssemblyInfo.cs
 NWSocial/obj/Debug/netcoreapp3.1/NWSocial.assets.cache
 NWSocial/obj/Debug/netcoreapp3.1/NWSocial.csprojAssemblyReference.cache
 NWSocial/obj/Debug/netcoreapp3.0/NWSocial.AssemblyInfoInputs.cache
+.idea/*
+NWSocial/obj/*
+.vs/*
