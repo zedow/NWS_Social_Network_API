@@ -126,5 +126,11 @@ namespace NWSocial.Controllers
 
             return (NoContent());
         }
+
+       [HttpGet("{id}/posts")]
+       public List<Post> GuildPost(int id)
+       {
+            return (_repository.GetGuildPosts(id).ToList());
+       } 
     }
 }

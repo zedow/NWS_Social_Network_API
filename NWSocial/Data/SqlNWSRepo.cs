@@ -128,6 +128,12 @@ namespace NWSocial.Data
         {
             //Nothing
             //Géré par le controlleur, pas besoin pour le moment
+            
+        }
+
+        public IEnumerable<Post> GetGuildPosts(int GuildId)
+        {
+            return (_context.Posts.Where(g => g.GuildId == GuildId));
         }
 
     }

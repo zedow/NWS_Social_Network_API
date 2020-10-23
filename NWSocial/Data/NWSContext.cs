@@ -36,6 +36,15 @@ namespace NWSocial.Data
                 .HasOne(pt => pt.Guild)
                 .WithMany(t => t.Users)
                 .HasForeignKey(pt => pt.GuildId);
+
+            modelBuilder.Entity<Post>()
+                .HasOne(pt => pt.Guild)
+                .WithMany(t => t.Posts)
+                .HasForeignKey(pt => pt.GuildId);
+
+            modelBuilder.Entity<Guild>()
+                .HasMany(pt => pt.Posts)
+                .WithOne(t => t.Guild);
         }
     }
 }
