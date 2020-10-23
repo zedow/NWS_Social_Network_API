@@ -17,23 +17,34 @@ namespace NWSocial.Data
 
         public DbSet<Guild> Guilds { get; set; }
         public DbSet<User> Users { get; set; }
+        
+        public DbSet<Post> Posts { get; set; }
 
         public DbSet<UserGuild> UserGuilds { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserGuild>()
-                .HasKey(t => new { t.UserId, t.GuildId });
+                .HasKey(t => new { t.UserId, t.GuildId }); ;
 
             modelBuilder.Entity<UserGuild>()
                 .HasOne(pt => pt.User)
-                .WithMany(p => p.UserGuilds)
+                .WithMany(p => p.Guilds)
                 .HasForeignKey(pt => pt.UserId);
 
             modelBuilder.Entity<UserGuild>()
                 .HasOne(pt => pt.Guild)
-                .WithMany(t => t.UserGuilds)
+                .WithMany(t => t.Users)
                 .HasForeignKey(pt => pt.GuildId);
+
+            modelBuilder.Entity<Post>()
+                .HasOne(pt => pt.Guild)
+                .WithMany(t => t.Posts)
+                .HasForeignKey(pt => pt.GuildId);
+
+            modelBuilder.Entity<Guild>()
+                .HasMany(pt => pt.Posts)
+                .WithOne(t => t.Guild);
         }
     }
 }

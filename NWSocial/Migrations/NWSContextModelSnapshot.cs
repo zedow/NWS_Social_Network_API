@@ -35,11 +35,33 @@ namespace NWSocial.Migrations
                     b.ToTable("Guilds");
                 });
 
+            modelBuilder.Entity("NWSocial.Models.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("NWSocial.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -54,23 +76,26 @@ namespace NWSocial.Migrations
                     b.Property<int>("GuildId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Role")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.HasKey("UserId", "GuildId");
 
                     b.HasIndex("GuildId");
 
-                    b.ToTable("UserGuild");
+                    b.ToTable("UserGuilds");
                 });
 
             modelBuilder.Entity("NWSocial.Models.UserGuild", b =>
                 {
                     b.HasOne("NWSocial.Models.Guild", "Guild")
-                        .WithMany("UserGuilds")
+                        .WithMany("Users")
                         .HasForeignKey("GuildId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("NWSocial.Models.User", "User")
-                        .WithMany("UserGuilds")
+                        .WithMany("Guilds")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

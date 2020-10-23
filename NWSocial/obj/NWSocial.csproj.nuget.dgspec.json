@@ -1,26 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "D:\\GitRepositories\\NWS_Social_Network\\NWSocial\\NWSocial.csproj": {}
+    "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj": {}
   },
   "projects": {
-    "D:\\GitRepositories\\NWS_Social_Network\\NWSocial\\NWSocial.csproj": {
+    "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\GitRepositories\\NWS_Social_Network\\NWSocial\\NWSocial.csproj",
+        "projectUniqueName": "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
         "projectName": "NWSocial",
-        "projectPath": "D:\\GitRepositories\\NWS_Social_Network\\NWSocial\\NWSocial.csproj",
-        "packagesPath": "C:\\Users\\valen\\.nuget\\packages\\",
-        "outputPath": "D:\\GitRepositories\\NWS_Social_Network\\NWSocial\\obj\\",
+        "projectPath": "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
+        "packagesPath": "C:\\Users\\Henriques Sylvio\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "D:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\valen\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Henriques Sylvio\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -70,6 +65,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[3.1.8, )"
+            },
+            "NWebsec.AspNetCore.Middleware": {
+              "target": "Package",
+              "version": "[3.0.0, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",

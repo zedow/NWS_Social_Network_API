@@ -1,4 +1,5 @@
-﻿using NWSocial.Dtos;
+﻿using Microsoft.EntityFrameworkCore;
+using NWSocial.Dtos;
 using NWSocial.Models;
 using System;
 using System.Collections.Generic;
@@ -36,13 +37,11 @@ namespace NWSocial.Data
 
         public IEnumerable<Guild> GetAllGuilds()
         {
-            return (_context.Guilds.ToList());
+            var guilds = _context.Guilds.Include(guild => guild.Users).ToList();
+            return (guilds);
         }
 
-        public Guild GetGuildById(int id)
-        {
-            return (_context.Guilds.FirstOrDefault(i => i.Id == id));
-        }
+       
 
         public bool SaveChanges()
         {
@@ -66,41 +65,91 @@ namespace NWSocial.Data
 
         public User GetUserById(int id)
         {
-            throw new NotImplementedException();
+            return (_context.Users.FirstOrDefault(u => u.Id == id));
         }
 
         // Get list of users from Guild id
-        public IEnumerable<User> GetGuildUsers(int idGuild)
+        public IEnumerable<UserGuild> GetGuildUsers(int idGuild)
         {
-            Guild guild = _context.Guilds.Where(g => g.Id == idGuild).FirstOrDefault();
-            if(guild == null)
-            {
-                throw new ArgumentNullException(nameof(guild));
-            }
-            List<UserGuild> users = _context.UserGuilds.Where(u => u.GuildId == idGuild).ToList();
-            List<User> guildUsers = new List<User>();
-            foreach (UserGuild user in users)
-            {
-                guildUsers.Add(GetUserById(user.UserId));
-            }
-            return guildUsers;
+            List<UserGuild> users = _context.UserGuilds.Include(u => u.User).Where(g => g.GuildId == idGuild).ToList();
+            return users;
         }
 
         // Get list of guilds from User id
-        public IEnumerable<Guild> GetUserGuilds(int idUser)
+        public IEnumerable<UserGuild> GetUserGuilds(int idUser)
         {
-            User user = _context.Users.Where(u => u.Id == idUser).FirstOrDefault();
-            if(user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-            List<UserGuild> guilds = _context.UserGuilds.Where(g => g.UserId == idUser).ToList();
-            List<Guild> guildList = new List<Guild>();
-            foreach(UserGuild guild in guilds)
-            {
-                guildList.Add(GetGuildById(guild.GuildId));
-            }
-            return guildList;
+            List<UserGuild> guilds = _context.UserGuilds.Include(u => u.Guild).Where(g => g.UserId == idUser).ToList();
+            return guilds;
         }
+
+        // Create a request for an user to enter a guild
+        public void CreateUserGuildRequest(UserGuild userGuildRequest)
+        {
+            if(userGuildRequest == null)
+            {
+                throw new ArgumentNullException(nameof(userGuildRequest));
+            }
+            _context.UserGuilds.Add(userGuildRequest);
+        }
+
+        public UserGuild GetGuildUser(int idGuild, int idUser)
+        {
+            var userGuild = _context.UserGuilds.FirstOrDefault(u => (u.UserId == idUser && u.GuildId == idGuild));
+            if (userGuild == null)
+            {
+                throw new ArgumentNullException(nameof(userGuild));
+            }
+            return userGuild;
+        }
+
+        public void UpdateUserGuild(UserGuild userGuild)
+        {
+            // 
+        }
+
+        public IEnumerable<Post> GetAllPosts()
+        {
+            return (_context.Posts.ToList());
+        }
+
+        public Guild GetGuildById(int id)
+        {
+            return (_context.Guilds.FirstOrDefault(i => i.Id == id));
+        }
+        public Post GetPostById(int id)
+        {
+            return (_context.Posts.FirstOrDefault(i => i.Id == id));
+        }
+
+        public void CreatePost(Post post)
+        {
+            if (post == null)
+            {
+                throw new ArgumentNullException(nameof(post));
+            }
+            _context.Posts.Add(post);
+        }
+
+
+        public void DeletePost(Post post)
+        {
+            if (post == null)
+            {
+                throw new ArgumentNullException(nameof(post));
+            }
+            _context.Posts.Remove(post);
+        }
+        public void UpdatePost(Post post)
+        {
+            //Nothing
+            //Géré par le controlleur, pas besoin pour le moment
+            
+        }
+
+        public IEnumerable<Post> GetGuildPosts(int GuildId)
+        {
+            return (_context.Posts.Where(g => g.GuildId == GuildId));
+        }
+
     }
 }
