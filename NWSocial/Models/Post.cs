@@ -14,8 +14,7 @@ namespace NWSocial.Models
         public string Title { get; set; }
         [Required]
         public string Text { get; set; }
-        public Guild Guild { get; set; }
-
-        public int GuildId { get; set; }
+        public virtual Guild Guild { get; set; }
+        public int? GuildId { get; set; }
     }
 }
