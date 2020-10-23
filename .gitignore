@@ -7,3 +7,8 @@ NWSocial/obj/Debug/netcoreapp3.0/NWSocial.AssemblyInfoInputs.cache
 .idea/*
 NWSocial/obj/*
 .vs/*
+NWSocial/bin/Debug/netcoreapp3.1/NWSocial.pdb
+.vs/NWSocial/v16/.suo
+NWSocial/bin/Debug/netcoreapp3.1/NWSocial.dll
+NWSocial/bin/Debug/netcoreapp3.1/NWSocial.pdb
+NWSocial/obj/Debug/netcoreapp3.1/NWSocial.csprojAssemblyReference.cache

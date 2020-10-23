@@ -150,6 +150,5 @@ namespace NWSocial.Data
         {
             return (_context.Posts.Where(g => g.GuildId == GuildId));
         }
-
     }
 }
