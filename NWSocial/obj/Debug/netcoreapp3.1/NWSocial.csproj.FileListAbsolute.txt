@@ -191,3 +191,10 @@ D:\projects\NWS_Social_Network_API\NWSocial\bin\Debug\netcoreapp3.1\NWebsec.AspN
 D:\projects\NWS_Social_Network_API\NWSocial\bin\Debug\netcoreapp3.1\NWebsec.AspNetCore.Middleware.dll
 D:\projects\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.csproj.CoreCompileInputs.cache
 D:\projects\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Henriques Sylvio\Desktop\Projet\Nouveau dossier (2)\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.csprojAssemblyReference.cache
+C:\Users\Henriques Sylvio\Desktop\Projet\Nouveau dossier (2)\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.AssemblyInfoInputs.cache
+C:\Users\Henriques Sylvio\Desktop\Projet\Nouveau dossier (2)\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.AssemblyInfo.cs
+C:\Users\Henriques Sylvio\Desktop\Projet\Nouveau dossier (2)\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.csproj.CoreCompileInputs.cache
+C:\Users\Henriques Sylvio\Desktop\Projet\Nouveau dossier (2)\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Henriques Sylvio\Desktop\Projet\Nouveau dossier (2)\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.dll
+C:\Users\Henriques Sylvio\Desktop\Projet\Nouveau dossier (2)\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.pdb
