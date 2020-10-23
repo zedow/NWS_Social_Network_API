@@ -16,7 +16,8 @@ namespace NWSocial.Data
         void UpdateGuild(Guild guild);
         void DeleteGuild(Guild guild);
         void AddUserGuild(UserGuild userGuild);
-
+        void DeleteGuildPosts(int id);
+        void DeleteGuildUsers(int id);
         User GetUserById(int id);
 
         // Posts

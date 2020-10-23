@@ -120,6 +120,8 @@ namespace NWSocial.Controllers
             {
                 return NotFound();
             }
+            _repository.DeleteGuildUsers(id);
+            _repository.DeleteGuildPosts(id);
             _repository.DeleteGuild(guildModelFromRepo);
             _repository.SaveChanges();
 

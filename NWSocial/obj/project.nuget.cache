@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "D+iVn8h3+ABQ/YQWYlhgsCQnrQaX0FfHf1O05E0CQyfaMVi3OWMxO6dLHPR8qBn+LjahKiQUwfXOYzb+hhwnEw==",
+  "dgSpecHash": "8iH92LuhVLDX7Gjy9ZUnbFFNFu6nw4m4ErMsSrdOMKDkLpsylFfV/MFAVOuYyatD1fn113kaH10DERA3zG3L0g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
+  "projectFilePath": "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\Nouveau dossier (3)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Henriques Sylvio\\.nuget\\packages\\automapper\\10.0.0\\automapper.10.0.0.nupkg.sha512",
     "C:\\Users\\Henriques Sylvio\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.0.1\\automapper.extensions.microsoft.dependencyinjection.8.0.1.nupkg.sha512",

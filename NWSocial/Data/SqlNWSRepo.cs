@@ -151,5 +151,13 @@ namespace NWSocial.Data
             return (_context.Posts.Where(g => g.GuildId == GuildId));
         }
 
+        public void DeleteGuildPosts(int GuildId)
+        {
+            _context.Posts.RemoveRange(_context.Posts.Where(g => g.GuildId == GuildId));
+        }
+        public void DeleteGuildUsers(int GuildId)
+        {
+            _context.UserGuilds.RemoveRange(_context.UserGuilds.Where(g => g.GuildId == GuildId));
+        }
     }
 }

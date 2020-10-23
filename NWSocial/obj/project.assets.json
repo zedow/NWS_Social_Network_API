@@ -1214,11 +1214,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
+      "projectUniqueName": "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\Nouveau dossier (3)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
       "projectName": "NWSocial",
-      "projectPath": "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
+      "projectPath": "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\Nouveau dossier (3)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
       "packagesPath": "C:\\Users\\Henriques Sylvio\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\obj\\",
+      "outputPath": "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\Nouveau dossier (3)\\NWS_Social_Network_API\\NWSocial\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Henriques Sylvio\\AppData\\Roaming\\NuGet\\NuGet.Config",
