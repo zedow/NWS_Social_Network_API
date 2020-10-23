@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZBTcsfysaHTu5eD9mHNBzLbviN2iAM5ytqikRrYhskaLweS4Q44p6hhIybuaR0XK+FCP/IDRk2wrWnyBNfjRTw==",
+  "dgSpecHash": "vtwMbRmtOLFROuh0Pzr2UaSZlOvtdrhOGq02bNKbTXr3T9Dxp17qgZsEpXIbUyVSlgplozPMWWfARH3h7fEFeQ==",
   "success": true,
-  "projectFilePath": "D:\\GitRepositories\\NWS_Social_Network\\NWSocial\\NWSocial.csproj",
+  "projectFilePath": "D:\\projects\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\valen\\.nuget\\packages\\automapper\\10.0.0\\automapper.10.0.0.nupkg.sha512",
     "C:\\Users\\valen\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.0.1\\automapper.extensions.microsoft.dependencyinjection.8.0.1.nupkg.sha512",
@@ -31,6 +31,8 @@
     "C:\\Users\\valen\\.nuget\\packages\\mysqlconnector\\0.69.9\\mysqlconnector.0.69.9.nupkg.sha512",
     "C:\\Users\\valen\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
     "C:\\Users\\valen\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
+    "C:\\Users\\valen\\.nuget\\packages\\nwebsec.aspnetcore.core\\3.0.0\\nwebsec.aspnetcore.core.3.0.0.nupkg.sha512",
+    "C:\\Users\\valen\\.nuget\\packages\\nwebsec.aspnetcore.middleware\\3.0.0\\nwebsec.aspnetcore.middleware.3.0.0.nupkg.sha512",
     "C:\\Users\\valen\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\3.2.2\\pomelo.entityframeworkcore.mysql.3.2.2.nupkg.sha512",
     "C:\\Users\\valen\\.nuget\\packages\\pomelo.jsonobject\\2.2.1\\pomelo.jsonobject.2.2.1.nupkg.sha512",
     "C:\\Users\\valen\\.nuget\\packages\\system.collections.immutable\\1.7.1\\system.collections.immutable.1.7.1.nupkg.sha512",

@@ -23,6 +23,7 @@ namespace NWSocial.Controllers
         {
             _repository = repository;
             _mapper = mapper;
+
         }
 
         //GET api/guilds/{id}/users

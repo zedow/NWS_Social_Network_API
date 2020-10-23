@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Gaming\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj": {}
+    "D:\\projects\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Gaming\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj": {
+    "D:\\projects\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Gaming\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
+        "projectUniqueName": "D:\\projects\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
         "projectName": "NWSocial",
-        "projectPath": "C:\\Users\\Gaming\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
-        "packagesPath": "C:\\Users\\Gaming\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Gaming\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\obj\\",
+        "projectPath": "D:\\projects\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
+        "packagesPath": "C:\\Users\\valen\\.nuget\\packages\\",
+        "outputPath": "D:\\projects\\NWS_Social_Network_API\\NWSocial\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Gaming\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\valen\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -66,6 +66,10 @@
               "target": "Package",
               "version": "[3.1.8, )"
             },
+            "NWebsec.AspNetCore.Middleware": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[3.2.2, )"
@@ -89,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

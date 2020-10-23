@@ -8,8 +8,8 @@ using NWSocial.Data;
 namespace NWSocial.Migrations
 {
     [DbContext(typeof(NWSContext))]
-    [Migration("20201020083626_Post")]
-    partial class Post
+    [Migration("20201023091956_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -62,6 +62,9 @@ namespace NWSocial.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -75,6 +78,9 @@ namespace NWSocial.Migrations
                     b.Property<int>("GuildId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Role")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.HasKey("UserId", "GuildId");
 
                     b.HasIndex("GuildId");
@@ -85,13 +91,13 @@ namespace NWSocial.Migrations
             modelBuilder.Entity("NWSocial.Models.UserGuild", b =>
                 {
                     b.HasOne("NWSocial.Models.Guild", "Guild")
-                        .WithMany("UserGuilds")
+                        .WithMany("Users")
                         .HasForeignKey("GuildId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("NWSocial.Models.User", "User")
-                        .WithMany("UserGuilds")
+                        .WithMany("Guilds")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
