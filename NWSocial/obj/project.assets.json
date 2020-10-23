@@ -1155,19 +1155,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Gaming\\.nuget\\packages\\": {}
+    "C:\\Users\\Henriques Sylvio\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Gaming\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
+      "projectUniqueName": "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
       "projectName": "NWSocial",
-      "projectPath": "C:\\Users\\Gaming\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
-      "packagesPath": "C:\\Users\\Gaming\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Gaming\\Desktop\\Projet\\Nouveau dossier (2)\\NWS_Social_Network_API\\NWSocial\\obj\\",
+      "projectPath": "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\NWS_Social_Network_API\\NWSocial\\NWSocial.csproj",
+      "packagesPath": "C:\\Users\\Henriques Sylvio\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Henriques Sylvio\\Desktop\\Projet\\NWS_Social_Network_API\\NWSocial\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Gaming\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Henriques Sylvio\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1242,7 +1242,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
       }
     }
   }
