@@ -14,7 +14,7 @@ namespace NWSocial.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    class PostsController : ControllerBase
+    public class PostsController : ControllerBase
     {
         private readonly INWSRepo _repository;
         private readonly IMapper _mapper;

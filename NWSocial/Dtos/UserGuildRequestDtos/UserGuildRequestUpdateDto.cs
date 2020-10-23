@@ -7,6 +7,6 @@ namespace NWSocial.Dtos.UserGuildRequestDtos
 {
     public class UserGuildRequestUpdateDto
     {
-        public bool isValidated { get; set; }
+        public string Role { get; set; }
     }
 }

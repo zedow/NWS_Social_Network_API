@@ -92,6 +92,21 @@ namespace NWSocial.Data
             _context.UserGuilds.Add(userGuildRequest);
         }
 
+        public UserGuild GetGuildUser(int idGuild, int idUser)
+        {
+            var userGuild = _context.UserGuilds.FirstOrDefault(u => (u.UserId == idUser && u.GuildId == idGuild));
+            if (userGuild == null)
+            {
+                throw new ArgumentNullException(nameof(userGuild));
+            }
+            return userGuild;
+        }
+
+        public void UpdateUserGuild(UserGuild userGuild)
+        {
+            // 
+        }
+
         public IEnumerable<Post> GetAllPosts()
         {
             return (_context.Posts.ToList());
