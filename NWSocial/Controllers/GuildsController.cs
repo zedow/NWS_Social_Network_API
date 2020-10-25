@@ -110,9 +110,9 @@ namespace NWSocial.Controllers
         }
 
         [HttpGet("{id}/posts")]
-        public List<Post> GuildPost(int id)
+        public ActionResult<List<Post>> GuildPost(int id)
         {
-            return _repository.GetGuildPosts(id).ToList();
+            return Ok(_mapper.Map<List<PostReadDto>>(_repository.GetGuildPosts(id).ToList()));
         }
 
         /// <summary>
@@ -153,6 +153,20 @@ namespace NWSocial.Controllers
             newOwner.Role = "Admin";
             _repository.UpdateUserGuild(currentOwner);
             _repository.UpdateUserGuild(newOwner);
+            _repository.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpPost("validate")]
+        public ActionResult AcceptUser(UserGuildAcceptDto user)
+        {
+            UserGuild userToAccept = _repository.GetGuildUser(user.GuildId, user.UserId);
+            if(userToAccept == null)
+            {
+                return NotFound();
+            }
+            userToAccept.Role = "Membre";
+            _repository.UpdateUserGuild(userToAccept);
             _repository.SaveChanges();
             return NoContent();
         }
