@@ -25,7 +25,7 @@ namespace NWSocial.Data
         void CreatePost(Post post);
         void UpdatePost(Post post);
         void DeletePost(Post post);
-        IEnumerable<Post> GetGuildPosts();
+        IEnumerable<Post> GetGuildPosts(int GuildId);
         IEnumerable<Post> GetAllGuildPost(int GuildId);
 
 

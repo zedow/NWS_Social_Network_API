@@ -128,9 +128,9 @@ namespace NWSocial.Controllers
         }
 
        [HttpGet("{id}/posts")]
-       public List<Post> GuildPost(int id)
+       public List<Post> GuildPost(int GuildId)
        {
-            return (_repository.GetGuildPosts(id).ToList());
+            return (_repository.GetGuildPosts(GuildId).ToList());
        } 
     }
 }
