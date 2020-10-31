@@ -94,7 +94,7 @@ namespace NWSocial.Data
 
         public IEnumerable<Post> GetAllPosts()
         {
-            return (_context.Posts.ToList().Where(g => g.GuildId == null));
+            return (_context.Posts.Where(g => g.GuildId == null));
 
             //var posts = _context.Posts.Include(Post => Post.GuildId).ToList();
             //return (posts);
@@ -139,10 +139,13 @@ namespace NWSocial.Data
             return (_context.Posts.Where(g => g.GuildId == GuildId));
         }
 
-        public IEnumerable<Post> GetAllGuildPost(int GuildId)
+        public IEnumerable<Post> GetGuildPost(int GuildId, int PostId)
         {
-            return (_context.Posts.ToList().Where(g => g.GuildId == GuildId));
+            List<Post> posts = _context.Posts.Where(g => g.GuildId == GuildId && g.Id == PostId).ToList();
+            return posts;
+            //return (_context.Posts.Where(g => g.GuildId == GuildId));
         }
+
 
     }
 }

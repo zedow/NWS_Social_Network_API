@@ -127,10 +127,19 @@ namespace NWSocial.Controllers
             return (NoContent());
         }
 
-       [HttpGet("{id}/posts")]
-       public List<Post> GuildPost(int GuildId)
-       {
-            return (_repository.GetGuildPosts(GuildId).ToList());
-       } 
+        [HttpGet("{id}/posts")]
+        public ActionResult<List<Post>> GuildPosts(int id)
+        {
+            return Ok(_repository.GetGuildPosts(id).ToList());
+        }
+
+        [HttpGet("{GuildId}/posts/{PostId}")]
+        public ActionResult<List<Post>> GuildPost(int GuildId, int PostId)
+        {
+            return Ok(_repository.GetGuildPost(GuildId, PostId).ToList());
+        }
+
+
+
     }
 }
