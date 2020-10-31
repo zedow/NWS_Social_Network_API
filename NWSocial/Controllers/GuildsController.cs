@@ -156,7 +156,7 @@ namespace NWSocial.Controllers
             _repository.SaveChanges();
             return NoContent();
         }
-
+        
         [HttpPost("validate")]
         public ActionResult AcceptUser(UserGuildAcceptDto user)
         {
@@ -169,6 +169,17 @@ namespace NWSocial.Controllers
             _repository.UpdateUserGuild(userToAccept);
             _repository.SaveChanges();
             return NoContent();
+        }
+        [HttpGet("{id}/posts")]
+        public ActionResult<List<Post>> GuildPosts(int id)
+        {
+            return Ok(_repository.GetGuildPosts(id).ToList());
+        }
+
+        [HttpGet("{GuildId}/posts/{PostId}")]
+        public ActionResult<List<Post>> GuildPost(int GuildId, int PostId)
+        {
+            return Ok(_repository.GetGuildPost(GuildId, PostId).ToList());
         }
     }
 }
