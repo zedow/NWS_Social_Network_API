@@ -22,3 +22,6 @@ Lancez ensuite cette commande pour lancer les migrations
 ```bash
 docker exec -it "ID DU CONTAINER" dotnet ef database update <Migration> 
 ```
+
+## Accéder à PHPMyAdmin
+il suffit d'aller sur l'url : http://localhost:8000/

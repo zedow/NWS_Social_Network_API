@@ -19,6 +19,15 @@ services:
       MYSQL_USER: 'NWSocial'
       MYSQL_PASSWORD: 'ekip'
       MYSQL_ROOT_PASSWORD: 'NRM LDO'
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    environment:
+      - PMA_HOST=database
+      - PMA_USER=NWSocial
+      - PMA_PASSWORD=ekip
+    ports:
+      - "8000:80"
 
 volumes:
   db-data:

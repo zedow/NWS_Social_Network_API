@@ -14,8 +14,9 @@ namespace NWSocial.Profiles
         public UserGuildProfile()
         {
             CreateMap<UserGuildCreateRequestDto, UserGuild>();
-            CreateMap<UserGuildRequestUpdateDto, UserGuild>();
             CreateMap<User, UserGuildReadDto>();
+            CreateMap<UserGuildRequestUpdateDto, UserGuild>();
+            CreateMap<UserGuild, UserGuildRequestUpdateDto>();
         }
     }
 }
