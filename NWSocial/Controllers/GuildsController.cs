@@ -109,11 +109,20 @@ namespace NWSocial.Controllers
             return NoContent();
         }
 
-        [HttpGet("{id}/posts")]
-        public ActionResult<List<Post>> GuildPost(int id)
+        [HttpPost]
+        public ActionResult AddUsertoGuild(UserGuildCreateRequestDto userGuildRequest)
         {
-            return Ok(_mapper.Map<List<PostReadDto>>(_repository.GetGuildPosts(id).ToList()));
+            UserGuild userGuild = new UserGuild
+            {
+                Role = "En attente",
+                UserId = userGuildRequest.UserId,
+                GuildId = userGuildRequest.GuildId
+            };
+            _repository.CreateUserGuildRequest(userGuild);
+            _repository.SaveChanges();
+            return Ok(_mapper.Map<UserGuildReadDto>(userGuild));
         }
+
 
         /// <summary>
         ///     Modifie le role d'un utilisateur
