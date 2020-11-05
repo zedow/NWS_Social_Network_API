@@ -123,6 +123,15 @@ namespace NWSocial.Controllers
             return Ok(_mapper.Map<UserGuildReadDto>(userGuild));
         }
 
+        [HttpDelete("{id}/users/{id}")]
+        public ActionResult RemoveUserFromGuild(int userId, int guildId)
+        {
+            var userGuildModelFromRepo = _repository.GetGuildUser(guildId, userId);
+            if (userGuildModelFromRepo == null) return NotFound();
+            _repository.RemoveUserFromGuild(userGuildModelFromRepo);
+            _repository.SaveChanges();
+            return NoContent();
+        }
 
         /// <summary>
         ///     Modifie le role d'un utilisateur

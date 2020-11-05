@@ -1,4 +1,16 @@
 
+.vs/NWSocial/v16/.suo
+.vs/NWSocial/v16/.suo
+NWSocial/obj/Debug/netcoreapp3.0/.NETCoreApp,Version=v3.0.AssemblyAttributes.cs
+.vs/NWSocial/v16/.suo
+NWSocial/obj/Debug/netcoreapp3.0/NWSocial.AssemblyInfoInputs.cache
+NWSocial/obj/Debug/netcoreapp3.1/NWSocial.assets.cache
+NWSocial/obj/NWSocial.csproj.nuget.dgspec.json
+NWSocial/obj/NWSocial.csproj.nuget.g.props
+NWSocial/obj/project.assets.json
+NWSocial/obj/project.nuget.cache
+.vs/NWSocial/v16/.suo
+NWSocial/obj/NWSocial.csproj.nuget.g.props
 NWSocial/obj/Debug/netcoreapp3.0/.NETCoreApp,Version=v3.0.AssemblyAttributes.cs
 NWSocial/obj/Debug/netcoreapp3.0/NWSocial.AssemblyInfo.cs
 NWSocial/obj/Debug/netcoreapp3.1/NWSocial.assets.cache
@@ -14,3 +26,4 @@ NWSocial/bin/Debug/netcoreapp3.1/NWSocial.pdb
 NWSocial/obj/Debug/netcoreapp3.1/NWSocial.csprojAssemblyReference.cache
 *.cache
 NWSocial/obj/Debug/netcoreapp3.1/NWSocial.csprojAssemblyReference.cache
+

@@ -41,8 +41,6 @@ namespace NWSocial.Data
             return (guilds);
         }
 
-       
-
         public bool SaveChanges()
         {
             return (_context.SaveChanges() >= 0);
@@ -52,6 +50,15 @@ namespace NWSocial.Data
         {
             //Nothing
             //Géré par le controlleur, pas besoin pour le moment
+        }
+
+        public void RemoveUserFromGuild(UserGuild userGuild)
+        {
+            if (userGuild == null)
+            {
+                throw new NullReferenceException(nameof(userGuild));
+            }
+            _context.UserGuilds.Remove(userGuild);
         }
 
         public void AddUserGuild(UserGuild newUserGuild)
@@ -142,6 +149,7 @@ namespace NWSocial.Data
             }
             _context.Posts.Remove(post);
         }
+
         public void UpdatePost(Post post)
         {
             //Nothing
