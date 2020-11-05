@@ -109,14 +109,14 @@ namespace NWSocial.Controllers
             return NoContent();
         }
 
-        [HttpPost]
-        public ActionResult AddUsertoGuild(UserGuildCreateRequestDto userGuildRequest)
+        [HttpPost("{id}/users")]
+        public ActionResult AddUsertoGuild(int id,UserGuildCreateRequestDto userGuildRequest)
         {
             UserGuild userGuild = new UserGuild
             {
                 Role = "En attente",
                 UserId = userGuildRequest.UserId,
-                GuildId = userGuildRequest.GuildId
+                GuildId = id
             };
             _repository.CreateUserGuildRequest(userGuild);
             _repository.SaveChanges();

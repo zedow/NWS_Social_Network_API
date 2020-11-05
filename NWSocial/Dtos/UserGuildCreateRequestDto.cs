@@ -10,7 +10,5 @@ namespace NWSocial.Dtos
     {
         [Required]
         public int UserId { get; set; }
-        [Required]
-        public int GuildId { get; set; }
     }
 }
