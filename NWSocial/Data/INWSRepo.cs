@@ -28,11 +28,12 @@ namespace NWSocial.Data
         IEnumerable<Post> GetGuildPosts(int GuildId);
         IEnumerable<Post> GetGuildPost(int GuildId, int PostId);
 
-
+        //UserGuild
         IEnumerable<UserGuild> GetGuildUsers(int idGuild);
         UserGuild GetGuildUser(int idGuild, int idUser);
         void UpdateUserGuild(UserGuild userGuild);
         IEnumerable<UserGuild> GetUserGuilds(int idUser);
         void CreateUserGuildRequest(UserGuild userGuildRequest);
+        void RemoveUserFromGuild(UserGuild userGuild);
     }
 }
