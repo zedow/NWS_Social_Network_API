@@ -12,3 +12,5 @@ NWSocial/bin/Debug/netcoreapp3.1/NWSocial.pdb
 NWSocial/bin/Debug/netcoreapp3.1/NWSocial.dll
 NWSocial/bin/Debug/netcoreapp3.1/NWSocial.pdb
 NWSocial/obj/Debug/netcoreapp3.1/NWSocial.csprojAssemblyReference.cache
+*.cache
+NWSocial/obj/Debug/netcoreapp3.1/NWSocial.csprojAssemblyReference.cache
