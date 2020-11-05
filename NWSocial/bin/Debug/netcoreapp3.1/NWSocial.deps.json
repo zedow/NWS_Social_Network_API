@@ -10,7 +10,7 @@
       "NETCOREAPP",
       "NETCOREAPP3_1"
     ],
-    "languageVersion": "8.0",
+    "languageVersion": "",
     "platform": "",
     "allowUnsafe": false,
     "warningsAsErrors": false,
@@ -30,6 +30,7 @@
           "Microsoft.EntityFrameworkCore": "3.1.8",
           "Microsoft.EntityFrameworkCore.Design": "3.1.8",
           "Microsoft.EntityFrameworkCore.Tools": "3.1.8",
+          "NWebsec.AspNetCore.Middleware": "3.0.0",
           "Pomelo.EntityFrameworkCore.MySql": "3.2.2",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "3.1.0.0",
@@ -645,6 +646,31 @@
         },
         "compile": {
           "lib/netstandard2.0/Newtonsoft.Json.Bson.dll": {}
+        }
+      },
+      "NWebsec.AspNetCore.Core/3.0.0": {
+        "runtime": {
+          "lib/netcoreapp3.1/NWebsec.AspNetCore.Core.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp3.1/NWebsec.AspNetCore.Core.dll": {}
+        }
+      },
+      "NWebsec.AspNetCore.Middleware/3.0.0": {
+        "dependencies": {
+          "NWebsec.AspNetCore.Core": "3.0.0"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/NWebsec.AspNetCore.Middleware.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp3.1/NWebsec.AspNetCore.Middleware.dll": {}
         }
       },
       "Pomelo.EntityFrameworkCore.MySql/3.2.2": {
@@ -2516,6 +2542,20 @@
       "sha512": "sha512-QYFyxhaABwmq3p/21VrZNYvCg3DaEoN/wUuw5nmfAf0X3HLjgupwhkEWdgfb9nvGAUIv3osmZoD3kKl4jxEmYQ==",
       "path": "newtonsoft.json.bson/1.0.2",
       "hashPath": "newtonsoft.json.bson.1.0.2.nupkg.sha512"
+    },
+    "NWebsec.AspNetCore.Core/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dvrs4Lvc7k98KKaMxKPHeOn0kONEIQpVrzweji9SLl9XEn1+XWVJe5f7mNvXoKPKjjcNuBIwVXr3K+g+DzZHEw==",
+      "path": "nwebsec.aspnetcore.core/3.0.0",
+      "hashPath": "nwebsec.aspnetcore.core.3.0.0.nupkg.sha512"
+    },
+    "NWebsec.AspNetCore.Middleware/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sQJUG6zk/96UaAcFaf3fQuzjAS9rsf2fXyks1YlG4E3QOWl0h6nIO9fMzfKoskRA+abs01rV+6Kc5P7xccXlzw==",
+      "path": "nwebsec.aspnetcore.middleware/3.0.0",
+      "hashPath": "nwebsec.aspnetcore.middleware.3.0.0.nupkg.sha512"
     },
     "Pomelo.EntityFrameworkCore.MySql/3.2.2": {
       "type": "package",

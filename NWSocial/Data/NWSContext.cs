@@ -17,6 +17,8 @@ namespace NWSocial.Data
 
         public DbSet<Guild> Guilds { get; set; }
         public DbSet<User> Users { get; set; }
+        
+        public DbSet<Post> Posts { get; set; }
 
         public DbSet<UserGuild> UserGuilds { get; set; }
 
@@ -34,6 +36,15 @@ namespace NWSocial.Data
                 .HasOne(pt => pt.Guild)
                 .WithMany(t => t.Users)
                 .HasForeignKey(pt => pt.GuildId);
+
+            modelBuilder.Entity<Post>()
+                .HasOne(pt => pt.Guild)
+                .WithMany(t => t.Posts)
+                .HasForeignKey(pt => pt.GuildId);
+
+            modelBuilder.Entity<Guild>()
+                .HasMany(pt => pt.Posts)
+                .WithOne(t => t.Guild);
         }
     }
 }

@@ -41,10 +41,7 @@ namespace NWSocial.Data
             return (guilds);
         }
 
-        public Guild GetGuildById(int id)
-        {
-            return (_context.Guilds.FirstOrDefault(i => i.Id == id));
-        }
+       
 
         public bool SaveChanges()
         {
@@ -93,6 +90,75 @@ namespace NWSocial.Data
                 throw new ArgumentNullException(nameof(userGuildRequest));
             }
             _context.UserGuilds.Add(userGuildRequest);
+        }
+
+        public UserGuild GetGuildUser(int idGuild, int idUser)
+        {
+            var userGuild = _context.UserGuilds.FirstOrDefault(u => (u.UserId == idUser && u.GuildId == idGuild));
+            if (userGuild == null)
+            {
+                throw new ArgumentNullException(nameof(userGuild));
+            }
+            return userGuild;
+        }
+
+        public void UpdateUserGuild(UserGuild userGuild)
+        {
+            // 
+        }
+
+        public IEnumerable<Post> GetAllPosts()
+        {
+            return (_context.Posts.Where(g => g.GuildId == null));
+
+            //var posts = _context.Posts.Include(Post => Post.GuildId).ToList();
+            //return (posts);
+        }
+
+        public Guild GetGuildById(int id)
+        {
+            return (_context.Guilds.FirstOrDefault(i => i.Id == id));
+        }
+        public Post GetPostById(int id)
+        {
+            return (_context.Posts.FirstOrDefault(i => i.Id == id));
+        }
+
+        public void CreatePost(Post post)
+        {
+            if (post == null)
+            {
+                throw new ArgumentNullException(nameof(post));
+            }
+            _context.Posts.Add(post);
+        }
+
+
+        public void DeletePost(Post post)
+        {
+            if (post == null)
+            {
+                throw new ArgumentNullException(nameof(post));
+            }
+            _context.Posts.Remove(post);
+        }
+        public void UpdatePost(Post post)
+        {
+            //Nothing
+            //Géré par le controlleur, pas besoin pour le moment
+            
+        }
+
+        public IEnumerable<Post> GetGuildPosts(int GuildId)
+        {
+            return (_context.Posts.Where(g => g.GuildId == GuildId));
+        }
+
+        public IEnumerable<Post> GetGuildPost(int GuildId, int PostId)
+        {
+            List<Post> posts = _context.Posts.Where(g => g.GuildId == GuildId && g.Id == PostId).ToList();
+            return posts;
+            //return (_context.Posts.Where(g => g.GuildId == GuildId));
         }
     }
 }

@@ -8,8 +8,8 @@ using NWSocial.Data;
 namespace NWSocial.Migrations
 {
     [DbContext(typeof(NWSContext))]
-    [Migration("20201020115407_UserGuild_Table_3")]
-    partial class UserGuild_Table_3
+    [Migration("20201023091956_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,11 +37,33 @@ namespace NWSocial.Migrations
                     b.ToTable("Guilds");
                 });
 
+            modelBuilder.Entity("NWSocial.Models.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("NWSocial.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 

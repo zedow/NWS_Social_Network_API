@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace NWSocial.Dtos
 {
-    public class UserGuildCreateRequestDto
+    public class PostCreateDto
     {
         [Required]
-        public int UserId { get; set; }
+        public string Title { get; set; }
+        [Required]
+        public string Text { get; set; }
     }
 }

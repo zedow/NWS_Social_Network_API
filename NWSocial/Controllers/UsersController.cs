@@ -26,6 +26,13 @@ namespace NWSocial.Controllers
         // UserGuild relation
 
         //Get api/users/{id}/guilds
+        /// <summary>
+        /// Retourne la liste des guildes pour un utilisateur
+        /// </summary>
+        /// <param name="userId">
+        /// Id de l'utilisateur
+        /// </param>
+        /// <returns>Une liste mappée contenant l'utilisateur et son rôle</returns>
         [HttpGet("{userId}/guilds")]
         public ActionResult<List<UserGuildListItemDto>> GetUserGuilds(int userId)
         {

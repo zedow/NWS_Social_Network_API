@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace NWSocial.Dtos.UserGuildRequestDtos
 {
-    public class UserGuildRequestUpdateDto
+    public class ChangeGuildOwnerDto
     {
-        public string Role { get; set; }
+        public int CurrentUserOwnerId;
+        public int NewUserOwnerId;
+        public int GuildId;
     }
 }
