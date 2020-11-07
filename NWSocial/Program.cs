@@ -22,5 +22,24 @@ namespace NWSocial
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+
+        var host = new HostBuilder()
+            .ConfigureAppConfiguration((hostContext, builder) =>
+             {
+                    // Add other providers for JSON, etc.
+
+                    if (hostContext.HostingEnvironment.IsDevelopment())
+                    {
+                        builder.AddUserSecrets<Program>();
+                    }
+            })
+            .Build();
+
+
+
+
+
+
     }
 }
