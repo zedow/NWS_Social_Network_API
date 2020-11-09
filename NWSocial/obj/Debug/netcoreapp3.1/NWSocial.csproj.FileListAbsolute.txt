@@ -91,8 +91,6 @@ D:\GitRepositories\NWS_Social_Network\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.
 D:\GitRepositories\NWS_Social_Network\NWSocial\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
 D:\GitRepositories\NWS_Social_Network\NWSocial\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\GitRepositories\NWS_Social_Network\NWSocial\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
-D:\GitRepositories\NWS_Social_Network\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.csproj.CoreCompileInputs.cache
-D:\GitRepositories\NWS_Social_Network\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Gaming\Desktop\Projet\Nouveau dossier (2)\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.csprojAssemblyReference.cache
 C:\Users\Gaming\Desktop\Projet\Nouveau dossier (2)\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\staticwebassets\NWSocial.StaticWebAssets.Manifest.cache
 C:\Users\Gaming\Desktop\Projet\Nouveau dossier (2)\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\staticwebassets\NWSocial.StaticWebAssets.xml
@@ -247,3 +245,12 @@ C:\Users\Gaming\Desktop\Projet\Nouveau dossier (6)\NWS_Social_Network_API\NWSoci
 C:\Users\Gaming\Desktop\Projet\Nouveau dossier (6)\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.csproj.CopyComplete
 C:\Users\Gaming\Desktop\Projet\Nouveau dossier (6)\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.dll
 C:\Users\Gaming\Desktop\Projet\Nouveau dossier (6)\NWS_Social_Network_API\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.pdb
+D:\GitRepositories\NWS_Social_Network\NWSocial\bin\Debug\netcoreapp3.1\NWebsec.AspNetCore.Core.dll
+D:\GitRepositories\NWS_Social_Network\NWSocial\bin\Debug\netcoreapp3.1\NWebsec.AspNetCore.Middleware.dll
+D:\GitRepositories\NWS_Social_Network\NWSocial\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+D:\GitRepositories\NWS_Social_Network\NWSocial\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+D:\GitRepositories\NWS_Social_Network\NWSocial\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\GitRepositories\NWS_Social_Network\NWSocial\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\GitRepositories\NWS_Social_Network\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.csproj.CoreCompileInputs.cache
+D:\GitRepositories\NWS_Social_Network\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.MvcApplicationPartsAssemblyInfo.cs
+D:\GitRepositories\NWS_Social_Network\NWSocial\obj\Debug\netcoreapp3.1\NWSocial.MvcApplicationPartsAssemblyInfo.cache
