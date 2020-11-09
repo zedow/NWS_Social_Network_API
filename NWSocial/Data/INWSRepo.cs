@@ -10,7 +10,7 @@ namespace NWSocial.Data
     public interface INWSRepo
     {
         bool SaveChanges();
-        IEnumerable<Guild> GetAllGuilds();
+        IEnumerable<Guild> GetAllGuilds(string filter, int? indexPage, int? numberPerPage = 10);
         Guild GetGuildById(int id);
         void CreateGuild(Guild guild);
         void UpdateGuild(Guild guild);
@@ -20,13 +20,11 @@ namespace NWSocial.Data
         User GetUserById(int id);
 
         // Posts
-        IEnumerable<Post> GetAllPosts();
+        IEnumerable<Post> GetAllPosts(string filter, int? idGuild, int? indexPage, int? numberPerPage = 10);
         Post GetPostById(int id);
         void CreatePost(Post post);
         void UpdatePost(Post post);
         void DeletePost(Post post);
-        IEnumerable<Post> GetGuildPosts(int GuildId);
-        IEnumerable<Post> GetGuildPost(int GuildId, int PostId);
 
         //UserGuild
         IEnumerable<UserGuild> GetGuildUsers(int idGuild);
