@@ -1,31 +1,26 @@
 version: "3.8"
 services:
-  api:
-    depends_on:
-      - database
-    build: .
-    ports:
-      - "8081:80"
   database:
     image: "mysql:latest"
-    command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports:
       - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: 'NWSocial'
-      MYSQL_USER: 'NWSocial'
-      MYSQL_PASSWORD: 'ekip'
-      MYSQL_ROOT_PASSWORD: 'NRM LDO'
+      MYSQL_DATABASE: nws
+      MYSQL_USER: NWSocial
+      MYSQL_PASSWORD: nws
+      MYSQL_ALLOW_EMPTY_PASSWORD: valid
   phpmyadmin:
+    links:
+      - database
     image: phpmyadmin
     restart: always
     environment:
-      - PMA_HOST=database
-      - PMA_USER=NWSocial
-      - PMA_PASSWORD=ekip
+      PMA_HOST: database
+      PMA_USER: NWSocial
+      PMA_PASSWORD: nws
     ports:
       - "8000:80"
 
