@@ -15,6 +15,8 @@ using Microsoft.Extensions.Logging;
 using NWSocial.Data;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 
 namespace NWSocial
 {
@@ -43,6 +45,10 @@ namespace NWSocial
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<INWSRepo, SqlNWSRepo>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api doc", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +63,13 @@ namespace NWSocial
 
             app.UseRouting();
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1");
+                s.RoutePrefix = string.Empty;
+            });
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
