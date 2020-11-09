@@ -9,5 +9,6 @@ namespace NWSocial.Dtos
     public class UserReadDto
     {
         public int Id;
+        public string Name;
     }
 }

@@ -35,10 +35,18 @@ namespace NWSocial.Data
             _context.Guilds.Remove(guild);
         }
 
-        public IEnumerable<Guild> GetAllGuilds()
+        public IEnumerable<Guild> GetAllGuilds(string filter, int? indexPage, int? numberPerPage = 10)
         {
-            var guilds = _context.Guilds.Include(guild => guild.Users).ToList();
-            return (guilds);
+            IEnumerable<Guild> guilds = _context.Guilds;
+            if(filter != null)
+            {
+                guilds = guilds.Where(g => g.Name.Contains(filter) || g.Description.Contains(filter));
+            }
+            if(indexPage.HasValue)
+            {
+                guilds = guilds.Skip((indexPage.Value -1) * numberPerPage.Value).Take(numberPerPage.Value);
+            }
+            return (guilds.ToList());
         }
 
         public bool SaveChanges()
@@ -78,7 +86,7 @@ namespace NWSocial.Data
         // Get list of users from Guild id
         public IEnumerable<UserGuild> GetGuildUsers(int idGuild)
         {
-            List<UserGuild> users = _context.UserGuilds.Include(u => u.User).Where(g => g.GuildId == idGuild).ToList();
+            List<UserGuild> users = _context.UserGuilds.Include(u => u.User).Where(g => g.GuildId == idGuild).Include(ug => ug.User).ToList();
             return users;
         }
 
@@ -114,12 +122,22 @@ namespace NWSocial.Data
             // 
         }
 
-        public IEnumerable<Post> GetAllPosts()
+        public IEnumerable<Post> GetAllPosts(string filter, int? guildId,int? indexPage, int? numberPerPage = 10)
         {
-            return (_context.Posts.Where(g => g.GuildId == null));
-
-            //var posts = _context.Posts.Include(Post => Post.GuildId).ToList();
-            //return (posts);
+            var posts = _context.Posts.Where(g => g.GuildId == null);
+            if(guildId.HasValue)
+            {
+                posts = posts.Where(p => p.GuildId == guildId);
+            }
+            if(filter != null)
+            {
+                posts = posts.Where(p => p.Title.Contains(filter) || p.Text.Contains(filter));
+            }
+            if(indexPage.HasValue)
+            {
+                posts = posts.Skip((indexPage.Value - 1) * numberPerPage.Value).Take(numberPerPage.Value);
+            }
+            return (posts.ToList());
         }
 
         public Guild GetGuildById(int id)
@@ -153,20 +171,8 @@ namespace NWSocial.Data
         public void UpdatePost(Post post)
         {
             //Nothing
-            //Géré par le controlleur, pas besoin pour le moment
-            
-        }
-
-        public IEnumerable<Post> GetGuildPosts(int GuildId)
-        {
-            return (_context.Posts.Where(g => g.GuildId == GuildId));
-        }
-
-        public IEnumerable<Post> GetGuildPost(int GuildId, int PostId)
-        {
-            List<Post> posts = _context.Posts.Where(g => g.GuildId == GuildId && g.Id == PostId).ToList();
-            return posts;
-            //return (_context.Posts.Where(g => g.GuildId == GuildId));
+            //Si nécessaire de faire du traitement supplémentaire
+            // Exemple : Si le nom du poste est à update dans une table archive
         }
     }
 }
