@@ -23,29 +23,12 @@ namespace NWSocial.Models
         {
             System.Console.WriteLine("Applying miggration...");
             context.Database.Migrate();
-            if(!context.Roles.Any())
-            {
-                Console.WriteLine("Adding Data to Entity Role");
-                context.Roles.AddRange(
-                    new Role
-                    {
-                        RoleName = "Développeur",
-                    },
-                    new Role
-                    {
-                        RoleName = "Designer",
-                    },
-                    new Role
-                    {
-                        RoleName = "Marketeux",
-                    },
-                    new Role
-                    {
-                        RoleName = "Owner",
-                    }
-                );
-                context.SaveChanges();
-            }
+            //if(!context.Roles.Any())
+            //{
+            //    Console.WriteLine("Adding Data to Entity Role");
+               
+            //    context.SaveChanges();
+            //}
         }
     }
 }

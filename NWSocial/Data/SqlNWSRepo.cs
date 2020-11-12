@@ -180,7 +180,7 @@ namespace NWSocial.Data
         }
 
         // Projects functions
-        public IEnumerable<Project> GetProjects(string filter, int? roleId, int? guildId, int? indexPage, int? numberPerPage = 10)
+        public IEnumerable<Project> GetProjects(string filter, string role, int? guildId, int? indexPage, int? numberPerPage = 10)
         {
             IQueryable<Project> projects;
             if (guildId.HasValue)
@@ -195,15 +195,21 @@ namespace NWSocial.Data
             {
                 projects = projects.Where(p => p.Name.Contains(filter) || p.Description.Contains(filter));
             }
-            //if (roleId.HasValue)
-            //{
-            //    projects = projects.Join(_context.ProjectMembers, p => p.Members, pm => pm.ProjectId, (p, pm) => 
-            //        new
-            //        {
-            //            Id = p.Id,
-            //            RoleName = pm.RoleId
-            //        }).Where; 
-            //}
+            if(role != null)
+            {
+                projects = (from p in projects
+                            join pm in _context.ProjectMembers.Where(pm => pm.Role.Contains(role)) on p.Id equals pm.ProjectId into resultJoin
+
+                            from ppm in resultJoin
+                            select new Project
+                            {
+                                Id = p.Id,
+                                Name = p.Name,
+                                Description = p.Description,
+                                Date = p.Date,
+                                DeadLine = p.DeadLine
+                            });
+            }
             if (indexPage.HasValue)
             {
                 projects = projects.Skip((indexPage.Value - 1) * numberPerPage.Value).Take(numberPerPage.Value);
@@ -235,7 +241,7 @@ namespace NWSocial.Data
 
         public IEnumerable<ProjectMember> GetProjectMembers(int projectId)
         {
-            return _context.ProjectMembers.Where(pm => pm.ProjectId == projectId).ToList();
+            return _context.ProjectMembers.Where(pm => pm.ProjectId == projectId).Include(p => p.Project).Include(p => p.User).ToList();
         }
 
         // Permet de trier (par Nom, Description, ou rôle dans le projet), project clos ou non, projet d'une guilde, et pagination
@@ -275,7 +281,7 @@ namespace NWSocial.Data
             {
                 model.Skip((indexPage.Value - 1) * numberPerPage.Value).Take(numberPerPage.Value);
             }
-            return model;
+            return model.ToList();
         }
 
         public Project GetProject(int projectId)
@@ -286,7 +292,7 @@ namespace NWSocial.Data
         {
             if(projectMember == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(projectMember));
             }
             _context.ProjectMembers.Remove(projectMember);
         }
@@ -294,9 +300,14 @@ namespace NWSocial.Data
         {
             if (projectMember == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(projectMember));
             }
             _context.ProjectMembers.Add(projectMember);
+        }
+
+        public ProjectMember GetProjectMember(int projectId, int userId)
+        {
+            return _context.ProjectMembers.FirstOrDefault(pm => pm.ProjectId == projectId && pm.UserId == userId);
         }
     }
 }
