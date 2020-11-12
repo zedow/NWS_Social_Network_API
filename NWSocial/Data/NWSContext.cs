@@ -59,6 +59,9 @@ namespace NWSocial.Data
             // Project member relation
 
             modelBuilder.Entity<ProjectMember>()
+                .HasKey(t => new { t.UserId, t.ProjectId }); ;
+
+            modelBuilder.Entity<ProjectMember>()
                 .HasOne(p => p.Project)
                 .WithMany(pm => pm.Members)
                 .HasForeignKey(p => p.ProjectId);
