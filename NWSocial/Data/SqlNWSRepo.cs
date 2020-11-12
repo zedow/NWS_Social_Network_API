@@ -180,10 +180,38 @@ namespace NWSocial.Data
         }
 
         // Projects functions
-        public IEnumerable<Project> GetProjects(string filter, int? projectId, int? indexPage, int? numberPerPage = 10)
+        public IEnumerable<Project> GetProjects(string filter, int? roleId, int? guildId, int? indexPage, int? numberPerPage = 10)
         {
-            
+            IQueryable<Project> projects;
+            if (guildId.HasValue)
+            {
+                projects = _context.Projects.Where(p => p.GuildId == guildId);
+            }
+            else
+            {
+                projects = _context.Projects.Where(g => g.GuildId == null);
+            }
+            if (filter != null)
+            {
+                projects = projects.Where(p => p.Name.Contains(filter) || p.Description.Contains(filter));
+            }
+            //if (roleId.HasValue)
+            //{
+            //    projects = projects.Join(_context.ProjectMembers, p => p.Members, pm => pm.ProjectId, (p, pm) => 
+            //        new
+            //        {
+            //            Id = p.Id,
+            //            RoleName = pm.RoleId
+            //        }).Where; 
+            //}
+            if (indexPage.HasValue)
+            {
+                projects = projects.Skip((indexPage.Value - 1) * numberPerPage.Value).Take(numberPerPage.Value);
+            }
+            return (projects.ToList());
         }
+
+        
 
         public IEnumerable<ProjectMember> GetProjectMembers(int projectId)
         {
