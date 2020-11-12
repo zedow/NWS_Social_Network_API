@@ -12,6 +12,8 @@ namespace NWSocial.Models
         public int Id { get; set; }
         [MaxLength(255)]
         public string Name { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime? DeadLine { get; set; }
         public string Description { get; set; }
         public Guild Guild { get; set; }
         public int? GuildId { get; set; }

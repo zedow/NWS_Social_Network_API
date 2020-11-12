@@ -38,6 +38,10 @@ namespace NWSocial.Models
                     new Role
                     {
                         RoleName = "Marketeux",
+                    },
+                    new Role
+                    {
+                        RoleName = "Owner",
                     }
                 );
                 context.SaveChanges();

@@ -190,5 +190,24 @@ namespace NWSocial.Data
             return _context.ProjectMembers.Where(pm => pm.ProjectId == projectId).ToList();
         }
 
+        public IEnumerable<Project> GetUserProjects(int userId)
+        {
+            var model = (
+                    from pm in _context.ProjectMembers
+                    join p in _context.Projects on pm.ProjectId equals p.Id into projectJoin
+
+                    from joinResult in projectJoin
+                    select new Project
+                    {
+                        Id = joinResult.Id,
+                        Name = joinResult.Name,
+                        Description = joinResult.Description,
+                        Date = joinResult.Date,
+                        DeadLine = joinResult.DeadLine
+                        
+                    }
+                );
+            return model;
+        }
     }
 }
