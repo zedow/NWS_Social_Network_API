@@ -12,5 +12,6 @@ namespace NWSocial.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public List<UserGuild> Guilds { get; set; }
+        public List<ProjectMember> ProjectMembers { get; set; }
     }
 }
