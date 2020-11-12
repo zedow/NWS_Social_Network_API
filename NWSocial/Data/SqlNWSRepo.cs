@@ -19,7 +19,7 @@ namespace NWSocial.Data
 
         public void CreateGuild(Guild guild)
         {
-            if(guild == null)
+            if (guild == null)
             {
                 throw new ArgumentNullException(nameof(guild));
             }
@@ -28,7 +28,7 @@ namespace NWSocial.Data
 
         public void DeleteGuild(Guild guild)
         {
-            if(guild == null)
+            if (guild == null)
             {
                 throw new ArgumentNullException(nameof(guild));
             }
@@ -38,13 +38,13 @@ namespace NWSocial.Data
         public IEnumerable<Guild> GetAllGuilds(string filter, int? indexPage, int? numberPerPage = 10)
         {
             IQueryable<Guild> guilds = _context.Guilds;
-            if(filter != null)
+            if (filter != null)
             {
                 guilds = guilds.Where(g => g.Name.Contains(filter) || g.Description.Contains(filter));
             }
-            if(indexPage.HasValue)
+            if (indexPage.HasValue)
             {
-                guilds = guilds.Skip((indexPage.Value -1) * numberPerPage.Value).Take(numberPerPage.Value);
+                guilds = guilds.Skip((indexPage.Value - 1) * numberPerPage.Value).Take(numberPerPage.Value);
             }
             return (guilds.ToList());
         }
@@ -100,7 +100,7 @@ namespace NWSocial.Data
         // Create a request for an user to enter a guild
         public void CreateUserGuildRequest(UserGuild userGuildRequest)
         {
-            if(userGuildRequest == null)
+            if (userGuildRequest == null)
             {
                 throw new ArgumentNullException(nameof(userGuildRequest));
             }
@@ -122,10 +122,10 @@ namespace NWSocial.Data
             // 
         }
 
-        public IEnumerable<Post> GetAllPosts(string filter, int? guildId,int? indexPage, int? numberPerPage = 10)
+        public IEnumerable<Post> GetAllPosts(string filter, int? guildId, int? indexPage, int? numberPerPage = 10)
         {
-            IQueryable<Post> posts; 
-            if(guildId.HasValue)
+            IQueryable<Post> posts;
+            if (guildId.HasValue)
             {
                 posts = _context.Posts.Where(p => p.GuildId == guildId);
             }
@@ -133,11 +133,11 @@ namespace NWSocial.Data
             {
                 posts = _context.Posts.Where(g => g.GuildId == null);
             }
-            if(filter != null)
+            if (filter != null)
             {
                 posts = posts.Where(p => p.Title.Contains(filter) || p.Text.Contains(filter));
             }
-            if(indexPage.HasValue)
+            if (indexPage.HasValue)
             {
                 posts = posts.Skip((indexPage.Value - 1) * numberPerPage.Value).Take(numberPerPage.Value);
             }
@@ -209,6 +209,28 @@ namespace NWSocial.Data
                 projects = projects.Skip((indexPage.Value - 1) * numberPerPage.Value).Take(numberPerPage.Value);
             }
             return (projects.ToList());
+        }
+
+        public void AddProject(Project project)
+        {
+            if (project == null)
+            {
+                throw new ArgumentNullException(nameof(project));
+            }
+            _context.Projects.Add(project);
+        }
+
+        public void RemoveProject(Project project)
+        {
+            if (project == null)
+            {
+                throw new NullReferenceException(nameof(project));
+            }
+            _context.Projects.Remove(project);
+        }
+        public void UpdateProject(Project project)
+        {
+            //
         }
 
         public IEnumerable<ProjectMember> GetProjectMembers(int projectId)
