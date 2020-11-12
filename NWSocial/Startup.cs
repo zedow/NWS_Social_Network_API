@@ -64,10 +64,6 @@ namespace NWSocial
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<INWSRepo, SqlNWSRepo>();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api doc", Version = "v1" });
-            });
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -80,7 +76,11 @@ namespace NWSocial
             {
                 options.ClientId = "849948674332-1t1q6vl9qp06h8k2cjv20leup1j1v6go.apps.googleusercontent.com";
                 options.ClientSecret = "ZL3AZ7QtsBoK-jOUqkMdaZcy";
-            });        
+            });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api doc", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

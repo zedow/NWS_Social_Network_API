@@ -11,6 +11,8 @@ using NWSocial.Dtos.ProjectMemberDtos;
 
 namespace NWSocial.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ProjectsController : ControllerBase
     {
         private readonly INWSRepo _repo;
