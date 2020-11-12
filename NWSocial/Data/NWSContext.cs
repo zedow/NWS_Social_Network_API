@@ -17,10 +17,14 @@ namespace NWSocial.Data
 
         public DbSet<Guild> Guilds { get; set; }
         public DbSet<User> Users { get; set; }
-        
+
         public DbSet<Post> Posts { get; set; }
 
         public DbSet<UserGuild> UserGuilds { get; set; }
+
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectMember> ProjectMembers { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,6 +49,30 @@ namespace NWSocial.Data
             modelBuilder.Entity<Guild>()
                 .HasMany(pt => pt.Posts)
                 .WithOne(t => t.Guild);
+
+            // Project to guild relation
+
+            modelBuilder.Entity<Project>()
+                .HasOne(pt => pt.Guild)
+                .WithMany(p => p.Projects)
+                .HasForeignKey(pt => pt.GuildId);
+
+            // Project member relation
+
+            modelBuilder.Entity<ProjectMember>()
+                .HasOne(p => p.Project)
+                .WithMany(pm => pm.Members)
+                .HasForeignKey(p => p.ProjectId);
+
+            modelBuilder.Entity<ProjectMember>()
+                .HasOne(t => t.User)
+                .WithMany(pm => pm.ProjectMembers)
+                .HasForeignKey(t => t.UserId);
+
+            modelBuilder.Entity<ProjectMember>()
+               .HasOne(r => r.Role)
+               .WithMany(pm => pm.ProjectMembers)
+               .HasForeignKey(r => r.RoleId);
         }
     }
 }

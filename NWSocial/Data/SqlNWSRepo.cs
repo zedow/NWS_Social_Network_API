@@ -37,7 +37,7 @@ namespace NWSocial.Data
 
         public IEnumerable<Guild> GetAllGuilds(string filter, int? indexPage, int? numberPerPage = 10)
         {
-            IEnumerable<Guild> guilds = _context.Guilds;
+            IQueryable<Guild> guilds = _context.Guilds;
             if(filter != null)
             {
                 guilds = guilds.Where(g => g.Name.Contains(filter) || g.Description.Contains(filter));
@@ -124,10 +124,14 @@ namespace NWSocial.Data
 
         public IEnumerable<Post> GetAllPosts(string filter, int? guildId,int? indexPage, int? numberPerPage = 10)
         {
-            var posts = _context.Posts.Where(g => g.GuildId == null);
+            IQueryable<Post> posts; 
             if(guildId.HasValue)
             {
-                posts = posts.Where(p => p.GuildId == guildId);
+                posts = _context.Posts.Where(p => p.GuildId == guildId);
+            }
+            else
+            {
+                posts = _context.Posts.Where(g => g.GuildId == null);
             }
             if(filter != null)
             {
@@ -174,5 +178,17 @@ namespace NWSocial.Data
             //Si nécessaire de faire du traitement supplémentaire
             // Exemple : Si le nom du poste est à update dans une table archive
         }
+
+        // Projects functions
+        public IEnumerable<Project> GetProjects(string filter, int? projectId, int? indexPage, int? numberPerPage = 10)
+        {
+            
+        }
+
+        public IEnumerable<ProjectMember> GetProjectMembers(int projectId)
+        {
+            return _context.ProjectMembers.Where(pm => pm.ProjectId == projectId).ToList();
+        }
+
     }
 }

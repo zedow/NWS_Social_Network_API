@@ -1,17 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace NWSocial.Models
 {
-    public class User
+    public class Role
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public List<UserGuild> Guilds { get; set; }
+        [MaxLength(255)]
+        public string RoleName { get; set; }
         public List<ProjectMember> ProjectMembers { get; set; }
     }
 }

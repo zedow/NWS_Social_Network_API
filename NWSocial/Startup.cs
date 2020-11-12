@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using NWSocial.Models;
 
 namespace NWSocial
 {
@@ -108,6 +109,8 @@ namespace NWSocial
             {
                 endpoints.MapControllers();
             });
+
+            PrepDB.PrepDb(app);
         }
     }
 }

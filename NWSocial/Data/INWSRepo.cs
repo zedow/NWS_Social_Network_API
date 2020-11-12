@@ -33,5 +33,25 @@ namespace NWSocial.Data
         IEnumerable<UserGuild> GetUserGuilds(int idUser);
         void CreateUserGuildRequest(UserGuild userGuildRequest);
         void RemoveUserFromGuild(UserGuild userGuild);
+
+        // Projects functions
+
+        // Sylvio
+        IEnumerable<Project> GetProjects();
+        IEnumerable<Project> GetGuildProject(int guildId);
+
+        // Valentin
+        IEnumerable<ProjectMember> GetProjectMembers(int projectId);
+        IEnumerable<Project> GetUserProjects(int userId);
+
+        // Sylvio
+        void AddProject(Project project);
+        void RemoveProject(Project project);
+        void UpdateProject(Project project);
+
+        // Valentin
+        Project GetProject(int projectId);
+        void RemoveProjectMember(ProjectMember projectMember);
+        void AddProjectMember(ProjectMember projectMember);
     }
 }
