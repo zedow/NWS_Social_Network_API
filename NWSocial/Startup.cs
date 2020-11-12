@@ -85,13 +85,6 @@ namespace NWSocial
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-             app.Run(async (context) =>
-             {
-                 /*var result = string.IsNullOrEmpty(_moviesApiKey) ? "Null" : "Not Null";  //login step 1 secretKey
-                 await context.Response.WriteAsync($"Secret is {result}");*/
-                 await context.Response.WriteAsync($"DB Connection: {_connection}");        //login step 2 secretKey
-             });
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
