@@ -27,9 +27,9 @@ namespace NWSocial.Controllers
 
         //GET api/posts
         [HttpGet]
-        public ActionResult<IEnumerable<PostReadDto>> GetAllPosts()
+        public ActionResult<IEnumerable<PostReadDto>> GetAllPosts(string filter, int? indexPage, int? numberPerPage)
         {
-            var postItems = _repository.GetAllPosts();
+            var postItems = _repository.GetAllPosts(filter, null, indexPage, numberPerPage);
             return Ok(_mapper.Map<IEnumerable<PostReadDto>>(postItems));
         }
 
@@ -92,9 +92,6 @@ namespace NWSocial.Controllers
 
             return (NoContent());
         }
-
-
-
         
     }
 }

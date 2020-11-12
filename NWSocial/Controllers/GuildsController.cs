@@ -28,25 +28,14 @@ namespace NWSocial.Controllers
         public ActionResult<List<UserGuildReadDto>> GetGuildUsers(int guildID)
         {
             var userGuilds = _repository.GetGuildUsers(guildID);
-            var users = new List<UserGuildReadDto>();
-            userGuilds.ToList().ForEach(u =>
-            {
-                var user = u.User;
-                if (user != null)
-                {
-                    var mappedUser = _mapper.Map<UserGuildReadDto>(user);
-                    mappedUser.Role = u.Role;
-                    users.Add(mappedUser);
-                }
-            });
-            return Ok(users);
+            return Ok(_mapper.Map<IEnumerable<UserGuildReadDto>>(userGuilds));
         }
 
         //GET api/guilds
         [HttpGet]
-        public ActionResult<IEnumerable<GuildReadDto>> GetAllGuilds()
+        public ActionResult<IEnumerable<GuildReadDto>> GetAllGuilds(string filter, int? indexPage, int? numberPerPage)
         {
-            var guildItems = _repository.GetAllGuilds();
+            var guildItems = _repository.GetAllGuilds(filter, indexPage, numberPerPage);
             return Ok(_mapper.Map<List<GuildReadDto>>(guildItems));
         }
 
@@ -123,7 +112,7 @@ namespace NWSocial.Controllers
             return Ok(_mapper.Map<UserGuildReadDto>(userGuild));
         }
 
-        [HttpDelete("{id}/users/{id}")]
+        [HttpDelete("{guildId}/users/{userId}")]
         public ActionResult RemoveUserFromGuild(int userId, int guildId)
         {
             var userGuildModelFromRepo = _repository.GetGuildUser(guildId, userId);
@@ -189,15 +178,9 @@ namespace NWSocial.Controllers
             return NoContent();
         }
         [HttpGet("{id}/posts")]
-        public ActionResult<List<Post>> GuildPosts(int id)
+        public ActionResult<List<Post>> GuildPosts(int id,string filter,int? indexPage, int? numberPerPage)
         {
-            return Ok(_repository.GetGuildPosts(id).ToList());
-        }
-
-        [HttpGet("{GuildId}/posts/{PostId}")]
-        public ActionResult<List<Post>> GuildPost(int GuildId, int PostId)
-        {
-            return Ok(_repository.GetGuildPost(GuildId, PostId).ToList());
+            return Ok(_repository.GetAllPosts(filter, id, indexPage,numberPerPage).ToList());
         }
     }
 }
