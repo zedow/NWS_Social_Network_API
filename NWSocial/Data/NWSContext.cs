@@ -24,7 +24,6 @@ namespace NWSocial.Data
 
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectMember> ProjectMembers { get; set; }
-        public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -68,11 +67,6 @@ namespace NWSocial.Data
                 .HasOne(t => t.User)
                 .WithMany(pm => pm.ProjectMembers)
                 .HasForeignKey(t => t.UserId);
-
-            modelBuilder.Entity<ProjectMember>()
-               .HasOne(r => r.Role)
-               .WithMany(pm => pm.ProjectMembers)
-               .HasForeignKey(r => r.RoleId);
         }
     }
 }

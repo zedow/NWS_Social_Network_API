@@ -211,17 +211,20 @@ namespace NWSocial.Data
             return (projects.ToList());
         }
 
-        
-
         public IEnumerable<ProjectMember> GetProjectMembers(int projectId)
         {
             return _context.ProjectMembers.Where(pm => pm.ProjectId == projectId).ToList();
         }
 
-        public IEnumerable<Project> GetUserProjects(int userId)
+        // Permet de trier (par Nom, Description, ou rôle dans le projet), project clos ou non, projet d'une guilde, et pagination
+        public IEnumerable<Project> GetUserProjects(int userId, string filter,bool? isClosed, int ? guildId, int? indexPage, int? numberPerPage = 10)
         {
             var model = (
-                    from pm in _context.ProjectMembers
+                    from pm in (
+                        (filter != null) 
+                            ?  _context.ProjectMembers.Where(pm => pm.UserId == userId && pm.Role.Contains(filter)) 
+                            : _context.ProjectMembers.Where(pm => pm.UserId == userId)
+                    )
                     join p in _context.Projects on pm.ProjectId equals p.Id into projectJoin
 
                     from joinResult in projectJoin
@@ -232,10 +235,46 @@ namespace NWSocial.Data
                         Description = joinResult.Description,
                         Date = joinResult.Date,
                         DeadLine = joinResult.DeadLine
-                        
                     }
-                );
+            );
+            if(filter != null)
+            {
+                model.Where(jr => jr.Name.Contains(filter) ||  jr.Description.Contains(filter));
+            }
+            if(isClosed.HasValue)
+            {
+                model.Where(jr => jr.isClosed == isClosed);
+            }
+            if(guildId.HasValue)
+            {
+                model.Where(jr => jr.GuildId == guildId);
+            }
+            if(indexPage.HasValue)
+            {
+                model.Skip((indexPage.Value - 1) * numberPerPage.Value).Take(numberPerPage.Value);
+            }
             return model;
+        }
+
+        public Project GetProject(int projectId)
+        {
+            return _context.Projects.FirstOrDefault(p => p.Id == projectId);
+        }
+        public void RemoveProjectMember(ProjectMember projectMember)
+        {
+            if(projectMember == null)
+            {
+                throw new ArgumentNullException();
+            }
+            _context.ProjectMembers.Remove(projectMember);
+        }
+        public void AddProjectMember(ProjectMember projectMember)
+        {
+            if (projectMember == null)
+            {
+                throw new ArgumentNullException();
+            }
+            _context.ProjectMembers.Add(projectMember);
         }
     }
 }

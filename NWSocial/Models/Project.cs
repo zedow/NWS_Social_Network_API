@@ -15,6 +15,7 @@ namespace NWSocial.Models
         public DateTime Date { get; set; }
         public DateTime? DeadLine { get; set; }
         public string Description { get; set; }
+        public bool isClosed { get; set; }
         public Guild Guild { get; set; }
         public int? GuildId { get; set; }
         public List<ProjectMember> Members { get; set; }
