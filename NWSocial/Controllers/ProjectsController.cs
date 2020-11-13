@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using NWSocial.Models;
 using NWSocial.Dtos.ProjectDtos;
 using NWSocial.Dtos.ProjectMemberDtos;
+using NWSocial.Dtos.ProjectSlotDtos;
+using NWSocial.Dtos.ProjectRequestDtos;
 
 namespace NWSocial.Controllers
 {
@@ -25,7 +27,7 @@ namespace NWSocial.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProjectReadDto>> GetProjects(string filter, string role, int guildId, int indexPage, int numberPerPage)
+        public ActionResult<IEnumerable<ProjectReadDto>> GetProjects(string filter, string role, int? guildId, int? indexPage, int? numberPerPage)
         {
             var list = _repo.GetProjects(filter, role, guildId, indexPage, numberPerPage);
             return Ok(_mapper.Map<IEnumerable<ProjectReadDto>>(list));
@@ -92,5 +94,29 @@ namespace NWSocial.Controllers
             return NoContent();
         }
 
+        // BETA ROUTE TO TEST
+
+        [HttpPost("{projectId}/slots")]
+        public ActionResult<ProjectSlotReadDto> AddProjectSlot(int projectId,IEnumerable<ProjectSlotCreateDto> newSlots)
+        {
+            var slot = _mapper.Map<IEnumerable<ProjectSlot>>(newSlots);
+            _repo.AddProjectSlots(slot);
+            _repo.SaveChanges();
+            return CreatedAtAction(nameof(slot),_mapper.Map<ProjectSlotReadDto>(slot));
+        }
+
+        [HttpPost("{projectId}/slots/{slotId}/requests/{userId}")]
+        public ActionResult<ProjectRequestAfterCreationReadDto> AddProjectRequest(int slotId, int userId)
+        {
+            var pr = new ProjectRequest
+            {
+                UserId = userId,
+                SlotId = slotId,
+                Status = "En attente"
+            };
+            _repo.AddProjectRequest(pr);
+            _repo.SaveChanges();
+            return CreatedAtAction(nameof(pr), _mapper.Map<ProjectRequestAfterCreationReadDto>(pr));
+        }
     }
 }

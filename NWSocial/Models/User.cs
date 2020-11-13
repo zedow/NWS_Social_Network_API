@@ -13,5 +13,7 @@ namespace NWSocial.Models
         public string Name { get; set; }
         public List<UserGuild> Guilds { get; set; }
         public List<ProjectMember> ProjectMembers { get; set; }
+        public List<ProjectRequest> ProjectRequests { get; set; }
+        public List<Post> Posts { get; set; }
     }
 }

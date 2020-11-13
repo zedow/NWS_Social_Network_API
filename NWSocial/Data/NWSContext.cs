@@ -24,6 +24,8 @@ namespace NWSocial.Data
 
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectMember> ProjectMembers { get; set; }
+        public DbSet<ProjectSlot> ProjectSlots { get; set; }
+        public DbSet<ProjectRequest> ProjectRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,6 +46,10 @@ namespace NWSocial.Data
                 .HasOne(pt => pt.Guild)
                 .WithMany(t => t.Posts)
                 .HasForeignKey(pt => pt.GuildId);
+            modelBuilder.Entity<Post>()
+                .HasOne(pt => pt.User)
+                .WithMany(p => p.Posts)
+                .HasForeignKey(pt => pt.UserId);
 
             modelBuilder.Entity<Guild>()
                 .HasMany(pt => pt.Posts)
@@ -55,6 +61,25 @@ namespace NWSocial.Data
                 .HasOne(pt => pt.Guild)
                 .WithMany(p => p.Projects)
                 .HasForeignKey(pt => pt.GuildId);
+
+            // Project slot to project relation
+            modelBuilder.Entity<ProjectSlot>()
+                .HasOne(pt => pt.Project)
+                .WithMany(p => p.ProjectSlots)
+                .HasForeignKey(pt => pt.ProjectId);
+
+            modelBuilder.Entity<ProjectRequest>()
+                .HasKey(t => new { t.SlotId, t.UserId });
+
+            modelBuilder.Entity<ProjectRequest>()
+                .HasOne(pt => pt.User)
+                .WithMany(p => p.ProjectRequests)
+                .HasForeignKey(pt => pt.UserId);
+
+            modelBuilder.Entity<ProjectRequest>()
+                .HasOne(pt => pt.ProjectSlot)
+                .WithMany(p => p.ProjectRequests)
+                .HasForeignKey(pt => pt.SlotId);
 
             // Project member relation
 
@@ -70,6 +95,11 @@ namespace NWSocial.Data
                 .HasOne(t => t.User)
                 .WithMany(pm => pm.ProjectMembers)
                 .HasForeignKey(t => t.UserId);
+
+            modelBuilder.Entity<ProjectMember>()
+                .HasOne(pt => pt.Slot)
+                .WithOne(p => p.ProjectMember)
+                .HasForeignKey<ProjectMember>(pt => pt.SlotId);
         }
     }
 }

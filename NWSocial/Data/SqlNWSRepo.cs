@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NWSocial.Dtos.ProjectDtos;
 
 namespace NWSocial.Data
 {
@@ -179,6 +180,19 @@ namespace NWSocial.Data
             // Exemple : Si le nom du poste est à update dans une table archive
         }
 
+        public IEnumerable<Post> GetUserPosts(int id, string filter, int? indexPage, int? numberPerPage)
+        {
+            var posts = _context.Posts.Where(p => p.UserId == id);
+            if(filter != null)
+            {
+                posts = posts.Where(p => p.Title.Contains(filter) || p.Text.Contains(filter));
+            }
+            if(indexPage.HasValue)
+            {
+                posts = posts.Skip((indexPage.Value - 1) * numberPerPage.Value).Take(numberPerPage.Value);
+            }
+            return posts.ToList();
+        }
         // Projects functions
         public IEnumerable<Project> GetProjects(string filter, string role, int? guildId, int? indexPage, int? numberPerPage = 10)
         {
@@ -198,16 +212,21 @@ namespace NWSocial.Data
             if(role != null)
             {
                 projects = (from p in projects
-                            join pm in _context.ProjectMembers.Where(pm => pm.Role.Contains(role)) on p.Id equals pm.ProjectId into resultJoin
+                            join pm in _context.ProjectMembers on p.Id equals pm.ProjectId into projectMemberJoin
 
-                            from ppm in resultJoin
+                            from projectMember in projectMemberJoin
+                            join slot in (role != null ? _context.ProjectSlots.Where(ps => ps.Role == role)  : _context.ProjectSlots) on projectMember.SlotId equals slot.Id into slotJoin
+
+                            from joinResult in projects
                             select new Project
                             {
-                                Id = p.Id,
-                                Name = p.Name,
-                                Description = p.Description,
-                                Date = p.Date,
-                                DeadLine = p.DeadLine
+                                Id = joinResult.Id,
+                                Name = joinResult.Name,
+                                Description = joinResult.Description,
+                                Date = joinResult.Date,
+                                DeadLine = joinResult.DeadLine,
+                                isClosed = joinResult.isClosed,
+                                GuildId = joinResult.GuildId
                             });
             }
             if (indexPage.HasValue)
@@ -245,16 +264,16 @@ namespace NWSocial.Data
         }
 
         // Permet de trier (par Nom, Description, ou rôle dans le projet), project clos ou non, projet d'une guilde, et pagination
-        public IEnumerable<Project> GetUserProjects(int userId, string filter,bool? isClosed, int ? guildId, int? indexPage, int? numberPerPage = 10)
+        public IEnumerable<Project> GetUserProjects(int userId, string filter,string role,bool? isClosed, int ? guildId, int? indexPage, int? numberPerPage = 10)
         {
             var model = (
-                    from pm in (
-                        (filter != null) 
-                            ?  _context.ProjectMembers.Where(pm => pm.UserId == userId && pm.Role.Contains(filter)) 
-                            : _context.ProjectMembers.Where(pm => pm.UserId == userId)
-                    )
+                    from pm in _context.ProjectMembers
                     join p in _context.Projects on pm.ProjectId equals p.Id into projectJoin
 
+                    from pj in _context.ProjectMembers
+                    join slots in (role != null ? _context.ProjectSlots.Where(ps => ps.Role == role) : _context.ProjectSlots) on pj.SlotId equals slots.Id into slotJoin
+                    
+                    from slotJoinResult in slotJoin
                     from joinResult in projectJoin
                     select new Project
                     {
@@ -262,7 +281,9 @@ namespace NWSocial.Data
                         Name = joinResult.Name,
                         Description = joinResult.Description,
                         Date = joinResult.Date,
-                        DeadLine = joinResult.DeadLine
+                        DeadLine = joinResult.DeadLine,
+                        isClosed = joinResult.isClosed,
+                        GuildId = joinResult.GuildId
                     }
             );
             if(filter != null)
@@ -308,6 +329,52 @@ namespace NWSocial.Data
         public ProjectMember GetProjectMember(int projectId, int userId)
         {
             return _context.ProjectMembers.FirstOrDefault(pm => pm.ProjectId == projectId && pm.UserId == userId);
+        }
+
+        public void AddProjectRequest(ProjectRequest pr)
+        {
+            if(pr == null)
+            {
+                throw new ArgumentNullException();
+            }
+            _context.ProjectRequests.Add(pr);
+        }
+
+        public void AddProjectSlot(ProjectSlot slot)
+        {
+            if (slot == null)
+            {
+                throw new ArgumentNullException();
+            }
+            _context.ProjectSlots.Add(slot);
+        }
+
+        public void AddProjectSlots(IEnumerable<ProjectSlot> slots)
+        {
+            if (slots == null)
+            {
+                throw new ArgumentNullException();
+            }
+            _context.ProjectSlots.AddRange(slots);
+        }
+
+        public void RemoveProjectSlot(ProjectSlot slot)
+        {
+            if (slot == null)
+            {
+                throw new ArgumentNullException();
+            }
+            _context.ProjectSlots.Remove(slot);
+        }
+
+        public IEnumerable<ProjectSlot> GetProjectSlots(int projectId)
+        {
+            return _context.ProjectSlots.Where(pj => pj.ProjectId == projectId).ToList();
+        }
+
+        public IEnumerable<ProjectRequest> GetProjectSlotRequests(int slotId)
+        {
+            return _context.ProjectRequests.Where(pr => pr.SlotId == slotId).Include(pr => pr.User).Include(pr => pr.ProjectSlot).ToList();
         }
     }
 }

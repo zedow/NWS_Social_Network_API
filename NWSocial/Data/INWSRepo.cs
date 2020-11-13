@@ -26,6 +26,8 @@ namespace NWSocial.Data
         void UpdatePost(Post post);
         void DeletePost(Post post);
 
+        IEnumerable<Post> GetUserPosts(int id, string filter, int? indexPage, int? numberPerPage);
+
         //UserGuild
         IEnumerable<UserGuild> GetGuildUsers(int idGuild);
         UserGuild GetGuildUser(int idGuild, int idUser);
@@ -41,7 +43,7 @@ namespace NWSocial.Data
 
         // Valentin
         IEnumerable<ProjectMember> GetProjectMembers(int projectId);
-        IEnumerable<Project> GetUserProjects(int userId, string filter, bool? isClosed, int? guildId, int? indexPage, int? numberPerPage = 10);
+        IEnumerable<Project> GetUserProjects(int userId, string filter, string role, bool? isClosed, int? guildId, int? indexPage, int? numberPerPage = 10);
 
         // Sylvio
         void AddProject(Project project);
@@ -54,5 +56,11 @@ namespace NWSocial.Data
         ProjectMember GetProjectMember(int projectId, int userId);
         void RemoveProjectMember(ProjectMember projectMember);
         void AddProjectMember(ProjectMember projectMember);
+        void AddProjectRequest(ProjectRequest pr);
+        void AddProjectSlot(ProjectSlot slot);
+        void AddProjectSlots(IEnumerable<ProjectSlot> slots);
+        void RemoveProjectSlot(ProjectSlot slot);
+        IEnumerable<ProjectSlot> GetProjectSlots(int projectId);
+        IEnumerable<ProjectRequest> GetProjectSlotRequests(int slotId);
     }
 }

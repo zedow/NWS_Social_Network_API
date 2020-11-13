@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NWSocial.Dtos.ProjectDtos;
 using NWSocial.Dtos;
+using NWSocial.Dtos.ProjectSlotDtos;
 
-namespace NWSocial.Dtos.ProjectMemberDtos
+namespace NWSocial.Dtos.ProjectRequestDtos
 {
-    public class ProjectMemberReadDto
+    public class ProjectRequestAfterCreationReadDto
     {
-        public ProjectReadDto Project { get; set; }
+        public string Status { get; set; }
         public UserReadDto User { get; set; }
     }
 }

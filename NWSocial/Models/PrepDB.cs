@@ -63,53 +63,66 @@ namespace NWSocial.Models
                         Description = "Random description of guild 7"
                     }
                 );
+            }
+            if(!context.Users.Any())
+            {
                 context.Users.Add(new User { Name = "User test" });
+            }
+            if(!context.Posts.Any())
+            {
                 context.Posts.AddRange(
                     new Post
                     {
                         Title = "Random post 1",
                         Text = "Random text of post 1",
-                        GuildId = null
+                        GuildId = null,
+                        UserId = 1
                     },
                     new Post
                     {
                         Title = "Random post 2",
                         Text = "Random text of post 2",
-                        GuildId = 1
+                        GuildId = 1,
+                        UserId = 1
                     },
                     new Post
                     {
                         Title = "Random post 3",
                         Text = "Random text of post 3",
-                        GuildId = 1
+                        GuildId = 1,
+                        UserId = 1
                     },
                     new Post
                     {
                         Title = "Random post 4",
                         Text = "Random text of post 4",
-                        GuildId = 1
+                        GuildId = 1,
+                        UserId = 1
                     },
                     new Post
                     {
                         Title = "Random post 5",
                         Text = "Random text of post 5",
-                        GuildId = null
+                        GuildId = null,
+                        UserId = 1
                     },
                     new Post
                     {
                         Title = "Random post 6",
                         Text = "Random text of post 6",
-                        GuildId = null
+                        GuildId = null,
+                        UserId = 1
                     },
                     new Post
                     {
                         Title = "Random post 7",
                         Text = "Random text of post 7",
-                        GuildId = 2
+                        GuildId = 2,
+                        UserId = 1
                     }
                 );
-                context.SaveChanges();
             }
+            context.SaveChanges();
         }
     }
 }

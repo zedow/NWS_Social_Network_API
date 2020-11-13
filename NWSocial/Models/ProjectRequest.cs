@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,15 +6,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NWSocial.Models
 {
-    public class ProjectMember
+    public class ProjectRequest
     {
         [Key]
-        public int ProjectId { get; set; }
-        public Project Project {get; set;}
-        [Key]
         public int UserId { get; set; }
-        public User User {get; set;}
+        public User User { get; set; }
+        [Key]
         public int SlotId { get; set; }
-        public ProjectSlot Slot { get; set; }
+        public ProjectSlot ProjectSlot { get; set; }
+        public string Status { get; set; }
     }
 }
