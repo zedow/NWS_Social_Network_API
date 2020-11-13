@@ -6,6 +6,8 @@ using AutoMapper;
 using NWSocial.Dtos.ProjectDtos;
 using NWSocial.Dtos.ProjectMemberDtos;
 using NWSocial.Models;
+using NWSocial.Dtos.ProjectRequestDtos;
+using NWSocial.Dtos.ProjectSlotDtos;
 
 namespace NWSocial.Profiles
 {
@@ -18,6 +20,12 @@ namespace NWSocial.Profiles
 
             CreateMap<ProjectMember, ProjectMemberReadDto>();
             CreateMap<ProjectMemberCreateDto, ProjectMember>();
+
+            CreateMap<ProjectRequest, ProjectRequestAfterCreationReadDto>();
+            CreateMap<ProjectRequestCreateDto, ProjectRequest>();
+
+            CreateMap<ProjectSlot, ProjectSlotReadDto>();
+            CreateMap<ProjectSlotCreateDto, ProjectSlot>();
         }
     }
 }

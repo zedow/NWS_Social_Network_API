@@ -17,5 +17,8 @@ namespace NWSocial.Models
         public string Text { get; set; }
         public Guild Guild { get; set; }
         public int? GuildId { get; set; }
+
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }
