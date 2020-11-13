@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NWSocial.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,30 +22,40 @@ namespace NWSocial.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Lastname = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    GoogleId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(nullable: false),
-                    Text = table.Column<string>(nullable: false)
+                    Text = table.Column<string>(nullable: false),
+                    GuildId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Posts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_Guilds_GuildId",
+                        column: x => x.GuildId,
+                        principalTable: "Guilds",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,6 +82,11 @@ namespace NWSocial.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_GuildId",
+                table: "Posts",
+                column: "GuildId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserGuilds_GuildId",

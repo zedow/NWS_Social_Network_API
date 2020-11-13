@@ -66,6 +66,15 @@ namespace NWSocial.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<uint>("GoogleId")
+                        .HasColumnType("int unsigned");
+
+                    b.Property<string>("Lastname")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 

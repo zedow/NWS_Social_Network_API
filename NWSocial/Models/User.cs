@@ -11,6 +11,9 @@ namespace NWSocial.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Lastname { get; set; }
+        public string Email { get; set;  }
+        public uint GoogleId { get; set; }
         public List<UserGuild> Guilds { get; set; }
     }
 }

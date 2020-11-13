@@ -9,8 +9,8 @@ using NWSocial.Data;
 namespace NWSocial.Migrations
 {
     [DbContext(typeof(NWSContext))]
-    [Migration("20201025204921_postMigration")]
-    partial class postMigration
+    [Migration("20201112165732_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,6 +67,15 @@ namespace NWSocial.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("GoogleId")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Lastname")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
