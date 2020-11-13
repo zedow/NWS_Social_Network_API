@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using NWSocial.Dtos.UserGuildRequestDtos;
 using NWSocial.Models;
+using NWSocial.Dtos.ProjectDtos;
 
 namespace NWSocial.Controllers
 {
@@ -25,14 +26,6 @@ namespace NWSocial.Controllers
 
         // UserGuild relation
 
-        //Get api/users/{id}/guilds
-        /// <summary>
-        /// Retourne la liste des guildes pour un utilisateur
-        /// </summary>
-        /// <param name="userId">
-        /// Id de l'utilisateur
-        /// </param>
-        /// <returns>Une liste mappée contenant l'utilisateur et son rôle</returns>
         [HttpGet("{userId}/guilds")]
         public ActionResult<List<UserGuildListItemDto>> GetUserGuilds(int userId)
         {
@@ -45,6 +38,13 @@ namespace NWSocial.Controllers
                 guildList.Add(guildDto);
             });
             return Ok(guildList);
+        }
+
+        [HttpGet("{id}/projects")]
+        public ActionResult<IEnumerable<ProjectReadDto>> GetUserProjects(int id, string filter, bool isClosed, int guildId, int indexPage, int numberPerPage)
+        {
+            var list = _repository.GetUserProjects(id, filter, isClosed, guildId, indexPage, numberPerPage);
+            return Ok(_mapper.Map<IEnumerable<ProjectReadDto>>(list));
         }
     }
 }

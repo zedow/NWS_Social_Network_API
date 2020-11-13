@@ -60,6 +60,56 @@ namespace NWSocial.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("NWSocial.Models.Project", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DeadLine")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int?>("GuildId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.Property<bool>("isClosed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GuildId");
+
+                    b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("NWSocial.Models.ProjectMember", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("UserId", "ProjectId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectMembers");
+                });
+
             modelBuilder.Entity("NWSocial.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -106,6 +156,28 @@ namespace NWSocial.Migrations
                     b.HasOne("NWSocial.Models.Guild", "Guild")
                         .WithMany("Posts")
                         .HasForeignKey("GuildId");
+                });
+
+            modelBuilder.Entity("NWSocial.Models.Project", b =>
+                {
+                    b.HasOne("NWSocial.Models.Guild", "Guild")
+                        .WithMany("Projects")
+                        .HasForeignKey("GuildId");
+                });
+
+            modelBuilder.Entity("NWSocial.Models.ProjectMember", b =>
+                {
+                    b.HasOne("NWSocial.Models.Project", "Project")
+                        .WithMany("Members")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NWSocial.Models.User", "User")
+                        .WithMany("ProjectMembers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("NWSocial.Models.UserGuild", b =>

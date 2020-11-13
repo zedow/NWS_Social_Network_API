@@ -18,11 +18,15 @@ using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using NWSocial.Models;
 
 namespace NWSocial
 {
     public class Startup
     {
+        //private string _moviesApiKey = null; // secretKey step 1
+        //private string _connection = null;   // login secretKey step 2
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,10 +36,24 @@ namespace NWSocial
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            // ConnectionString établi dans le fichier appsettings.json
+        { 
+            /*_moviesApiKey = Configuration["Movies:ServiceApiKey"];  //login stp 1 secretKey
+
+            var moviesConfig = Configuration.GetSection("Movies")
+                                .Get<MovieSettings>();
+            _moviesApiKey = moviesConfig.ServiceApiKey;*/
+
+
+            /*var builder = new SqlConnectionStringBuilder(           //login step 2 secretKey
+            Configuration.GetConnectionString("Movies"));
+            builder.Password = Configuration["DbPassword"];
+            _connection = builder.ConnectionString;*/
+
+
+            // ConnectionString Ã©tabli dans le fichier appsettings.json
             services.AddDbContext<NWSContext>(opt =>
             {
+
                 opt.UseMySql(Configuration.GetConnectionString("NWSConnection"), builder =>
                 {
                     builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
@@ -46,10 +64,6 @@ namespace NWSocial
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<INWSRepo, SqlNWSRepo>();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api doc", Version = "v1" });
-            });
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -62,6 +76,10 @@ namespace NWSocial
             {
                 options.ClientId = "849948674332-1t1q6vl9qp06h8k2cjv20leup1j1v6go.apps.googleusercontent.com";
                 options.ClientSecret = "ZL3AZ7QtsBoK-jOUqkMdaZcy";
+            });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api doc", Version = "v1" });
             });
         }
 
@@ -91,6 +109,8 @@ namespace NWSocial
             {
                 endpoints.MapControllers();
             });
+
+            PrepDB.PrepDb(app);
         }
     }
 }

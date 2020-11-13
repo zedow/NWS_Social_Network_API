@@ -22,5 +22,6 @@ namespace NWSocial
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
     }
 }

@@ -15,5 +15,6 @@ namespace NWSocial.Models
         public string Email { get; set;  }
         public uint GoogleId { get; set; }
         public List<UserGuild> Guilds { get; set; }
+        public List<ProjectMember> ProjectMembers { get; set; }
     }
 }
