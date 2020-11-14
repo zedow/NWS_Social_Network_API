@@ -81,6 +81,7 @@ namespace NWSocial
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api doc", Version = "v1" });
             });
+            services.AddCors(options => options.AddDefaultPolicy(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,6 +105,8 @@ namespace NWSocial
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {

@@ -62,5 +62,7 @@ namespace NWSocial.Data
         void RemoveProjectSlot(ProjectSlot slot);
         IEnumerable<ProjectSlot> GetProjectSlots(int projectId);
         IEnumerable<ProjectRequest> GetProjectSlotRequests(int slotId);
+        ProjectRequest GetProjectRequest(int userId, int slotId);
+        void UpdateProjectRequest(ProjectRequest pr,int projectId);
     }
 }
