@@ -10,6 +10,7 @@ using NWSocial.Dtos.ProjectDtos;
 using NWSocial.Dtos.ProjectMemberDtos;
 using NWSocial.Dtos.ProjectSlotDtos;
 using NWSocial.Dtos.ProjectRequestDtos;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace NWSocial.Controllers
 {
@@ -33,7 +34,7 @@ namespace NWSocial.Controllers
             return Ok(_mapper.Map<IEnumerable<ProjectReadDto>>(list));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{projectId}")]
         public ActionResult<ProjectReadDto> GetProject(int projectId)
         {
             var project = _repo.GetProject(projectId);
@@ -50,7 +51,11 @@ namespace NWSocial.Controllers
             var project = _mapper.Map<Project>(newProject);
             _repo.AddProject(project);
             _repo.SaveChanges();
-            return (Ok(_mapper.Map<ProjectReadDto>(project)));
+            var newSlot = new ProjectSlot { ProjectId = project.Id, Role = "Chef de projet" };
+            _repo.AddProjectSlot(newSlot);
+            _repo.SaveChanges();
+            _repo.AddProjectMember(new ProjectMember { ProjectId = project.Id, SlotId = newSlot.Id, UserId = newProject.UserId});
+            return Ok(_mapper.Map<ProjectReadDto>(project));
         }
 
         [HttpDelete("{id}")]
@@ -73,6 +78,9 @@ namespace NWSocial.Controllers
             return Ok(_mapper.Map<IEnumerable<ProjectMemberReadDto>>(list));
         }
 
+        /*
+         * DEPRECATED
+         * DONT USE
         [HttpPost("{id}/members")]
         public ActionResult<ProjectMemberReadDto> AddProjectMember(int id, ProjectMemberCreateDto newPm)
         {
@@ -82,6 +90,7 @@ namespace NWSocial.Controllers
             _repo.SaveChanges();
             return Ok(_mapper.Map<ProjectMemberReadDto>(pm));
         }
+        */
 
         [HttpDelete("{projectId}/members/{userId}")]
         public ActionResult RemoveProjectMember(int projectId, int userId )
@@ -96,13 +105,21 @@ namespace NWSocial.Controllers
 
         // BETA ROUTE TO TEST
 
-        [HttpPost("{projectId}/slots")]
-        public ActionResult<ProjectSlotReadDto> AddProjectSlot(int projectId,IEnumerable<ProjectSlotCreateDto> newSlots)
+        [HttpGet("{projectId}/slots")]
+        public ActionResult<IEnumerable<ProjectSlotReadDto>> GetProjectSlots(int projectId)
         {
-            var slot = _mapper.Map<IEnumerable<ProjectSlot>>(newSlots);
-            _repo.AddProjectSlots(slot);
+            var list = _repo.GetProjectSlots(projectId);
+            return Ok(_mapper.Map<IEnumerable<ProjectSlotReadDto>>(list));
+        }
+
+        [HttpPost("{projectId}/slots")]
+        public ActionResult<ProjectSlotReadDto> AddProjectSlot(int projectId,[FromBody]  IEnumerable<ProjectSlotCreateDto> newSlots)
+        {
+            var slots = _mapper.Map<IEnumerable<ProjectSlot>>(newSlots);
+            slots.ToList().ForEach(s => s.ProjectId = projectId);
+            _repo.AddProjectSlots(slots);
             _repo.SaveChanges();
-            return CreatedAtAction(nameof(slot),_mapper.Map<ProjectSlotReadDto>(slot));
+            return Ok(_mapper.Map<IEnumerable<ProjectSlotReadDto>>(slots));
         }
 
         [HttpPost("{projectId}/slots/{slotId}/requests/{userId}")]
@@ -116,7 +133,27 @@ namespace NWSocial.Controllers
             };
             _repo.AddProjectRequest(pr);
             _repo.SaveChanges();
-            return CreatedAtAction(nameof(pr), _mapper.Map<ProjectRequestAfterCreationReadDto>(pr));
+            return Ok( _mapper.Map<ProjectRequestAfterCreationReadDto>(pr));
+        }
+
+        [HttpPatch("{projectId}/slots/{slotId}/requests/{userId}")]
+        public ActionResult UpdateRequestStatus(int projectId,int slotId, int userId, JsonPatchDocument<ProjectRequestUpdateDto> patchDocument)
+        {
+            var modelFromRepo = _repo.GetProjectRequest(userId,slotId);
+            if (modelFromRepo == null)
+            {
+                return NotFound();
+            }
+            var prToPatch = _mapper.Map<ProjectRequestUpdateDto>(modelFromRepo);
+            patchDocument.ApplyTo(prToPatch, ModelState);
+            if (!TryValidateModel(prToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+            _mapper.Map(prToPatch, modelFromRepo);
+            _repo.UpdateProjectRequest(modelFromRepo,projectId);
+            _repo.SaveChanges();
+            return NoContent();
         }
     }
 }

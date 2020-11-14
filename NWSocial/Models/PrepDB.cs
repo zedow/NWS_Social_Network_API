@@ -122,6 +122,99 @@ namespace NWSocial.Models
                     }
                 );
             }
+            if(!context.Projects.Any())
+            {
+                context.Projects.AddRange(
+                    new Project
+                    {
+                        Id = 1,
+                        Name = "Random project",
+                        Description = "Random description of random project",
+                        DeadLine = new DateTime(),
+                        Date = new DateTime(),
+                        isClosed = false,
+                        GuildId = null
+                    },
+                    new Project
+                    {
+                        Id = 2,
+                        Name = "Random project",
+                        Description = "Random description of random project",
+                        DeadLine = new DateTime(),
+                        Date = new DateTime(),
+                        isClosed = false,
+                        GuildId = 1
+                    },
+                    new Project
+                    {
+                        Id = 3,
+                        Name = "Random project",
+                        Description = "Random description of random project",
+                        DeadLine = new DateTime(),
+                        Date = new DateTime(),
+                        isClosed = false,
+                        GuildId = 1
+                    },
+                    new Project
+                    {
+                        Id = 4,
+                        Name = "Random project",
+                        Description = "Random description of random project",
+                        DeadLine = new DateTime(),
+                        Date = new DateTime(),
+                        isClosed = false,
+                        GuildId = null
+                    }
+                );
+                context.ProjectSlots.AddRange(
+                    new ProjectSlot
+                    {
+                        ProjectId = 1,
+                        Role = "Chef de projet",
+                    },
+                    new ProjectSlot
+                    {
+                        ProjectId = 2,
+                        Role = "Chef de projet",
+                    },
+                    new ProjectSlot
+                    {
+                        ProjectId = 3,
+                        Role = "Chef de projet",
+                    },
+                    new ProjectSlot
+                    {
+                        ProjectId = 4,
+                        Role = "Chef de projet",
+                    }
+                );
+                context.ProjectMembers.AddRange(
+                   new ProjectMember
+                   {
+                       ProjectId = 1,
+                       SlotId = 1,
+                       UserId = 1
+                   },
+                   new ProjectMember
+                   {
+                       ProjectId = 2,
+                       SlotId = 2,
+                       UserId = 1
+                   },
+                   new ProjectMember
+                   {
+                       ProjectId = 3,
+                       SlotId = 3,
+                       UserId = 1
+                   },
+                   new ProjectMember
+                   {
+                       ProjectId = 4,
+                       SlotId = 4,
+                       UserId = 1
+                   }
+               );
+            }
             context.SaveChanges();
         }
     }

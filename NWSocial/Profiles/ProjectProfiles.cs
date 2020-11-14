@@ -20,9 +20,12 @@ namespace NWSocial.Profiles
 
             CreateMap<ProjectMember, ProjectMemberReadDto>();
             CreateMap<ProjectMemberCreateDto, ProjectMember>();
+            CreateMap<ProjectMember, ProjectMemberForSlotReadDto>();
 
             CreateMap<ProjectRequest, ProjectRequestAfterCreationReadDto>();
             CreateMap<ProjectRequestCreateDto, ProjectRequest>();
+            CreateMap<ProjectRequestUpdateDto, ProjectRequest>();
+            CreateMap<ProjectRequest, ProjectRequestUpdateDto>();
 
             CreateMap<ProjectSlot, ProjectSlotReadDto>();
             CreateMap<ProjectSlotCreateDto, ProjectSlot>();

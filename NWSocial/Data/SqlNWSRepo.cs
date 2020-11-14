@@ -260,7 +260,7 @@ namespace NWSocial.Data
 
         public IEnumerable<ProjectMember> GetProjectMembers(int projectId)
         {
-            return _context.ProjectMembers.Where(pm => pm.ProjectId == projectId).Include(p => p.Project).Include(p => p.User).ToList();
+            return _context.ProjectMembers.Where(pm => pm.ProjectId == projectId).Include(p => p.Slot).Include(p => p.User).ToList();
         }
 
         // Permet de trier (par Nom, Description, ou rôle dans le projet), project clos ou non, projet d'une guilde, et pagination
@@ -369,12 +369,46 @@ namespace NWSocial.Data
 
         public IEnumerable<ProjectSlot> GetProjectSlots(int projectId)
         {
-            return _context.ProjectSlots.Where(pj => pj.ProjectId == projectId).ToList();
+            var model = (from projectSlot in _context.ProjectSlots
+                         join projectMember in _context.ProjectMembers.DefaultIfEmpty() on projectSlot.Id equals projectMember.SlotId into projectMemberJoin
+
+                         from projectMember in projectMemberJoin.DefaultIfEmpty()
+                         join user in _context.Users.DefaultIfEmpty() on projectMember.UserId equals user.Id into userJoin
+
+                         from userJoinResult in userJoin.DefaultIfEmpty()
+                         select new ProjectSlot
+                         {
+                             Id = projectSlot.Id,
+                             ProjectId = projectSlot.ProjectId,
+                             Role = projectSlot.Role,
+                             ProjectMember = new ProjectMember { User = userJoinResult },
+                         }).Where(ps => ps.ProjectId == projectId) ;
+            return model.ToList();
         }
 
         public IEnumerable<ProjectRequest> GetProjectSlotRequests(int slotId)
         {
             return _context.ProjectRequests.Where(pr => pr.SlotId == slotId).Include(pr => pr.User).Include(pr => pr.ProjectSlot).ToList();
+        }
+
+        public ProjectRequest GetProjectRequest(int userId, int slotId)
+        {
+            return _context.ProjectRequests.FirstOrDefault(pr => pr.UserId == userId && pr.SlotId == slotId);
+        }
+
+        public void UpdateProjectRequest(ProjectRequest pr,int projectId)
+        {
+            if(pr.Status == "Accepté")
+            {
+                if(!_context.ProjectMembers.Where(pm => pm.ProjectId == projectId && pm.UserId == pr.UserId).Any())
+                {
+                    _context.ProjectMembers.Add(new ProjectMember { ProjectId = projectId, UserId = pr.UserId, SlotId = pr.SlotId });
+                }
+                else
+                {
+                    Console.WriteLine("Cette utilisateur fait déjà partie du projet");
+                }
+            }
         }
     }
 }
