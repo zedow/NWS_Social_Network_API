@@ -25,3 +25,6 @@ docker exec -it "ID DU CONTAINER" dotnet ef database update <Migration>
 
 ## Accéder à PHPMyAdmin
 il suffit d'aller sur l'url : http://localhost:8000/
+
+## Seed la database
+Pour ajouter des données tests à l'api, il existe une classe "PrepDB" dans les models, qui permet de run la dernière migration au lancement de l'api, et de seed des data pour pour les entités sans données. Il est recommandé d'y ajouter ses données de tests afin que tout le monde puisse en profiter.
