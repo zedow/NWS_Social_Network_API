@@ -66,5 +66,6 @@ namespace NWSocial.Data
         void UpdateProjectRequest(ProjectRequest pr,int projectId);
 
         IEnumerable<Badge> GetUserBadges(int userId);
+        IEnumerable<Badge> GetAllBadges(string filter);
     }
 }

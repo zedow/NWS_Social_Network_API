@@ -430,5 +430,16 @@ namespace NWSocial.Data
                 }
             }
         }
+
+        public IEnumerable<Badge> GetAllBadges(string filter)
+        {
+            IQueryable<Badge> badges = _context.Badges;
+            if (filter != null)
+            {
+                badges = badges.Where(g => g.Name.Contains(filter) || g.Caption.Contains(filter));
+            }
+
+            return (badges.ToList());
+        }
     }
 }
