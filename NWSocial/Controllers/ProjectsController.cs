@@ -11,6 +11,7 @@ using NWSocial.Dtos.ProjectMemberDtos;
 using NWSocial.Dtos.ProjectSlotDtos;
 using NWSocial.Dtos.ProjectRequestDtos;
 using Microsoft.AspNetCore.JsonPatch;
+using NWSocial.Classes;
 
 namespace NWSocial.Controllers
 {
@@ -28,9 +29,9 @@ namespace NWSocial.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProjectReadDto>> GetProjects(string filter, string role, int? guildId, int? indexPage, int? numberPerPage)
+        public ActionResult<IEnumerable<ProjectReadDto>> GetProjects(string filter, string role, int? guildId,[FromBody] Pagination pagination)
         {
-            var list = _repo.GetProjects(filter, role, guildId, indexPage, numberPerPage);
+            var list = _repo.GetProjects(filter, role, guildId, pagination);
             return Ok(_mapper.Map<IEnumerable<ProjectReadDto>>(list));
         }
 
@@ -93,7 +94,7 @@ namespace NWSocial.Controllers
         */
 
         [HttpDelete("{projectId}/members/{userId}")]
-        public ActionResult RemoveProjectMember(int projectId, int userId )
+        public ActionResult RemoveProjectMember(int projectId, int userId)
         {
             var pm = _repo.GetProjectMember(projectId, userId);
             if(pm == null)
@@ -112,25 +113,20 @@ namespace NWSocial.Controllers
             return Ok(_mapper.Map<IEnumerable<ProjectSlotReadDto>>(list));
         }
 
-        [HttpPost("{projectId}/slots")]
-        public ActionResult<ProjectSlotReadDto> AddProjectSlot(int projectId,[FromBody]  IEnumerable<ProjectSlotCreateDto> newSlots)
+        [HttpPost("slots")]
+        public ActionResult<ProjectSlotReadDto> AddProjectSlot([FromBody]  IEnumerable<ProjectSlotCreateDto> newSlots)
         {
             var slots = _mapper.Map<IEnumerable<ProjectSlot>>(newSlots);
-            slots.ToList().ForEach(s => s.ProjectId = projectId);
             _repo.AddProjectSlots(slots);
             _repo.SaveChanges();
             return Ok(_mapper.Map<IEnumerable<ProjectSlotReadDto>>(slots));
         }
 
-        [HttpPost("{projectId}/slots/{slotId}/requests/{userId}")]
-        public ActionResult<ProjectRequestAfterCreationReadDto> AddProjectRequest(int slotId, int userId)
+        [HttpPost("requests")]
+        public ActionResult<ProjectRequestAfterCreationReadDto> AddProjectRequest(ProjectRequestCreateDto newProjectRequest)
         {
-            var pr = new ProjectRequest
-            {
-                UserId = userId,
-                SlotId = slotId,
-                Status = "En attente"
-            };
+            var pr = _mapper.Map<ProjectRequest>(newProjectRequest);
+            pr.Status = "En attente";
             _repo.AddProjectRequest(pr);
             _repo.SaveChanges();
             return Ok( _mapper.Map<ProjectRequestAfterCreationReadDto>(pr));

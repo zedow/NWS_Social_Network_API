@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using NWSocial.Data;
 using NWSocial.Dtos;
 using NWSocial.Models;
+using NWSocial.Classes;
 
 
 namespace NWSocial.Controllers
@@ -27,9 +28,9 @@ namespace NWSocial.Controllers
 
         //GET api/posts
         [HttpGet]
-        public ActionResult<IEnumerable<PostReadDto>> GetAllPosts(string filter, int? indexPage, int? numberPerPage)
+        public ActionResult<IEnumerable<PostReadDto>> GetAllPosts(string filter,[FromBody] Pagination pagination)
         {
-            var postItems = _repository.GetAllPosts(filter, null, indexPage, numberPerPage);
+            var postItems = _repository.GetAllPosts(filter, null, pagination);
             return Ok(_mapper.Map<IEnumerable<PostReadDto>>(postItems));
         }
 

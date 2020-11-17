@@ -9,6 +9,7 @@ using NWSocial.Dtos.UserGuildRequestDtos;
 using NWSocial.Models;
 using NWSocial.Dtos.ProjectDtos;
 using NWSocial.Dtos;
+using NWSocial.Classes;
 
 namespace NWSocial.Controllers
 {
@@ -42,16 +43,16 @@ namespace NWSocial.Controllers
         }
 
         [HttpGet("{id}/posts")]
-        public ActionResult<IEnumerable<PostReadDto>> GetUserPosts(int id, string filter, int? indexPage, int? numberPerPage)
+        public ActionResult<IEnumerable<PostReadDto>> GetUserPosts(int id, string filter,[FromBody] Pagination pagination)
         {
-            var list = _repository.GetUserPosts(id, filter, indexPage, numberPerPage);
+            var list = _repository.GetUserPosts(id, filter, pagination);
             return Ok(_mapper.Map<IEnumerable<PostReadDto>>(list));
         }
 
         [HttpGet("{id}/projects")]
-        public ActionResult<IEnumerable<ProjectReadDto>> GetUserProjects(int id, string filter, string role, bool? isClosed, int? guildId, int? indexPage, int? numberPerPage)
+        public ActionResult<IEnumerable<ProjectReadDto>> GetUserProjects(int id, string filter, string role, bool? isClosed, int? guildId, [FromBody] Pagination pagination)
         {
-            var list = _repository.GetUserProjects(id, filter, role, isClosed, guildId, indexPage, numberPerPage);
+            var list = _repository.GetUserProjects(id, filter, role, isClosed, guildId, pagination);
             return Ok(_mapper.Map<IEnumerable<ProjectReadDto>>(list));
         }
     }
