@@ -26,6 +26,8 @@ namespace NWSocial.Data
         public DbSet<ProjectMember> ProjectMembers { get; set; }
         public DbSet<ProjectSlot> ProjectSlots { get; set; }
         public DbSet<ProjectRequest> ProjectRequests { get; set; }
+        public DbSet<Badge> Badges { get; set; }
+        public DbSet<UserBadge> UserBadges { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -100,6 +102,22 @@ namespace NWSocial.Data
                 .HasOne(pt => pt.Slot)
                 .WithOne(p => p.ProjectMember)
                 .HasForeignKey<ProjectMember>(pt => pt.SlotId);
+
+
+            // User badge relation
+
+            modelBuilder.Entity<UserBadge>()
+                .HasKey(ub => new { ub.UserId, ub.BadgeId }); ;
+
+            modelBuilder.Entity<UserBadge>()
+                .HasOne(ub => ub.Badge)
+                .WithMany(u => u.UserBadges)
+                .HasForeignKey(ub => ub.BadgeId);
+
+            modelBuilder.Entity<UserBadge>()
+                .HasOne(ub => ub.User)
+                .WithMany(u => u.UserBadges)
+                .HasForeignKey(ub => ub.UserId);
         }
     }
 }

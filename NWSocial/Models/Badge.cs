@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace NWSocial.Models
 {
-    public class User
+    public class Badge
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
-        public List<UserGuild> Guilds { get; set; }
-        public List<ProjectMember> ProjectMembers { get; set; }
-        public List<ProjectRequest> ProjectRequests { get; set; }
+        [Required]
+        public string Caption { get; set; }
         public List<UserBadge> UserBadge { get; set; }
-        public List<Post> Posts { get; set; }
     }
 }

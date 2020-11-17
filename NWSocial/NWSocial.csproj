@@ -27,4 +27,5 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
   </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 </Project>
