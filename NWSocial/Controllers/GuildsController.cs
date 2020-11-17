@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using NWSocial.Data;
 using NWSocial.Dtos;
 using NWSocial.Dtos.UserGuildRequestDtos;
@@ -33,8 +36,10 @@ namespace NWSocial.Controllers
 
         //GET api/guilds
         [HttpGet]
+        [Authorize]
         public ActionResult<IEnumerable<GuildReadDto>> GetAllGuilds(string filter, int? indexPage, int? numberPerPage)
         {
+            Console.WriteLine(this.User.Identity.Name);
             var guildItems = _repository.GetAllGuilds(filter, indexPage, numberPerPage);
             return Ok(_mapper.Map<List<GuildReadDto>>(guildItems));
         }

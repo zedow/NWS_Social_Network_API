@@ -7,23 +7,26 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NWSocial.Data;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using NWSocial.Data;
 using NWSocial.Models;
 
 namespace NWSocial
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         //private string _moviesApiKey = null; // secretKey step 1
         //private string _connection = null;   // login secretKey step 2
         
@@ -64,9 +67,13 @@ namespace NWSocial
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<INWSRepo, SqlNWSRepo>();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<NWSContext>()  
+                .AddDefaultTokenProviders();  
             services.AddAuthentication(options =>
             {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = GoogleDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
             })
             .AddCookie(options =>
             {
@@ -81,6 +88,14 @@ namespace NWSocial
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api doc", Version = "v1" });
             });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -93,6 +108,8 @@ namespace NWSocial
 
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseSwagger();
 

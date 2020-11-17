@@ -4,11 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NWSocial.Migrations
 {
-<<<<<<< HEAD:NWSocial/Migrations/20201112165732_FirstMigration.cs
     public partial class FirstMigration : Migration
-=======
-    public partial class NewProjectModelMigration : Migration
->>>>>>> 99fa8adf2ec66c85760730da27095616199f2040:NWSocial/Migrations/20201112223008_NewProjectModelMigration.cs
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,31 +24,14 @@ namespace NWSocial.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Users",
-<<<<<<< HEAD:NWSocial/Migrations/20201112165732_FirstMigration.cs
-=======
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Posts",
->>>>>>> 99fa8adf2ec66c85760730da27095616199f2040:NWSocial/Migrations/20201112223008_NewProjectModelMigration.cs
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-<<<<<<< HEAD:NWSocial/Migrations/20201112165732_FirstMigration.cs
                     Name = table.Column<string>(nullable: true),
                     Lastname = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    GoogleId = table.Column<string>(nullable: true)
+                    GoogleId = table.Column<uint>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,7 +40,10 @@ namespace NWSocial.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Posts",
-=======
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(nullable: false),
                     Text = table.Column<string>(nullable: false),
                     GuildId = table.Column<int>(nullable: true)
@@ -79,34 +61,22 @@ namespace NWSocial.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Projects",
->>>>>>> 99fa8adf2ec66c85760730da27095616199f2040:NWSocial/Migrations/20201112223008_NewProjectModelMigration.cs
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-<<<<<<< HEAD:NWSocial/Migrations/20201112165732_FirstMigration.cs
-                    Title = table.Column<string>(nullable: false),
-                    Text = table.Column<string>(nullable: false),
-=======
                     Name = table.Column<string>(maxLength: 255, nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
                     DeadLine = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     isClosed = table.Column<bool>(nullable: false),
->>>>>>> 99fa8adf2ec66c85760730da27095616199f2040:NWSocial/Migrations/20201112223008_NewProjectModelMigration.cs
                     GuildId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-<<<<<<< HEAD:NWSocial/Migrations/20201112165732_FirstMigration.cs
-                    table.PrimaryKey("PK_Posts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Posts_Guilds_GuildId",
-=======
                     table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Projects_Guilds_GuildId",
->>>>>>> 99fa8adf2ec66c85760730da27095616199f2040:NWSocial/Migrations/20201112223008_NewProjectModelMigration.cs
                         column: x => x.GuildId,
                         principalTable: "Guilds",
                         principalColumn: "Id",
@@ -176,11 +146,6 @@ namespace NWSocial.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_GuildId",
                 table: "Projects",
-                column: "GuildId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_GuildId",
-                table: "Posts",
                 column: "GuildId");
 
             migrationBuilder.CreateIndex(
