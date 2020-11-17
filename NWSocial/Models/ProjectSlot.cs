@@ -17,9 +17,4 @@ namespace NWSocial.Models
         public ProjectMember ProjectMember { get; set; }
         public List<ProjectRequest> ProjectRequests { get; set; }
     }
-
-    public class ProjectSlotStatus : ProjectSlot
-    {
-        public User TakenBy { get; set; }
-    }
 }
