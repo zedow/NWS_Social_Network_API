@@ -104,8 +104,6 @@ namespace NWSocial.Controllers
             return NoContent();
         }
 
-        // BETA ROUTE TO TEST
-
         [HttpGet("{projectId}/slots")]
         public ActionResult<IEnumerable<ProjectSlotReadDto>> GetProjectSlots(int projectId)
         {
