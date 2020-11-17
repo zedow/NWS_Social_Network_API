@@ -21,7 +21,7 @@ namespace NWSocial.Seed
                         Description = "Random description of random project",
                         DeadLine = new DateTime(),
                         Date = new DateTime(),
-                        isClosed = false,
+                        IsPrivate = false,
                         GuildId = null
                     },
                     new Project
@@ -31,7 +31,7 @@ namespace NWSocial.Seed
                         Description = "Random description of random project",
                         DeadLine = new DateTime(),
                         Date = new DateTime(),
-                        isClosed = false,
+                        IsPrivate = false,
                         GuildId = 1
                     },
                     new Project
@@ -41,7 +41,7 @@ namespace NWSocial.Seed
                         Description = "Random description of random project",
                         DeadLine = new DateTime(),
                         Date = new DateTime(),
-                        isClosed = false,
+                        IsPrivate = true,
                         GuildId = 1
                     },
                     new Project
@@ -51,7 +51,7 @@ namespace NWSocial.Seed
                         Description = "Random description of random project",
                         DeadLine = new DateTime(),
                         Date = new DateTime(),
-                        isClosed = false,
+                        IsPrivate = true,
                         GuildId = null
                     }
                 );

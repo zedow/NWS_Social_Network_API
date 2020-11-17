@@ -87,7 +87,7 @@ namespace NWSocial.Migrations
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
                         .HasMaxLength(255);
 
-                    b.Property<bool>("isClosed")
+                    b.Property<bool>("isPrivate")
                         .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");

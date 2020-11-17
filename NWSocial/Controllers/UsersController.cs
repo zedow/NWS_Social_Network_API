@@ -50,9 +50,9 @@ namespace NWSocial.Controllers
         }
 
         [HttpGet("{id}/projects")]
-        public ActionResult<IEnumerable<ProjectReadDto>> GetUserProjects(int id, string filter, string role, bool? isClosed, int? guildId, [FromBody] Pagination pagination)
+        public ActionResult<IEnumerable<ProjectReadDto>> GetUserProjects(int id, string filter, string role, bool? isPrivate, int? guildId, [FromBody] Pagination pagination)
         {
-            var list = _repository.GetUserProjects(id, filter, role, isClosed, guildId, pagination);
+            var list = _repository.GetUserProjects(id, filter, role, isPrivate, guildId, pagination);
             return Ok(_mapper.Map<IEnumerable<ProjectReadDto>>(list));
         }
     }

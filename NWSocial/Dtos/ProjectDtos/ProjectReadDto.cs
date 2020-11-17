@@ -12,6 +12,6 @@ namespace NWSocial.Dtos.ProjectDtos
         public DateTime Date { get; set; }
         public DateTime? DeadLine { get; set; }
         public string Description { get; set; }
-        public bool isClosed { get; set; }
+        public bool IsPrivate { get; set; }
     }
 }

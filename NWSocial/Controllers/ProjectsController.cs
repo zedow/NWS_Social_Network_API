@@ -28,10 +28,11 @@ namespace NWSocial.Controllers
             _mapper = mapper;
         }
 
+        // A faire : variante pour récupérer les projets où un utilisateur est accepté dans un slot
         [HttpGet]
-        public ActionResult<IEnumerable<ProjectReadDto>> GetProjects(string filter, string role, int? guildId,[FromBody] Pagination pagination)
+        public ActionResult<IEnumerable<ProjectReadDto>> GetProjects(string filter, string role, bool? isPrivate, int? guildId,[FromBody] Pagination pagination)
         {
-            var list = _repo.GetProjects(filter, role, guildId, pagination);
+            var list = _repo.GetProjects(filter, role, isPrivate, guildId, pagination);
             return Ok(_mapper.Map<IEnumerable<ProjectReadDto>>(list));
         }
 
@@ -46,6 +47,7 @@ namespace NWSocial.Controllers
             return (_mapper.Map<ProjectReadDto>(project));
         }
 
+        // Où est l'ajout d'un projet de guilde ? + voir pour gérer la valeur par défaut de IsPrivate
         [HttpPost]  
         public ActionResult<ProjectReadDto> AddProject(ProjectCreateDto newProject)
         {
