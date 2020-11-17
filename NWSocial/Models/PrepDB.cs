@@ -67,6 +67,7 @@ namespace NWSocial.Models
             if(!context.Users.Any())
             {
                 context.Users.Add(new User { Name = "User test" });
+                context.SaveChanges();
             }
             if(!context.Posts.Any())
             {
@@ -121,6 +122,7 @@ namespace NWSocial.Models
                         UserId = 1
                     }
                 );
+                context.SaveChanges();
             }
             if(!context.Projects.Any())
             {
@@ -166,6 +168,7 @@ namespace NWSocial.Models
                         GuildId = null
                     }
                 );
+                context.SaveChanges();
                 context.ProjectSlots.AddRange(
                     new ProjectSlot
                     {
@@ -188,6 +191,7 @@ namespace NWSocial.Models
                         Role = "Chef de projet",
                     }
                 );
+                context.SaveChanges();
                 context.ProjectMembers.AddRange(
                    new ProjectMember
                    {
