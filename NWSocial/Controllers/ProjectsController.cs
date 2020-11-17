@@ -12,6 +12,7 @@ using NWSocial.Dtos.ProjectSlotDtos;
 using NWSocial.Dtos.ProjectRequestDtos;
 using Microsoft.AspNetCore.JsonPatch;
 using NWSocial.Classes;
+using Microsoft.AspNetCore.Http;
 
 namespace NWSocial.Controllers
 {
@@ -27,15 +28,29 @@ namespace NWSocial.Controllers
             _repo = repository;
             _mapper = mapper;
         }
-
+        /// <summary>
+        /// Retourne une liste de projets avec possibilité de paginer et filtrer
+        /// </summary>
+        /// <returns>Une liste de projets</returns>
+        /// <response code="200">Retourne la liste des projects</response>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<ProjectReadDto>> GetProjects(string filter, string role, int? guildId,[FromBody] Pagination pagination)
         {
             var list = _repo.GetProjects(filter, role, guildId, pagination);
             return Ok(_mapper.Map<IEnumerable<ProjectReadDto>>(list));
         }
 
+        /// <summary>
+        /// Retourne un projet selon son Id
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns>Un projet</returns>
+        /// <response code="200">Retourne le projet</response>
+        /// <response code="404">Si l'objet ayant l'id en paramètre n'existe pas</response>
         [HttpGet("{projectId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<ProjectReadDto> GetProject(int projectId)
         {
             var project = _repo.GetProject(projectId);
@@ -46,7 +61,16 @@ namespace NWSocial.Controllers
             return (_mapper.Map<ProjectReadDto>(project));
         }
 
-        [HttpPost]  
+        /// <summary>
+        /// Créer un nouveau projet ajoute le créateur en tant que membre "Chef de projet" au projet
+        /// </summary>
+        /// <param name="newProject"></param>
+        /// <returns>Le nouveau projet créé</returns>
+        /// <response code="201">Le nouveau projet créé</response>
+        /// <response code="400">Si le projet est null</response>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<ProjectReadDto> AddProject(ProjectCreateDto newProject)
         {
             var project = _mapper.Map<Project>(newProject);
@@ -129,7 +153,9 @@ namespace NWSocial.Controllers
             _repo.SaveChanges();
             return Ok( _mapper.Map<ProjectRequestAfterCreationReadDto>(pr));
         }
-
+        /// <summary>
+        /// Permet de modifier le status d'une requête 
+        /// </summary>
         [HttpPatch("{projectId}/slots/{slotId}/requests/{userId}")]
         public ActionResult UpdateRequestStatus(int projectId,int slotId, int userId, JsonPatchDocument<ProjectRequestUpdateDto> patchDocument)
         {
