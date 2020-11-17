@@ -1,14 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NWSocial.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using NWSocial.Data;
+using NWSocial.Models;
 
 namespace NWSocial.Data
 {
-    public class NWSContext : DbContext
+    public class NWSContext : IdentityDbContext<User,Role,int>
     {
         public NWSContext(DbContextOptions<NWSContext> options) : base(options)
         {
@@ -16,7 +19,6 @@ namespace NWSocial.Data
         }
 
         public DbSet<Guild> Guilds { get; set; }
-        public DbSet<User> Users { get; set; }
 
         public DbSet<Post> Posts { get; set; }
 
@@ -70,6 +72,8 @@ namespace NWSocial.Data
                 .HasOne(t => t.User)
                 .WithMany(pm => pm.ProjectMembers)
                 .HasForeignKey(t => t.UserId);
+            
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

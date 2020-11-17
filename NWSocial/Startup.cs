@@ -67,9 +67,10 @@ namespace NWSocial
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<INWSRepo, SqlNWSRepo>();
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<NWSContext>()  
                 .AddDefaultTokenProviders();  
+            services.AddScoped<RoleManager<Role>>();
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = GoogleDefaults.AuthenticationScheme;
@@ -81,6 +82,7 @@ namespace NWSocial
             })
             .AddGoogle(options =>
             {
+                IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
                 options.ClientId = "849948674332-1t1q6vl9qp06h8k2cjv20leup1j1v6go.apps.googleusercontent.com";
                 options.ClientSecret = "ZL3AZ7QtsBoK-jOUqkMdaZcy";
             });
