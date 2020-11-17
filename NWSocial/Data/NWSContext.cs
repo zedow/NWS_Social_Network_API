@@ -17,11 +17,8 @@ namespace NWSocial.Data
 
         public DbSet<Guild> Guilds { get; set; }
         public DbSet<User> Users { get; set; }
-
         public DbSet<Post> Posts { get; set; }
-
         public DbSet<UserGuild> UserGuilds { get; set; }
-
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectMember> ProjectMembers { get; set; }
         public DbSet<ProjectSlot> ProjectSlots { get; set; }
