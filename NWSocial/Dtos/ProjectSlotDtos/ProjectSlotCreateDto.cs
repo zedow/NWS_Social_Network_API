@@ -7,6 +7,7 @@ namespace NWSocial.Dtos.ProjectSlotDtos
 {
     public class ProjectSlotCreateDto
     {
+        public int ProjectId { get; set; }
         public string Role { get; set; }
     }
 }

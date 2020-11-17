@@ -4,13 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NWSocial.Classes;
 
 namespace NWSocial.Data
 {
     public interface INWSRepo
     {
         bool SaveChanges();
-        IEnumerable<Guild> GetAllGuilds(string filter, int? indexPage, int? numberPerPage = 10);
+        IEnumerable<Guild> GetAllGuilds(string filter, Pagination pagination);
         Guild GetGuildById(int id);
         void CreateGuild(Guild guild);
         void UpdateGuild(Guild guild);
@@ -20,13 +21,13 @@ namespace NWSocial.Data
         User GetUserById(int id);
 
         // Posts
-        IEnumerable<Post> GetAllPosts(string filter, int? idGuild, int? indexPage, int? numberPerPage = 10);
+        IEnumerable<Post> GetAllPosts(string filter, int? idGuild, Pagination pagination);
         Post GetPostById(int id);
         void CreatePost(Post post);
         void UpdatePost(Post post);
         void DeletePost(Post post);
 
-        IEnumerable<Post> GetUserPosts(int id, string filter, int? indexPage, int? numberPerPage);
+        IEnumerable<Post> GetUserPosts(int id, string filter, Pagination pagination);
 
         //UserGuild
         IEnumerable<UserGuild> GetGuildUsers(int idGuild);
@@ -39,11 +40,11 @@ namespace NWSocial.Data
         // Projects functions
 
         // Sylvio
-        IEnumerable<Project> GetProjects(string filter, string role, int? guildId, int? indexPage, int? numberPerPage = 10);
+        IEnumerable<Project> GetProjects(string filter, string role, int? guildId, Pagination pagination);
 
         // Valentin
         IEnumerable<ProjectMember> GetProjectMembers(int projectId);
-        IEnumerable<Project> GetUserProjects(int userId, string filter, string role, bool? isClosed, int? guildId, int? indexPage, int? numberPerPage = 10);
+        IEnumerable<Project> GetUserProjects(int userId, string filter, string role, bool? isClosed, int? guildId, Pagination pagination);
 
         // Sylvio
         void AddProject(Project project);

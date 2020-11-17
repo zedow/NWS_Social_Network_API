@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NWSocial.Dtos.ProjectDtos;
+using NWSocial.Classes;
 
 namespace NWSocial.Data
 {
@@ -36,17 +37,14 @@ namespace NWSocial.Data
             _context.Guilds.Remove(guild);
         }
 
-        public IEnumerable<Guild> GetAllGuilds(string filter, int? indexPage, int? numberPerPage = 10)
+        public IEnumerable<Guild> GetAllGuilds(string filter, Pagination pagination)
         {
             IQueryable<Guild> guilds = _context.Guilds;
             if (filter != null)
             {
                 guilds = guilds.Where(g => g.Name.Contains(filter) || g.Description.Contains(filter));
             }
-            if (indexPage.HasValue)
-            {
-                guilds = guilds.Skip((indexPage.Value - 1) * numberPerPage.Value).Take(numberPerPage.Value);
-            }
+            guilds.Paginate(pagination);
             return (guilds.ToList());
         }
 
@@ -123,7 +121,7 @@ namespace NWSocial.Data
             // 
         }
 
-        public IEnumerable<Post> GetAllPosts(string filter, int? guildId, int? indexPage, int? numberPerPage = 10)
+        public IEnumerable<Post> GetAllPosts(string filter, int? guildId, Pagination pagination)
         {
             IQueryable<Post> posts;
             if (guildId.HasValue)
@@ -138,10 +136,7 @@ namespace NWSocial.Data
             {
                 posts = posts.Where(p => p.Title.Contains(filter) || p.Text.Contains(filter));
             }
-            if (indexPage.HasValue)
-            {
-                posts = posts.Skip((indexPage.Value - 1) * numberPerPage.Value).Take(numberPerPage.Value);
-            }
+            posts.Paginate(pagination);
             return (posts.ToList());
         }
 
@@ -180,21 +175,18 @@ namespace NWSocial.Data
             // Exemple : Si le nom du poste est à update dans une table archive
         }
 
-        public IEnumerable<Post> GetUserPosts(int id, string filter, int? indexPage, int? numberPerPage)
+        public IEnumerable<Post> GetUserPosts(int id, string filter, Pagination pagination)
         {
             var posts = _context.Posts.Where(p => p.UserId == id);
             if(filter != null)
             {
                 posts = posts.Where(p => p.Title.Contains(filter) || p.Text.Contains(filter));
             }
-            if(indexPage.HasValue)
-            {
-                posts = posts.Skip((indexPage.Value - 1) * numberPerPage.Value).Take(numberPerPage.Value);
-            }
+            posts.Paginate(pagination);
             return posts.ToList();
         }
         // Projects functions
-        public IEnumerable<Project> GetProjects(string filter, string role, int? guildId, int? indexPage, int? numberPerPage = 10)
+        public IEnumerable<Project> GetProjects(string filter, string role, int? guildId, Pagination pagination)
         {
             IQueryable<Project> projects;
             if (guildId.HasValue)
@@ -229,10 +221,7 @@ namespace NWSocial.Data
                                 GuildId = joinResult.GuildId
                             });
             }
-            if (indexPage.HasValue)
-            {
-                projects = projects.Skip((indexPage.Value - 1) * numberPerPage.Value).Take(numberPerPage.Value);
-            }
+            projects.Paginate(pagination);
             return (projects.ToList());
         }
 
@@ -264,7 +253,7 @@ namespace NWSocial.Data
         }
 
         // Permet de trier (par Nom, Description, ou rôle dans le projet), project clos ou non, projet d'une guilde, et pagination
-        public IEnumerable<Project> GetUserProjects(int userId, string filter,string role,bool? isClosed, int ? guildId, int? indexPage, int? numberPerPage = 10)
+        public IEnumerable<Project> GetUserProjects(int userId, string filter,string role,bool? isClosed, int ? guildId, Pagination pagination)
         {
             var model = (
                     from pm in _context.ProjectMembers
@@ -298,10 +287,7 @@ namespace NWSocial.Data
             {
                 model.Where(jr => jr.GuildId == guildId);
             }
-            if(indexPage.HasValue)
-            {
-                model.Skip((indexPage.Value - 1) * numberPerPage.Value).Take(numberPerPage.Value);
-            }
+            model.Paginate(pagination);
             return model.ToList();
         }
 

@@ -7,6 +7,7 @@ using NWSocial.Data;
 using NWSocial.Dtos;
 using NWSocial.Dtos.UserGuildRequestDtos;
 using NWSocial.Models;
+using NWSocial.Classes;
 
 namespace NWSocial.Controllers
 {
@@ -33,9 +34,9 @@ namespace NWSocial.Controllers
 
         //GET api/guilds
         [HttpGet]
-        public ActionResult<IEnumerable<GuildReadDto>> GetAllGuilds(string filter, int? indexPage, int? numberPerPage)
+        public ActionResult<IEnumerable<GuildReadDto>> GetAllGuilds(string filter, [FromBody] Pagination pagination)
         {
-            var guildItems = _repository.GetAllGuilds(filter, indexPage, numberPerPage);
+            var guildItems = _repository.GetAllGuilds(filter, pagination);
             return Ok(_mapper.Map<List<GuildReadDto>>(guildItems));
         }
 
@@ -178,9 +179,9 @@ namespace NWSocial.Controllers
             return NoContent();
         }
         [HttpGet("{id}/posts")]
-        public ActionResult<List<Post>> GuildPosts(int id,string filter,int? indexPage, int? numberPerPage)
+        public ActionResult<List<Post>> GuildPosts(int id,string filter, [FromBody] Pagination pagination)
         {
-            return Ok(_repository.GetAllPosts(filter, id, indexPage,numberPerPage).ToList());
+            return Ok(_repository.GetAllPosts(filter, id, pagination).ToList());
         }
     }
 }
