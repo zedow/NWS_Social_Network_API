@@ -22,12 +22,12 @@ namespace NWSocial.Controllers
             _mapper = mapper;
         }
 
-        ////GET api/badges
-        //[HttpGet]
-        //public ActionResult<IEnumerable<BadgeReadDto>> GetAllBadges(string filter, int? indexPage, int? numberPerPage)
-        //{
-        //    var badgeItems = _repository.GetAllBadges(filter, null, indexPage, numberPerPage);
-        //    return Ok(_mapper.Map<IEnumerable<BadgeReadDto>>(badgeItems));
-        //}
+        //GET api/badges
+        [HttpGet]
+        public ActionResult<IEnumerable<BadgeReadDto>> GetAllBadges(string filter)
+        {
+            var badgeItems = _repository.GetAllBadges(filter);
+            return Ok(_mapper.Map<IEnumerable<BadgeReadDto>>(badgeItems));
+        }
     }
 }
