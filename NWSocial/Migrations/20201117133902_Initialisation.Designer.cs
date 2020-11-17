@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NWSocial.Data;
 
 namespace NWSocial.Migrations
 {
     [DbContext(typeof(NWSContext))]
-    partial class NWSContextModelSnapshot : ModelSnapshot
+    [Migration("20201117133902_Initialisation")]
+    partial class Initialisation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

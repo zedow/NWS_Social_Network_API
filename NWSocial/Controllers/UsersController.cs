@@ -41,6 +41,16 @@ namespace NWSocial.Controllers
             return Ok(guildList);
         }
 
+        //Userbadge relation
+
+       [HttpGet("{userId}/badges")]
+        public ActionResult<List<BadgeReadDto>> GetUserBadges(int userId)
+        {
+            var list = _repository.GetUserBadges(userId);
+            return Ok(_mapper.Map<IEnumerable<BadgeReadDto>>(list));
+        }
+
+
         [HttpGet("{id}/posts")]
         public ActionResult<IEnumerable<PostReadDto>> GetUserPosts(int id, string filter, int? indexPage, int? numberPerPage)
         {

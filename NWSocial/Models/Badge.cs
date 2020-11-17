@@ -14,6 +14,7 @@ namespace NWSocial.Models
         public string Name { get; set; }
         [Required]
         public string Caption { get; set; }
-        public List<UserBadge> UserBadge { get; set; }
+        public UserBadge UserBadge { get; set; }
+        public List<UserBadge> UserBadges { get; set; }
     }
 }

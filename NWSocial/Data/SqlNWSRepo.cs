@@ -305,6 +305,26 @@ namespace NWSocial.Data
             return model.ToList();
         }
 
+        public IEnumerable<Badge> GetUserBadges(int userId)
+        {
+            var model = (
+                from b in _context.Badges
+                join ub in _context.UserBadges.DefaultIfEmpty() on b.Id equals ub.BadgeId into UserBadgeJoin
+
+                from ub in UserBadgeJoin.DefaultIfEmpty()
+                join u in _context.Users.DefaultIfEmpty() on ub.UserId equals u.Id into userJoin
+
+                from userJoinResult in userJoin.DefaultIfEmpty()
+                select new Badge
+                {
+                    Id = b.Id,
+                    Name = b.Name,
+                    Caption = b.Caption,
+                    UserBadge = new UserBadge { User = userJoinResult },
+                }).Where(ps => ps.Id == userId);
+            return model.ToList();
+        }
+
         public Project GetProject(int projectId)
         {
             return _context.Projects.FirstOrDefault(p => p.Id == projectId);

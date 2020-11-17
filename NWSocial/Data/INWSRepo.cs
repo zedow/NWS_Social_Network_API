@@ -64,5 +64,7 @@ namespace NWSocial.Data
         IEnumerable<ProjectRequest> GetProjectSlotRequests(int slotId);
         ProjectRequest GetProjectRequest(int userId, int slotId);
         void UpdateProjectRequest(ProjectRequest pr,int projectId);
+
+        IEnumerable<Badge> GetUserBadges(int userId);
     }
 }
