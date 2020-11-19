@@ -186,7 +186,7 @@ namespace NWSocial.Data
             return posts.ToList();
         }
         // Projects functions
-        public IEnumerable<Project> GetProjects(string filter, string role, int? guildId, Pagination pagination)
+        public IEnumerable<Project> GetProjects(string filter, string role, bool? isClosed, int? guildId, Pagination pagination)
         {
             IQueryable<Project> projects;
             if (guildId.HasValue)
@@ -197,6 +197,7 @@ namespace NWSocial.Data
             {
                 projects = _context.Projects.Where(g => g.GuildId == null);
             }
+            projects.IsClosed(isClosed);
             if (filter != null)
             {
                 projects = projects.Where(p => p.Name.Contains(filter) || p.Description.Contains(filter));
@@ -279,11 +280,8 @@ namespace NWSocial.Data
             {
                 model.Where(jr => jr.Name.Contains(filter) ||  jr.Description.Contains(filter));
             }
-            if(isClosed.HasValue)
-            {
-                model.Where(jr => jr.isClosed == isClosed);
-            }
-            if(guildId.HasValue)
+            model.IsClosed(isClosed);
+            if (guildId.HasValue)
             {
                 model.Where(jr => jr.GuildId == guildId);
             }
