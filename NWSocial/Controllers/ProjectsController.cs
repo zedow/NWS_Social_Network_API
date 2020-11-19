@@ -37,9 +37,9 @@ namespace NWSocial.Controllers
         /// <response code="200">Retourne la liste des projects</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<ProjectReadDto>> GetProjects(PProjectFiltering filtering, [FromBody] Pagination pagination)
+        public ActionResult<IEnumerable<ProjectReadDto>> GetProjects([FromBody] PProjectList payload)
         {
-            var list = _repo.GetProjects(filtering.Filter, filtering.Role,filtering.IsClosed, filtering.GuildId, pagination);
+            var list = _repo.GetProjects(payload.Filter.Filter, payload.Filter.Role, payload.Filter.IsClosed, payload.Filter.GuildId, payload.Pagination);
             return Ok(_mapper.Map<IEnumerable<ProjectReadDto>>(list));
         }
 
@@ -184,7 +184,7 @@ namespace NWSocial.Controllers
         }
 
         /// <summary>
-        /// Permet de modifier le status d'une requête 
+        /// Permet de modifier le statut d'une requête 
         /// </summary>
         /// <returns>Aucun contenu</returns>
         /// <response code="404">Si la request n'existe pas</response>
@@ -192,21 +192,21 @@ namespace NWSocial.Controllers
         [HttpPatch("requests")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult UpdateRequestStatus([FromBody] PProjectRequest pProjectRequest, JsonPatchDocument<ProjectRequestUpdateDto> patchDocument)
+        public ActionResult UpdateRequestStatus([FromBody] PProjectRequest payload)
         {
-            var modelFromRepo = _repo.GetProjectRequest(pProjectRequest.UserId, pProjectRequest.SlotId);
+            var modelFromRepo = _repo.GetProjectRequest(payload.UserId, payload.SlotId);
             if (modelFromRepo == null)
             {
                 return NotFound();
             }
             var prToPatch = _mapper.Map<ProjectRequestUpdateDto>(modelFromRepo);
-            patchDocument.ApplyTo(prToPatch, ModelState);
+            payload.PatchDocument.ApplyTo(prToPatch, ModelState);
             if (!TryValidateModel(prToPatch))
             {
                 return ValidationProblem(ModelState);
             }
             _mapper.Map(prToPatch, modelFromRepo);
-            _repo.UpdateProjectRequest(modelFromRepo, pProjectRequest.ProjectId);
+            _repo.UpdateProjectRequest(modelFromRepo, payload.ProjectId);
             _repo.SaveChanges();
             return NoContent();
         }
