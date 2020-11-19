@@ -10,6 +10,7 @@ using NWSocial.Models;
 using NWSocial.Dtos.ProjectDtos;
 using NWSocial.Dtos;
 using NWSocial.Classes;
+using NWSocial.Payloads;
 
 namespace NWSocial.Controllers
 {
@@ -50,9 +51,9 @@ namespace NWSocial.Controllers
         }
 
         [HttpGet("{id}/projects")]
-        public ActionResult<IEnumerable<ProjectReadDto>> GetUserProjects(int id, string filter, string role, bool? isClosed, int? guildId, [FromBody] Pagination pagination)
+        public ActionResult<IEnumerable<ProjectReadDto>> GetUserProjects(int id, [FromBody] PProjectFiltering filtering, [FromBody] Pagination pagination)
         {
-            var list = _repository.GetUserProjects(id, filter, role, isClosed, guildId, pagination);
+            var list = _repository.GetUserProjects(id, filtering.Filter, filtering.Role, filtering.IsClosed, filtering.GuildId, pagination);
             return Ok(_mapper.Map<IEnumerable<ProjectReadDto>>(list));
         }
     }

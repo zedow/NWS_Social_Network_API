@@ -13,6 +13,7 @@ using NWSocial.Dtos.ProjectRequestDtos;
 using Microsoft.AspNetCore.JsonPatch;
 using NWSocial.Classes;
 using Microsoft.AspNetCore.Http;
+using NWSocial.Payloads;
 
 namespace NWSocial.Controllers
 {
@@ -28,6 +29,7 @@ namespace NWSocial.Controllers
             _repo = repository;
             _mapper = mapper;
         }
+
         /// <summary>
         /// Retourne une liste de projets avec possibilité de paginer et filtrer
         /// </summary>
@@ -35,9 +37,9 @@ namespace NWSocial.Controllers
         /// <response code="200">Retourne la liste des projects</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<ProjectReadDto>> GetProjects(string filter, string role, int? guildId,[FromBody] Pagination pagination)
+        public ActionResult<IEnumerable<ProjectReadDto>> GetProjects(PProjectFiltering filtering, [FromBody] Pagination pagination)
         {
-            var list = _repo.GetProjects(filter, role, guildId, pagination);
+            var list = _repo.GetProjects(filtering.Filter, filtering.Role,filtering.IsClosed, filtering.GuildId, pagination);
             return Ok(_mapper.Map<IEnumerable<ProjectReadDto>>(list));
         }
 
@@ -83,7 +85,15 @@ namespace NWSocial.Controllers
             return Ok(_mapper.Map<ProjectReadDto>(project));
         }
 
+        /// <summary>
+        /// Supprime un projet ayant l'id fourni en paramètre
+        /// </summary>
+        /// <returns>Aucun contenu</returns>
+        /// <response code="404">Si l'id fourni ne correspond à aucun projet</response>
+        /// <response code="204">Si le projet a été supprimé</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult RemoveProject(int id)
         {
             var project = _repo.GetProject(id);
@@ -96,31 +106,31 @@ namespace NWSocial.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Retourne la liste des membres d'un projet selon son Id
+        /// </summary>
+        /// <returns>Une liste de membre</returns>
+        /// <response code="200">La liste des données mappées</response>
         [HttpGet("{id}/members")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<ProjectMemberReadDto>> GetProjectMembers(int id)
         {
             var list = _repo.GetProjectMembers(id);
             return Ok(_mapper.Map<IEnumerable<ProjectMemberReadDto>>(list));
         }
 
-        /*
-         * DEPRECATED
-         * DONT USE
-        [HttpPost("{id}/members")]
-        public ActionResult<ProjectMemberReadDto> AddProjectMember(int id, ProjectMemberCreateDto newPm)
+        /// <summary>
+        /// Supprimer un membre d'un projet
+        /// </summary>
+        /// <returns>Aucun contenu</returns>
+        /// <response code="404">Si le projet n'a pas été trouvé</response>
+        /// <response code="204">Si le membre du projet a été supprimé avec succès</response>
+        [HttpDelete("members")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public ActionResult RemoveProjectMember([FromBody] PProjectMember projectMember)
         {
-            var pm = _mapper.Map<ProjectMember>(newPm);
-            pm.ProjectId = id;
-            _repo.AddProjectMember(pm);
-            _repo.SaveChanges();
-            return Ok(_mapper.Map<ProjectMemberReadDto>(pm));
-        }
-        */
-
-        [HttpDelete("{projectId}/members/{userId}")]
-        public ActionResult RemoveProjectMember(int projectId, int userId)
-        {
-            var pm = _repo.GetProjectMember(projectId, userId);
+            var pm = _repo.GetProjectMember(projectMember.ProjectId, projectMember.UserId);
             if(pm == null)
             {
                 return NotFound();
@@ -128,15 +138,28 @@ namespace NWSocial.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Retourne la liste des slots d'un projet
+        /// </summary>
+        /// <returns>Une liste de slot</returns>
+        /// <response code="200">La liste des données mappées</response>
         [HttpGet("{projectId}/slots")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<ProjectSlotReadDto>> GetProjectSlots(int projectId)
         {
             var list = _repo.GetProjectSlots(projectId);
             return Ok(_mapper.Map<IEnumerable<ProjectSlotReadDto>>(list));
         }
 
+        /// <summary>
+        /// Ajoute plusieurs slots à un projet
+        /// </summary>
+        /// <param name="newSlots">Un json array de slotCreateDtos</param>
+        /// <returns>Les nouveaux slots créés</returns>
+        /// <response code="200">La liste des données mappées</response>
         [HttpPost("slots")]
-        public ActionResult<ProjectSlotReadDto> AddProjectSlot([FromBody]  IEnumerable<ProjectSlotCreateDto> newSlots)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<ProjectSlotReadDto> AddProjectSlots([FromBody]  IEnumerable<ProjectSlotCreateDto> newSlots)
         {
             var slots = _mapper.Map<IEnumerable<ProjectSlot>>(newSlots);
             _repo.AddProjectSlots(slots);
@@ -144,7 +167,13 @@ namespace NWSocial.Controllers
             return Ok(_mapper.Map<IEnumerable<ProjectSlotReadDto>>(slots));
         }
 
+        /// <summary>
+        /// Ajoute une request sur un slot de projet
+        /// </summary>
+        /// <returns>La request créée</returns>
+        /// <response code="200">Le nouvel objet mappé</response>
         [HttpPost("requests")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<ProjectRequestAfterCreationReadDto> AddProjectRequest(ProjectRequestCreateDto newProjectRequest)
         {
             var pr = _mapper.Map<ProjectRequest>(newProjectRequest);
@@ -153,13 +182,19 @@ namespace NWSocial.Controllers
             _repo.SaveChanges();
             return Ok( _mapper.Map<ProjectRequestAfterCreationReadDto>(pr));
         }
+
         /// <summary>
         /// Permet de modifier le status d'une requête 
         /// </summary>
-        [HttpPatch("{projectId}/slots/{slotId}/requests/{userId}")]
-        public ActionResult UpdateRequestStatus(int projectId,int slotId, int userId, JsonPatchDocument<ProjectRequestUpdateDto> patchDocument)
+        /// <returns>Aucun contenu</returns>
+        /// <response code="404">Si la request n'existe pas</response>
+        /// <response code="204">Si la request a été modifiée</response>
+        [HttpPatch("requests")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult UpdateRequestStatus([FromBody] PProjectRequest pProjectRequest, JsonPatchDocument<ProjectRequestUpdateDto> patchDocument)
         {
-            var modelFromRepo = _repo.GetProjectRequest(userId,slotId);
+            var modelFromRepo = _repo.GetProjectRequest(pProjectRequest.UserId, pProjectRequest.SlotId);
             if (modelFromRepo == null)
             {
                 return NotFound();
@@ -171,7 +206,7 @@ namespace NWSocial.Controllers
                 return ValidationProblem(ModelState);
             }
             _mapper.Map(prToPatch, modelFromRepo);
-            _repo.UpdateProjectRequest(modelFromRepo,projectId);
+            _repo.UpdateProjectRequest(modelFromRepo, pProjectRequest.ProjectId);
             _repo.SaveChanges();
             return NoContent();
         }

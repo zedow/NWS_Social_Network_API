@@ -40,7 +40,7 @@ namespace NWSocial.Data
         // Projects functions
 
         // Sylvio
-        IEnumerable<Project> GetProjects(string filter, string role, int? guildId, Pagination pagination);
+        IEnumerable<Project> GetProjects(string filter, string role,bool? isClosed, int? guildId, Pagination pagination);
 
         // Valentin
         IEnumerable<ProjectMember> GetProjectMembers(int projectId);
