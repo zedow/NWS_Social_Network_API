@@ -184,7 +184,7 @@ namespace NWSocial.Controllers
         }
 
         /// <summary>
-        /// Permet de modifier le status d'une requête 
+        /// Permet de modifier le statut d'une requête 
         /// </summary>
         /// <returns>Aucun contenu</returns>
         /// <response code="404">Si la request n'existe pas</response>
