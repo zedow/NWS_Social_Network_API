@@ -48,6 +48,16 @@ namespace NWSocial.Data
             return (guilds.ToList());
         }
 
+        public async Task<IEnumerable<Guild>> GetAllGuildsAsync(string filter, Pagination pagination)
+        {
+            IQueryable<Guild> query = _context.Guilds;
+            if (filter != null)
+            {
+                query = query.Where(g => g.Name.Contains(filter) || g.Description.Contains(filter));    
+            }
+            return await query.Paginate(pagination).ToListAsync();
+        }
+
         public bool SaveChanges()
         {
             return (_context.SaveChanges() >= 0);
@@ -85,10 +95,14 @@ namespace NWSocial.Data
         // Get list of users from Guild id
         public IEnumerable<UserGuild> GetGuildUsers(int idGuild)
         {
-            List<UserGuild> users = _context.UserGuilds.Include(u => u.User).Where(g => g.GuildId == idGuild).Include(ug => ug.User).ToList();
+            List<UserGuild> users = _context.UserGuilds.Where(g => g.GuildId == idGuild).Include(ug => ug.User).ToList();
             return users;
         }
 
+        public async Task<IEnumerable<UserGuild>> GetGuildMembersAsync(int guildId)
+        {
+            return await _context.UserGuilds.Include(u => u.User).Where(g => g.GuildId == guildId).ToListAsync();
+        }
         // Get list of guilds from User id
         public IEnumerable<UserGuild> GetUserGuilds(int idUser)
         {

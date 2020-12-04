@@ -6,9 +6,9 @@ using NWSocial.Classes;
 
 namespace NWSocial.Payloads
 {
-    public class PProjectList
+    public class GuildsPayload
     {
-        public PProjectFiltering Filter { get; set; }
         public Pagination Pagination { get; set; }
+        public Filter Filter { get; set; }
     }
 }

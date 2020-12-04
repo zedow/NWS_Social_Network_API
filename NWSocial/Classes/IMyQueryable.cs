@@ -10,9 +10,9 @@ namespace NWSocial.Classes
     {
         public static IQueryable<T> Paginate<T>(this IQueryable<T> obj, Pagination pagination)
         {
-            if(pagination != null)
+            if(pagination.Index.HasValue && pagination.Items.HasValue)
             {
-                return obj.Skip((pagination.IndexPage - 1) * pagination.NumberPerPage).Take(pagination.NumberPerPage);
+                return obj.Skip((pagination.Index.Value - 1) * pagination.Items.Value).Take(pagination.Items.Value);
             }
             return obj;
         }

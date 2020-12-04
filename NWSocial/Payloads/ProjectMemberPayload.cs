@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace NWSocial.Payloads
 {
-    public class PProjectMember
+    public class ProjectMemberPayload
     {
         public int ProjectId { get; set; }
         public int UserId { get; set; }

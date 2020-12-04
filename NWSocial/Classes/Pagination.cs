@@ -8,7 +8,13 @@ namespace NWSocial.Classes
 {
     public class Pagination
     {
-        public int IndexPage { get; set; }
-        public int NumberPerPage { get; set; } = 10;
+        public int? Index { get; set; }
+        public int? Items { get; set; }
+
+        public Pagination(int? index,int? items)
+        {
+            this.Index = index;
+            this.Items = items;
+        }
     }
 }

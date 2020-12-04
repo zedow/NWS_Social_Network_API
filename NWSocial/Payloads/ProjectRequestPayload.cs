@@ -7,7 +7,7 @@ using NWSocial.Dtos.ProjectRequestDtos;
 
 namespace NWSocial.Payloads
 {
-    public class PProjectRequest
+    public class ProjectRequestPayload
     {
         public int ProjectId { get; set; }
         public int UserId { get; set; }
