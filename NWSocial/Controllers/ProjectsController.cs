@@ -37,9 +37,9 @@ namespace NWSocial.Controllers
         /// <response code="200">Retourne la liste des projects</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<ProjectReadDto>> GetProjects([FromBody] PProjectList payload)
+        public ActionResult<IEnumerable<ProjectReadDto>> GetProjects([FromBody] ProjectsPayload payload)
         {
-            var list = _repo.GetProjects(payload.Filter.Filter, payload.Filter.Role, payload.Filter.IsClosed, payload.Filter.GuildId, payload.Pagination);
+            var list = _repo.GetProjects(payload.Filter.FilterValue, payload.Filter.Role, payload.Filter.IsClosed, payload.Filter.GuildId, payload.Pagination);
             return Ok(_mapper.Map<IEnumerable<ProjectReadDto>>(list));
         }
 
@@ -128,7 +128,7 @@ namespace NWSocial.Controllers
         [HttpDelete("members")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult RemoveProjectMember([FromBody] PProjectMember projectMember)
+        public ActionResult RemoveProjectMember([FromBody] ProjectMemberPayload projectMember)
         {
             var pm = _repo.GetProjectMember(projectMember.ProjectId, projectMember.UserId);
             if(pm == null)
@@ -192,7 +192,7 @@ namespace NWSocial.Controllers
         [HttpPatch("requests")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult UpdateRequestStatus([FromBody] PProjectRequest payload)
+        public ActionResult UpdateRequestStatus([FromBody] ProjectRequestPayload payload)
         {
             var modelFromRepo = _repo.GetProjectRequest(payload.UserId, payload.SlotId);
             if (modelFromRepo == null)

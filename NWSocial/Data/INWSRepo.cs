@@ -12,6 +12,8 @@ namespace NWSocial.Data
     {
         bool SaveChanges();
         IEnumerable<Guild> GetAllGuilds(string filter, Pagination pagination);
+
+        Task<IEnumerable<Guild>> GetAllGuildsAsync(string filter, Pagination pagination);
         Guild GetGuildById(int id);
         void CreateGuild(Guild guild);
         void UpdateGuild(Guild guild);
@@ -31,6 +33,7 @@ namespace NWSocial.Data
 
         //UserGuild
         IEnumerable<UserGuild> GetGuildUsers(int idGuild);
+        Task<IEnumerable<UserGuild>> GetGuildMembersAsync(int guildId);
         UserGuild GetGuildUser(int idGuild, int idUser);
         void UpdateUserGuild(UserGuild userGuild);
         IEnumerable<UserGuild> GetUserGuilds(int idUser);
