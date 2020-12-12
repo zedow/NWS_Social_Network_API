@@ -8,9 +8,7 @@ namespace NWSocial.Dtos
 {
     public class BadgeReadDto
     {
-        [Required]
         public string Name { get; set; }
-        [Required]
         public string Caption { get; set; }
     }
 }
