@@ -186,7 +186,7 @@ namespace NWSocial.Data
             return posts.ToList();
         }
         // Projects functions
-        public IEnumerable<Project> GetProjects(string filter, string role, int? guildId, Pagination pagination)
+        public IEnumerable<Project> GetProjects(string filter, string role, bool? isPrivate, int? guildId, Pagination pagination)
         {
             IQueryable<Project> projects;
             if (guildId.HasValue)
