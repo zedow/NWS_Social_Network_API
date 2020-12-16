@@ -53,7 +53,7 @@ namespace NWSocial.Controllers
         [HttpGet("{id}/projects")]
         public ActionResult<IEnumerable<ProjectReadDto>> GetUserProjects(int id, [FromBody] ProjectsPayload payload)
         {
-            var list = _repository.GetUserProjects(id, payload.Filter.FilterValue, payload.Filter.Role, payload.Filter.IsClosed, payload.Filter.GuildId, payload.Pagination);
+            var list = _repository.GetUserProjects(id, payload.Filter.FilterValue, payload.Filter.Role, payload.Filter.IsPrivate, payload.Filter.GuildId, payload.Pagination);
             return Ok(_mapper.Map<IEnumerable<ProjectReadDto>>(list));
         }
     }

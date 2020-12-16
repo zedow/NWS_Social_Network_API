@@ -8,11 +8,11 @@ namespace NWSocial.Classes
 {
     public static class MyProjectQueryable
     {
-        public static IQueryable<Project> IsClosed(this IQueryable<Project> query,bool? isClosed)
+        public static IQueryable<Project> IsPrivate(this IQueryable<Project> query,bool? isPrivate)
         {
-            if(isClosed.HasValue)
+            if(isPrivate.HasValue)
             {
-                return query.Where(p => p.isClosed == isClosed.Value);
+                return query.Where(p => p.IsPrivate == isPrivate.Value);
             }
             return query;
         }

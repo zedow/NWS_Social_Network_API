@@ -8,7 +8,7 @@ namespace NWSocial.Classes
     public class ProjectFilter : Filter
     {
         public int? GuildId { get; set; }
-        public bool? IsClosed { get; set; }
+        public bool? IsPrivate { get; set; }
         public string Role { get; set; }
     }
 }
