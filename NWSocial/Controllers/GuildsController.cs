@@ -76,7 +76,14 @@ namespace NWSocial.Controllers
             return NoContent();
         }
 
-        //PATCH api/guilds/{id}
+        /// <summary>
+        /// Permet de modifier un ou plusieurs champs d'une guild
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="patchDocument"></param>
+        /// <returns></returns>
+        /// <response code="200">Modifie les champs modifier</response>
+        /// <response code="404">Si aucune guild correspondant à l'id</response>
         [HttpPatch("{id}")]
         public ActionResult PartialGuildUpdate(int id, JsonPatchDocument<GuildUpdateDto> patchDocument)
         {
@@ -92,7 +99,13 @@ namespace NWSocial.Controllers
             return NoContent();
         }
 
-        //DELETE api/guilds/{id}
+        /// <summary>
+        /// Permet de supprimer une guild 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <response code="200">Supprime la guild et réactualise</response>
+        /// <response code="404">Si aucune guild correspondant à l'id</response>
         [HttpDelete("{id}")]
         public ActionResult DeleteGuild(int id)
         {
@@ -104,6 +117,13 @@ namespace NWSocial.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Permet d'accepter la demande d'ajout d'un user dans la guild
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="userGuildRequest"></param>
+        /// <returns></returns>
+        /// <response code="200">Rajoute le user dans la guild</response>
         [HttpPost("{id}/members")]
         public ActionResult AddUsertoGuild(int id,UserGuildCreateRequestDto userGuildRequest)
         {
@@ -118,6 +138,14 @@ namespace NWSocial.Controllers
             return Ok(_mapper.Map<UserGuildReadDto>(userGuild));
         }
 
+        /// <summary>
+        /// Permet de supprimer un user d'une guild
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="guildId"></param>
+        /// <returns></returns>
+        /// <response code="404">Si aucune guild correspondant à l'id</response>
+        /// <response code="204">Supprime un user de la guild et réactualise</response>
         [HttpDelete("{guildId}/users/{userId}")]
         public ActionResult RemoveUserFromGuild(int userId, int guildId)
         {
@@ -151,6 +179,13 @@ namespace NWSocial.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Changer le chef de guild
+        /// </summary>
+        /// <param name="OwnerArray"></param>
+        /// <returns></returns>
+        /// <response code="204">Change le chef de la guild et réactualise</response
+        /// <response code="404"></response>
         [HttpPost("[action]")]
         public ActionResult ChangeGuildOwner(ChangeGuildOwnerDto OwnerArray)
         {
@@ -169,7 +204,14 @@ namespace NWSocial.Controllers
             _repository.SaveChanges();
             return NoContent();
         }
-        
+
+
+        /// <summary>
+        ///  Permet d'accepter la demande d'un utilisateur pour rejoindre la guild 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        /// <response code="204">Accepte l'utilisateur dans la guild</response>
         [HttpPost("validate")]
         public ActionResult AcceptUser(UserGuildAcceptDto user)
         {
@@ -183,6 +225,15 @@ namespace NWSocial.Controllers
             _repository.SaveChanges();
             return NoContent();
         }
+
+        /// <summary>
+        /// Retourne la liste des posts d'une guild
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        /// <response code="200">Retourne la listes des posts</response>
+        /// <response code="404">Si aucune guild correspondant à l'id</response>
         [HttpGet("{id}/posts")]
         public ActionResult<List<Post>> GuildPosts(int id,[FromBody] GuildsPayload payload)
         {
