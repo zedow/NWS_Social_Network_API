@@ -63,7 +63,7 @@ namespace NWSocial.Controllers
             _repository.SaveChanges();
             return Ok(_mapper.Map<GuildReadDto>(guildModel));
         }
-
+     
         //PUT api/guilds/{id}
         [HttpPut("{id}")]
         public ActionResult UpdateGuild(int id, GuildUpdateDto guildDto)
@@ -77,7 +77,7 @@ namespace NWSocial.Controllers
         }
 
         /// <summary>
-        /// Permet de modifier un ou plusieurs champs d'une guild
+        /// Permet de modifier un ou plusieurs champs d'une guild 
         /// </summary>
         /// <param name="id"></param>
         /// <param name="patchDocument"></param>
