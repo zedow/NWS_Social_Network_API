@@ -10,5 +10,6 @@ namespace NWSocial.Dtos
     {
         public int Id;
         public string Name;
+        public int Role;
     }
 }

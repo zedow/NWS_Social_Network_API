@@ -13,7 +13,10 @@ namespace NWSocial.Seed
         {
             if(!context.Users.Any())
             {
-                context.Users.Add(new User { Id= 1,  Name = "User test" });
+                context.Users.Add(new User { Id= 1,  Name = "Visiteur test", Role = 1 });
+                context.Users.Add(new User { Id= 2,  Name = "Eleve test", Role = 2 });
+                context.Users.Add(new User { Id= 3,  Name = "Admin test", Role = 4 });
+                context.Users.Add(new User { Id= 4,  Name = "Moderateur test", Role = 3 });
                 context.SaveChanges();
             }
             else

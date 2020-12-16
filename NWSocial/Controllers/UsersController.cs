@@ -27,6 +27,15 @@ namespace NWSocial.Controllers
             _mapper = mapper;
         }
 
+        // GET api/users/{id}
+        [HttpGet("{id}")]
+        public ActionResult<UserReadDto> GetUserById(int id)
+        {
+            var userItem = _repository.GetUserById(id);
+            if (userItem != null) return Ok(_mapper.Map<UserReadDto>(userItem));
+            return NotFound();
+        }
+        
         // UserGuild relation
 
         [HttpGet("{userId}/guilds")]
