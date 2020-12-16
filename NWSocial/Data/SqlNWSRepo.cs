@@ -209,9 +209,14 @@ namespace NWSocial.Data
             }
             else
             {
-                projects = _context.Projects.Where(g => g.GuildId == null);
+                projects = _context.Projects;
             }
-            projects.IsPrivate(isPrivate);
+            
+            if (isPrivate.HasValue)
+            {
+                projects = _context.Projects.Where(p => p.IsPrivate == isPrivate);
+            }
+            
             if (filter != null)
             {
                 projects = projects.Where(p => p.Name.Contains(filter) || p.Description.Contains(filter));
