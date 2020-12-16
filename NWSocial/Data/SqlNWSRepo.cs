@@ -48,6 +48,16 @@ namespace NWSocial.Data
             return (guilds.ToList());
         }
 
+        public async Task<IEnumerable<Guild>> GetAllGuildsAsync(string filter, Pagination pagination)
+        {
+            IQueryable<Guild> query = _context.Guilds;
+            if (filter != null)
+            {
+                query = query.Where(g => g.Name.Contains(filter) || g.Description.Contains(filter));    
+            }
+            return await query.Paginate(pagination).ToListAsync();
+        }
+
         public bool SaveChanges()
         {
             return (_context.SaveChanges() >= 0);
@@ -85,10 +95,14 @@ namespace NWSocial.Data
         // Get list of users from Guild id
         public IEnumerable<UserGuild> GetGuildUsers(int idGuild)
         {
-            List<UserGuild> users = _context.UserGuilds.Include(u => u.User).Where(g => g.GuildId == idGuild).Include(ug => ug.User).ToList();
+            List<UserGuild> users = _context.UserGuilds.Where(g => g.GuildId == idGuild).Include(ug => ug.User).ToList();
             return users;
         }
 
+        public async Task<IEnumerable<UserGuild>> GetGuildMembersAsync(int guildId)
+        {
+            return await _context.UserGuilds.Include(u => u.User).Where(g => g.GuildId == guildId).ToListAsync();
+        }
         // Get list of guilds from User id
         public IEnumerable<UserGuild> GetUserGuilds(int idUser)
         {
@@ -186,7 +200,7 @@ namespace NWSocial.Data
             return posts.ToList();
         }
         // Projects functions
-        public IEnumerable<Project> GetProjects(string filter, string role, bool? isPrivate, int? guildId, Pagination pagination)
+        public IEnumerable<Project> GetProjects(string filter, string role, bool? isClosed, int? guildId, Pagination pagination)
         {
             IQueryable<Project> projects;
             if (guildId.HasValue)
@@ -197,6 +211,7 @@ namespace NWSocial.Data
             {
                 projects = _context.Projects.Where(g => g.GuildId == null);
             }
+            projects.IsClosed(isClosed);
             if (filter != null)
             {
                 projects = projects.Where(p => p.Name.Contains(filter) || p.Description.Contains(filter));
@@ -217,7 +232,7 @@ namespace NWSocial.Data
                                 Description = joinResult.Description,
                                 Date = joinResult.Date,
                                 DeadLine = joinResult.DeadLine,
-                                IsPrivate = joinResult.IsPrivate,
+                                isClosed = joinResult.isClosed,
                                 GuildId = joinResult.GuildId
                             });
             }
@@ -252,9 +267,8 @@ namespace NWSocial.Data
             return _context.ProjectMembers.Where(pm => pm.ProjectId == projectId).Include(p => p.Slot).Include(p => p.User).ToList();
         }
 
-        // Permet de trier (par Nom, Description, ou rôle dans le projet), projets privés ou non, projet d'une guilde, et pagination
-        // Lilian : Un appel avec un paramètre IsPrivate à true ne devrait être fait que pour la statistique "Nombre de projets" sur le profil utilisateur
-        public IEnumerable<Project> GetUserProjects(int userId, string filter,string role,bool? isPrivate, int ? guildId, Pagination pagination)
+        // Permet de trier (par Nom, Description, ou rôle dans le projet), project clos ou non, projet d'une guilde, et pagination
+        public IEnumerable<Project> GetUserProjects(int userId, string filter,string role,bool? isClosed, int ? guildId, Pagination pagination)
         {
             var model = (
                     from pm in _context.ProjectMembers
@@ -272,7 +286,7 @@ namespace NWSocial.Data
                         Description = joinResult.Description,
                         Date = joinResult.Date,
                         DeadLine = joinResult.DeadLine,
-                        IsPrivate = joinResult.IsPrivate,
+                        isClosed = joinResult.isClosed,
                         GuildId = joinResult.GuildId
                     }
             );
@@ -280,11 +294,8 @@ namespace NWSocial.Data
             {
                 model.Where(jr => jr.Name.Contains(filter) ||  jr.Description.Contains(filter));
             }
-            if(isPrivate.HasValue && isPrivate == true)
-            {
-                model.Where(jr => jr.IsPrivate == isPrivate);
-            }
-            if(guildId.HasValue)
+            model.IsClosed(isClosed);
+            if (guildId.HasValue)
             {
                 model.Where(jr => jr.GuildId == guildId);
             }

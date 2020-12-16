@@ -3,11 +3,14 @@ using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using NWSocial.Data;
 using NWSocial.Dtos;
 using NWSocial.Dtos.UserGuildRequestDtos;
 using NWSocial.Models;
 using NWSocial.Classes;
+using NWSocial.Payloads;
+using System.Threading.Tasks;
 
 namespace NWSocial.Controllers
 {
@@ -25,19 +28,21 @@ namespace NWSocial.Controllers
         }
 
         //GET api/guilds/{id}/users
-        [HttpGet("{guildID}/users")]
-        public ActionResult<List<UserGuildReadDto>> GetGuildUsers(int guildID)
+        [HttpGet("{guildID}/members")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<UserGuildReadDto>>> GetGuildMembers(int guildID)
         {
-            var userGuilds = _repository.GetGuildUsers(guildID);
+            var userGuilds = await _repository.GetGuildMembersAsync(guildID);
             return Ok(_mapper.Map<IEnumerable<UserGuildReadDto>>(userGuilds));
         }
 
         //GET api/guilds
         [HttpGet]
-        public ActionResult<IEnumerable<GuildReadDto>> GetAllGuilds(string filter, [FromBody] Pagination pagination)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<GuildReadDto>>> GetAllGuilds(string filter,int? index, int? items)
         {
-            var guildItems = _repository.GetAllGuilds(filter, pagination);
-            return Ok(_mapper.Map<List<GuildReadDto>>(guildItems));
+            var guildItems = await _repository.GetAllGuildsAsync(filter,new Pagination(index,items));
+            return Ok(_mapper.Map<IEnumerable<GuildReadDto>>(guildItems));
         }
 
         // GET api/guilds/{id}
@@ -99,7 +104,7 @@ namespace NWSocial.Controllers
             return NoContent();
         }
 
-        [HttpPost("{id}/users")]
+        [HttpPost("{id}/members")]
         public ActionResult AddUsertoGuild(int id,UserGuildCreateRequestDto userGuildRequest)
         {
             UserGuild userGuild = new UserGuild
@@ -124,20 +129,20 @@ namespace NWSocial.Controllers
         }
 
         /// <summary>
-        ///     Modifie le role d'un utilisateur
+        /// Modifie le rôle d'un membre d'une guilde
         /// </summary>
-        /// <param name="guildId"></param>
-        /// <param name="userId"></param>
-        /// <param name="patchDocument"></param>
-        /// <returns>Objet HTTP pas de contenu en cas de réussite</returns>
-        [HttpPatch("{guildId}/users/{userId}")]
-        public ActionResult ModifyUserRole(int guildId, int userId, JsonPatchDocument<UserGuildRequestUpdateDto> patchDocument)
+        /// <param name="payload"></param>
+        /// <returns>Aucun contenu</returns>
+        /// <response code="404">En cas d'echec</response>
+        /// <response code="204">En cas de réussite</response>
+        [HttpPatch("members")]
+        public ActionResult ModifyUserRole([FromBody] UpdateGuildMemberPayload payload)
         {
-            var userGuild = _repository.GetGuildUser(guildId, userId);
+            var userGuild = _repository.GetGuildUser(payload.GuildId, payload.UserId);
             if (userGuild == null) return NotFound();
 
             var userGuildToPatch = _mapper.Map<UserGuildRequestUpdateDto>(userGuild);
-            patchDocument.ApplyTo(userGuildToPatch, ModelState);
+            payload.PatchDocument.ApplyTo(userGuildToPatch, ModelState);
             if (!TryValidateModel(userGuildToPatch)) return ValidationProblem(ModelState);
 
             _mapper.Map(userGuildToPatch, userGuild);
@@ -179,9 +184,9 @@ namespace NWSocial.Controllers
             return NoContent();
         }
         [HttpGet("{id}/posts")]
-        public ActionResult<List<Post>> GuildPosts(int id,string filter, [FromBody] Pagination pagination)
+        public ActionResult<List<Post>> GuildPosts(int id,[FromBody] GuildsPayload payload)
         {
-            return Ok(_repository.GetAllPosts(filter, id, pagination).ToList());
+            return Ok(_repository.GetAllPosts(payload.Filter.FilterValue, id, payload.Pagination).ToList());
         }
     }
 }

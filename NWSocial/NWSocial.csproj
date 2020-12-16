@@ -2,7 +2,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>                                               <!-- Google login   / dotnet user-secrets init / UserSecretId -->
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>af3546d8-cbea-49cd-8ed4-6d441f3646a1</UserSecretsId>     
+    <UserSecretsId>af3546d8-cbea-49cd-8ed4-6d441f3646a1</UserSecretsId>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
@@ -26,6 +28,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Payloads\" />
   </ItemGroup>
 </Project>
