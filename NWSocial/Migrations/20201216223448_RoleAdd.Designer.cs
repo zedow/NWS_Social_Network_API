@@ -9,8 +9,8 @@ using NWSocial.Data;
 namespace NWSocial.Migrations
 {
     [DbContext(typeof(NWSContext))]
-    [Migration("20201216212906_ProjectFieldChange")]
-    partial class ProjectFieldChange
+    [Migration("20201216223448_RoleAdd")]
+    partial class RoleAdd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -166,6 +166,9 @@ namespace NWSocial.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

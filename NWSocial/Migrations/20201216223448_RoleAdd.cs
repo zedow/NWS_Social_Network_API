@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NWSocial.Migrations
 {
-    public partial class ProjectFieldChange : Migration
+    public partial class RoleAdd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,7 +28,8 @@ namespace NWSocial.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Role = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

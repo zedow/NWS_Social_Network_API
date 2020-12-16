@@ -165,6 +165,9 @@ namespace NWSocial.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
