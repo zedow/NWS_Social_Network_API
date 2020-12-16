@@ -27,7 +27,12 @@ namespace NWSocial.Controllers
             _mapper = mapper;
         }
 
-        //GET api/guilds/{id}/users
+        /// <summary>
+        /// Retoure la liste des membres d'une guilde
+        /// </summary>
+        /// <param name="guildID">Id de la guilde</param>
+        /// <returns>Une liste de guilde</returns>
+        /// <response code="200">Retourne une liste vide si la guilde n'a aucun membre</response>
         [HttpGet("{guildID}/members")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<UserGuildReadDto>>> GetGuildMembers(int guildID)
@@ -36,7 +41,14 @@ namespace NWSocial.Controllers
             return Ok(_mapper.Map<IEnumerable<UserGuildReadDto>>(userGuilds));
         }
 
-        //GET api/guilds
+        /// <summary>
+        /// Retourne toutes les guildes    
+        /// </summary>
+        /// <param name="filter">La chaîne de caractère contenant la potentielle valeur à filtrer</param>
+        /// <param name="index">Index de page pour la pagination</param>
+        /// <param name="items">Nombre d'élément à retourner par page</param>
+        /// <returns>Une liste de guildes</returns>
+        /// <response code="200">Retourne une liste vide si il n'existe pas de guildes</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<GuildReadDto>>> GetAllGuilds(string filter,int? index, int? items)
@@ -45,8 +57,16 @@ namespace NWSocial.Controllers
             return Ok(_mapper.Map<IEnumerable<GuildReadDto>>(guildItems));
         }
 
-        // GET api/guilds/{id}
+        /// <summary>
+        /// Retourne une guilde selon l'id fourni
+        /// </summary>
+        /// <param name="id">L'id de la guilde à retourner</param>
+        /// <returns>Un objet guilde</returns>
+        /// <response code="200">Si la guilde existe</response>
+        /// <response code="404">Si la guilde n'existe pas</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<GuildReadDto> GetGuildById(int id)
         {
             var guildItem = _repository.GetGuildById(id);
@@ -54,18 +74,33 @@ namespace NWSocial.Controllers
             return NotFound();
         }
 
-        //POST api/guilds
+        /// <summary>
+        /// Permet de créer de guilde
+        /// </summary>
+        /// <param name="guild">Un objet GuildCreateDto</param>
+        /// <returns>La guilde nouvellement créée</returns>
+        /// <response code="201">Si la guilde a été créée avec succès</response>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public ActionResult<GuildReadDto> CreateGuild(GuildCreateDto guild)
         {
             var guildModel = _mapper.Map<Guild>(guild);
             _repository.CreateGuild(guildModel);
             _repository.SaveChanges();
-            return Ok(_mapper.Map<GuildReadDto>(guildModel));
+            return StatusCode(201, _mapper.Map<GuildReadDto>(guildModel));
         }
 
-        //PUT api/guilds/{id}
+        /// <summary>
+        /// Permet de modifier les champs d'une guilde
+        /// </summary>
+        /// <param name="id">L'id de la guild à modifier</param>
+        /// <param name="guildDto">L'objet contenant les champs pouvant être modifiés</param>
+        /// <returns>Aucun contenu</returns>
+        /// <response code="404">Si la guilde n'existe pas</response>
+        /// <response code="204">Si la guilde a été modifiée avec succès</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult UpdateGuild(int id, GuildUpdateDto guildDto)
         {
             var guildModelFromRepo = _repository.GetGuildById(id);
@@ -76,7 +111,7 @@ namespace NWSocial.Controllers
             return NoContent();
         }
 
-        //PATCH api/guilds/{id}
+        
         [HttpPatch("{id}")]
         public ActionResult PartialGuildUpdate(int id, JsonPatchDocument<GuildUpdateDto> patchDocument)
         {
