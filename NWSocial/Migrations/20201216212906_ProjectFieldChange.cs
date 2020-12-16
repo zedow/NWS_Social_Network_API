@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NWSocial.Migrations
 {
-    public partial class NewProjectModelMigration : Migration
+    public partial class ProjectFieldChange : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,27 +36,6 @@ namespace NWSocial.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Posts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(nullable: false),
-                    Text = table.Column<string>(nullable: false),
-                    GuildId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Posts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Posts_Guilds_GuildId",
-                        column: x => x.GuildId,
-                        principalTable: "Guilds",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
@@ -66,7 +45,7 @@ namespace NWSocial.Migrations
                     Date = table.Column<DateTime>(nullable: false),
                     DeadLine = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    isClosed = table.Column<bool>(nullable: false),
+                    IsPrivate = table.Column<bool>(nullable: false),
                     GuildId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -78,6 +57,34 @@ namespace NWSocial.Migrations
                         principalTable: "Guilds",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(nullable: false),
+                    Text = table.Column<string>(nullable: false),
+                    GuildId = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_Guilds_GuildId",
+                        column: x => x.GuildId,
+                        principalTable: "Guilds",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Posts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,12 +113,32 @@ namespace NWSocial.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProjectSlots",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Role = table.Column<string>(maxLength: 255, nullable: true),
+                    ProjectId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectSlots", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProjectSlots_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProjectMembers",
                 columns: table => new
                 {
                     ProjectId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
-                    Role = table.Column<string>(nullable: true)
+                    SlotId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -123,7 +150,38 @@ namespace NWSocial.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_ProjectMembers_ProjectSlots_SlotId",
+                        column: x => x.SlotId,
+                        principalTable: "ProjectSlots",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_ProjectMembers_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectRequests",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(nullable: false),
+                    SlotId = table.Column<int>(nullable: false),
+                    Status = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectRequests", x => new { x.SlotId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_ProjectRequests_ProjectSlots_SlotId",
+                        column: x => x.SlotId,
+                        principalTable: "ProjectSlots",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProjectRequests_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -136,14 +194,35 @@ namespace NWSocial.Migrations
                 column: "GuildId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Posts_UserId",
+                table: "Posts",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProjectMembers_ProjectId",
                 table: "ProjectMembers",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProjectMembers_SlotId",
+                table: "ProjectMembers",
+                column: "SlotId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectRequests_UserId",
+                table: "ProjectRequests",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Projects_GuildId",
                 table: "Projects",
                 column: "GuildId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectSlots_ProjectId",
+                table: "ProjectSlots",
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserGuilds_GuildId",
@@ -160,13 +239,19 @@ namespace NWSocial.Migrations
                 name: "ProjectMembers");
 
             migrationBuilder.DropTable(
+                name: "ProjectRequests");
+
+            migrationBuilder.DropTable(
                 name: "UserGuilds");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "ProjectSlots");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Guilds");

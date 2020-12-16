@@ -9,8 +9,8 @@ using NWSocial.Data;
 namespace NWSocial.Migrations
 {
     [DbContext(typeof(NWSContext))]
-    [Migration("20201113233901_ProjectRequestandStuffs")]
-    partial class ProjectRequestandStuffs
+    [Migration("20201216212906_ProjectFieldChange")]
+    partial class ProjectFieldChange
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -85,12 +85,12 @@ namespace NWSocial.Migrations
                     b.Property<int?>("GuildId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Name")
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
                         .HasMaxLength(255);
-
-                    b.Property<bool>("isClosed")
-                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 

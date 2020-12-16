@@ -83,12 +83,12 @@ namespace NWSocial.Migrations
                     b.Property<int?>("GuildId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Name")
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
                         .HasMaxLength(255);
-
-                    b.Property<bool>("isPrivate")
-                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
