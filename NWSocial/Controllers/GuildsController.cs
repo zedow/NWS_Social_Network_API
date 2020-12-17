@@ -70,8 +70,8 @@ namespace NWSocial.Controllers
         public ActionResult<GuildReadDto> GetGuildById(int id)
         {
             var guildItem = _repository.GetGuildById(id);
-            if (guildItem != null) return Ok(_mapper.Map<GuildReadDto>(guildItem));
-            return NotFound();
+            if (guildItem == null) return NotFound();
+            return Ok(_mapper.Map<GuildReadDto>(guildItem));
         }
 
         /// <summary>

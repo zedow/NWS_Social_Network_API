@@ -12,7 +12,6 @@ namespace NWSocial.Data
     {
         bool SaveChanges();
         IEnumerable<Guild> GetAllGuilds(string filter, Pagination pagination);
-
         Task<IEnumerable<Guild>> GetAllGuildsAsync(string filter, Pagination pagination);
         Guild GetGuildById(int id);
         void CreateGuild(Guild guild);

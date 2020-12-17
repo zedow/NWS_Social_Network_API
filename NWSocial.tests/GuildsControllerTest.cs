@@ -4,6 +4,7 @@ using Moq;
 using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.JsonPatch;
 using NWSocial.Models;
 using NWSocial.Data;
 using NWSocial.Seed;
@@ -43,17 +44,55 @@ namespace NWSocial.tests
         }
 
         [Fact]
-        public void GetAllGuilds_EmptyFilterAndEmptyPagination_200OK()
+        public async void GetAllGuilds_EmptyFilterAndEmptyPagination_200OK()
         {
             // Arrange
-            _mockRepo.Setup(repo => repo.GetAllGuilds("", new Pagination(null,null))).Returns(_guildsSeed.GetGuildsTestData());
-            var countElements = _guildsSeed.GetGuildsTestData().Count;
+            _mockRepo.Setup(repo => repo.GetAllGuildsAsync(null, new Pagination(0,7))).ReturnsAsync(_guildsSeed.GetGuildsTestData());
+
             // Act
-            var result = _guildsController.GetAllGuilds("", null, null);
+            var result = await _guildsController.GetAllGuilds(null, null,null);
 
             //Assert
-            Assert.IsType<ActionResult<IEnumerable<GuildReadDto>>>(result.Result);
-            Assert.Equal(countElements, result.Result.Value.Count());
+           Assert.IsType<ActionResult<IEnumerable<GuildReadDto>>>(result);
         }
+
+        [Fact]
+        public void GetGuildById_IdEqual1_200OK()
+        {
+            _mockRepo.Setup(repo => repo.GetGuildById(1)).Returns(_guildsSeed.GetGuildsTestData().Find(g => g.Id == 1));
+
+            var result = _guildsController.GetGuildById(1);
+
+            Assert.IsType<ActionResult<GuildReadDto>>(result);
+        }
+
+        [Fact]
+        public void GetGuildById_IdEqual99_404NotFound()
+        {
+            _mockRepo.Setup(repo => repo.GetGuildById(99)).Returns(() => null);
+
+            var result = _guildsController.GetGuildById(99);
+
+            Assert.IsType<Microsoft.AspNetCore.Mvc.NotFoundResult>(result.Result);
+        }
+
+        [Fact]
+        public void UpdateGuild_IdEqual99_404NotFound()
+        {
+            var fakeId = 99;
+            var result = _guildsController.UpdateGuild(fakeId, new GuildUpdateDto { Name="test new name"});
+            Assert.IsType<Microsoft.AspNetCore.Mvc.NotFoundResult>(result);
+        }
+
+        [Fact]
+        public void PartialGuildUpdate_IdEqual99_404NotFound()
+        {
+            var fakeId = 99;
+            var result = _guildsController.PartialGuildUpdate(fakeId, new JsonPatchDocument<GuildUpdateDto>());
+            
+            Assert.IsType<Microsoft.AspNetCore.Mvc.NotFoundResult>(result);
+        }
+
+
     }
 }
